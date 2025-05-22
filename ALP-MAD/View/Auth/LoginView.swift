@@ -89,7 +89,7 @@ struct LoginView: View {
 
                 Spacer()
             }
-            .background(Color.white.edgesIgnoringSafeArea(.all))
+            .background(Color.black.ignoresSafeArea())
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
