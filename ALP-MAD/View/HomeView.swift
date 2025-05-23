@@ -1,23 +1,8 @@
-<<<<<<< HEAD
 import SwiftUI
 
 struct HomeView: View {
     @State private var showingAddEvent = false
-    
-=======
-//
-//  HomeView.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
 
-// HomeView.swift
-
-import SwiftUI
-
-struct HomeView: View {
->>>>>>> main
     var body: some View {
         NavigationView {
             ScrollView {
@@ -38,17 +23,12 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Sport Hub")
-<<<<<<< HEAD
                         .foregroundColor(.orange)
-=======
-                        .foregroundColor(.white)
->>>>>>> main
                         .font(.title)
                         .fontWeight(.bold)
                         .padding()
                 }
-<<<<<<< HEAD
-                
+
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
                         showingAddEvent = true
@@ -56,6 +36,7 @@ struct HomeView: View {
                         Image(systemName: "plus")
                             .foregroundColor(.orange)
                             .font(.title2)
+                            .padding()
                     }
                 }
             }
@@ -63,10 +44,6 @@ struct HomeView: View {
             .sheet(isPresented: $showingAddEvent) {
                 AddEventView()
             }
-=======
-            }
-            .background(Color.black.ignoresSafeArea())
->>>>>>> main
         }
     }
 }
@@ -74,7 +51,3 @@ struct HomeView: View {
 #Preview {
     HomeView()
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> main

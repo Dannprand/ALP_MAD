@@ -1,17 +1,6 @@
 //
 //  EventCardView.swift
 //  ALP-MAD
-//
-<<<<<<< HEAD
-//  Created by student on 23/05/25.
-//
-
-import SwiftUI
-
-struct EventCardView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-=======
 //  Created by student on 22/05/25.
 //
 
@@ -66,18 +55,13 @@ struct EventCardView: View {
             .frame(height: 110)
         }
         .padding()
-        .frame(maxWidth: .infinity, minHeight: 160) 
+        .frame(maxWidth: .infinity, minHeight: 160)
         .background(Color(.secondarySystemBackground).opacity(0.2))
         .cornerRadius(12)
->>>>>>> main
     }
 }
 
 #Preview {
-<<<<<<< HEAD
-    EventCardView()
-}
-=======
     ZStack {
         Color.black.ignoresSafeArea()
         EventCardView(
@@ -89,5 +73,3 @@ struct EventCardView: View {
         .padding()
     }
 }
-
->>>>>>> main
