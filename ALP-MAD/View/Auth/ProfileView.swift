@@ -90,9 +90,30 @@ struct ProfileView: View {
 
                     // Stats
                     HStack(spacing: 30) {
-                        StatisticView(label: "FOLLOWERS", value: "15K", color: hubWhite)
-                        StatisticView(label: "FOLLOWING", value: "23K", color: hubWhite)
+                        NavigationLink(destination: FriendListView(
+                            title: "Followers",
+                            friends: [
+                                Friend(name: "Alice", email: "alice@example.com"),
+                                Friend(name: "Bob", email: "bob@example.com"),
+                                Friend(name: "Cathy", email: "cathy@example.com")
+                            ])
+                        ) {
+                            StatisticView(label: "FOLLOWERS", value: "15K", color: hubWhite)
+                        }
+
+                        NavigationLink(destination: FriendListView(
+                            title: "Following",
+                            friends: [
+                                Friend(name: "David", email: "david@example.com"),
+                                Friend(name: "Ella", email: "ella@example.com"),
+                                Friend(name: "Frank", email: "frank@example.com")
+                            ])
+                        ) {
+                            StatisticView(label: "FOLLOWING", value: "23K", color: hubWhite)
+                        }
                     }
+                    
+
                     .padding(.vertical)
 
                     // Interests
