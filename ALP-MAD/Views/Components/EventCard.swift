@@ -44,12 +44,13 @@ struct EventCard: View {
                 HStack(spacing: 4) {
                     Image(systemName: "calendar")
                         .font(.caption)
-                    Text(event.date.formatted(date: .abbreviated, time: .omitted))
+                    Text(event.date.dateValue().formatted(date: .abbreviated, time: .omitted))
                         .font(.caption)
+
                     
                     Image(systemName: "clock")
                         .font(.caption)
-                    Text(event.date.formatted(date: .omitted, time: .shortened))
+                    Text(event.date.dateValue().formatted(date: .omitted, time: .shortened))
                         .font(.caption)
                 }
                 .foregroundColor(Theme.secondaryText)

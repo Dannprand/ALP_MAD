@@ -37,10 +37,12 @@ struct MapView: View {
             )
             .ignoresSafeArea()
             .onAppear {
-                viewModel.locationManager.requestLocation()
+//                viewModel.locationManager.requestLocation()
+                viewModel.requestUserLocation()
+
                 Task {
                     await viewModel.fetchEvents()
-                    if let userLocation = viewModel.locationManager.lastLocation {
+                    if let userLocation = viewModel.lastKnownLocation {
                         region.center = userLocation.coordinate
                     }
                 }
@@ -131,13 +133,13 @@ struct EventMapCard: View {
             HStack(spacing: 8) {
                 Image(systemName: "calendar")
                     .foregroundColor(Theme.accentOrange)
-                Text(event.date.formatted(date: .abbreviated, time: .omitted))
+                Text(event.date.dateValue().formatted(date: .abbreviated, time: .omitted))
                     .font(.subheadline)
                     .foregroundColor(Theme.secondaryText)
-                
+    
                 Image(systemName: "clock")
                     .foregroundColor(Theme.accentOrange)
-                Text(event.date.formatted(date: .omitted, time: .shortened))
+                Text(event.date.dateValue().formatted(date: .omitted, time: .shortened))
                     .font(.subheadline)
                     .foregroundColor(Theme.secondaryText)
             }

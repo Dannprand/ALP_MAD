@@ -39,7 +39,8 @@ class EventViewModel: ObservableObject {
                 allEvents.filter { $0.sport == selectedCategory }
             
             // Simple logic for demo - in real app would use more sophisticated algorithms
-            featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date < $1.date }
+            featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date.dateValue() < $1.date.dateValue() }
+
             popularEvents = filteredEvents.sorted { $0.participants.count > $1.participants.count }
             
             // Sort by distance if location available
@@ -79,5 +80,13 @@ class EventViewModel: ObservableObject {
             showError = true
             return false
         }
+    }
+    
+    func requestUserLocation() {
+        locationManager.requestLocation()
+    }
+    
+    var lastKnownLocation: CLLocation? {
+        locationManager.lastLocation
     }
 }

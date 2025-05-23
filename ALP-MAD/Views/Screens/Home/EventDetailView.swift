@@ -69,8 +69,8 @@ struct EventDetailView: View {
                         )
                     
                     HStack(spacing: 16) {
-                        EventDetailPill(icon: "calendar", text: event.date.formatted(date: .abbreviated, time: .omitted))
-                        EventDetailPill(icon: "clock", text: event.date.formatted(date: .omitted, time: .shortened))
+                        EventDetailPill(icon: "calendar", text: event.date.dateValue().formatted(date: .abbreviated, time: .omitted))
+                        EventDetailPill(icon: "clock", text: event.date.dateValue().formatted(date: .omitted, time: .shortened))
                         EventDetailPill(icon: "person.2.fill", text: "\(event.participants.count)/\(event.maxParticipants)")
                     }
                     .padding(.horizontal)

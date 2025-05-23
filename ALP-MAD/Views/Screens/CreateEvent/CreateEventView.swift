@@ -1,12 +1,6 @@
-//
-//  CreateEventView.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
-
 import SwiftUI
 import MapKit
+import FirebaseFirestore
 
 struct CreateEventView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
@@ -247,11 +241,12 @@ struct CreateEventView: View {
         isCreating = true
         
         let event = Event(
+            id: UUID().uuidString,
             title: eventTitle,
             description: eventDescription,
             hostId: user.id,
             sport: selectedSport,
-            date: eventDate,
+            date: Timestamp(date: eventDate),
             location: location,
             maxParticipants: maxParticipants,
             participants: [user.id],
@@ -261,8 +256,9 @@ struct CreateEventView: View {
             rules: isTournament && !rules.isEmpty ? rules : nil,
             requirements: isTournament && !requirements.isEmpty ? requirements : nil,
             chatId: UUID().uuidString,
-            createdAt: Date()
+            createdAt: Timestamp(date: Date())
         )
+
         
         viewModel.createEvent(event) {
             isCreating = false
@@ -274,31 +270,63 @@ class CreateEventViewModel: ObservableObject {
     @Published var selectedLocation: EventLocation?
     @Published var showSuccessAlert = false
     
+//    func createEvent(_ event: Event, completion: @escaping () -> Void) {
+//        let db = Firestore.firestore()
+//        
+//        do {
+//            let documentRef = try db.collection("events").addDocument(from: event) { error in
+//                if let error = error {
+//                    print("Error creating event: \(error)")
+//                } else {
+//                    self.showSuccessAlert = true
+//
+//                    // Add event to user's hosted events (after event was created)
+//                    let userId = event.hostId
+//                    db.collection("users").document(userId).updateData([
+//                        "hostedEvents": FieldValue.arrayUnion([documentRef.documentID])
+//                    ])
+//                }
+//                completion()
+//            }
+//        } catch {
+//            print("Error creating event: \(error)")
+//            completion()
+//        }
+//    }
+    
     func createEvent(_ event: Event, completion: @escaping () -> Void) {
         let db = Firestore.firestore()
         
         do {
-            let documentRef = try db.collection("events").addDocument(from: event) { error in
+            // Create a new document reference first (this does NOT write data yet)
+            let documentRef = db.collection("events").document()
+            
+            // Encode the event to dictionary
+            let data = try Firestore.Encoder().encode(event)
+            
+            // Write data to the new document reference
+            documentRef.setData(data) { error in
                 if let error = error {
                     print("Error creating event: \(error)")
                 } else {
                     self.showSuccessAlert = true
+                    
+                    // Add event to user's hosted events (after event was created)
+                    let userId = event.hostId
+                    db.collection("users").document(userId).updateData([
+                        "hostedEvents": FieldValue.arrayUnion([documentRef.documentID])
+                    ])
                 }
                 completion()
-            }
-            
-            // Add event to user's hosted events
-            if let userId = event.hostId {
-                db.collection("users").document(userId).updateData([
-                    "hostedEvents": FieldValue.arrayUnion([documentRef.documentID])
-                ])
             }
         } catch {
             print("Error creating event: \(error)")
             completion()
         }
     }
+
 }
+
 
 struct LocationPickerView: View {
     @ObservedObject var viewModel: CreateEventViewModel
@@ -389,3 +417,34 @@ struct LocationPickerView: View {
     private func searchForLocation() {
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchText
+        request.region = region
+        
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            guard let response = response else {
+                print("Error searching for locations: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            searchResults = response.mapItems
+        }
+    }
+    
+    private func selectLocation(_ mapItem: MKMapItem) {
+        let placemark = mapItem.placemark
+        viewModel.selectedLocation = EventLocation(
+            name: mapItem.name ?? "Selected Location",
+            address: placemark.title ?? "",
+            latitude: placemark.coordinate.latitude,
+            longitude: placemark.coordinate.longitude
+        )
+        searchResults = []
+        searchText = ""
+        
+        // Update map region to selected location
+        withAnimation {
+            region.center = placemark.coordinate
+            region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        }
+    }
+}

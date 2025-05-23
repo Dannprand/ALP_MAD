@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct ALP_MADApp: App {
@@ -13,6 +14,7 @@ struct ALP_MADApp: App {
     @StateObject private var router = AppRouter()
     
     init() {
+        FirebaseApp.configure()
         setupAppearance()
     }
     
@@ -48,22 +50,5 @@ struct ALP_MADApp: App {
         
         UITabBar.appearance().standardAppearance = tabAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabAppearance
-    }
-}
-
-struct ContentView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var router: AppRouter
-    
-    var body: some View {
-        Group {
-            if authViewModel.isLoading {
-                SplashScreenView()
-            } else if authViewModel.userSession == nil {
-                LoginView()
-            } else {
-                MainTabView()
-            }
-        }
     }
 }

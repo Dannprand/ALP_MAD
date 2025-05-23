@@ -17,76 +17,81 @@ struct EventChatView: View {
     @State private var messageText = ""
     @State private var showParticipants = false
     
-    var body: some View {
-        VStack {
-            // Chat header
-            HStack {
-                Button(action: { dismiss() }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(Theme.accentOrange)
-                }
-                
-                VStack(alignment: .leading) {
-                    Text(event.title)
-                        .font(.headline)
-                        .lineLimit(1)
-                    
-                    Text("\(event.participants.count) participants")
-                        .font(.caption)
-                        .foregroundColor(Theme.secondaryText)
-                }
-                
-                Spacer()
-                
-                Button(action: { showParticipants = true }) {
-                    Image(systemName: "person.2.fill")
-                        .foregroundColor(Theme.accentOrange)
-                }
+    // Extracted header view for better type-checking
+    private var headerView: some View {
+        HStack {
+            Button(action: { dismiss() }) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(Theme.accentOrange)
             }
-            .padding()
-            .background(Theme.cardBackground)
+            
+            VStack(alignment: .leading) {
+                Text(event.title)
+                    .font(.headline)
+                    .lineLimit(1)
+                Text("\(event.participants.count) participants")
+                    .font(.caption)
+                    .foregroundColor(Theme.secondaryText)
+            }
+            
+            Spacer()
+            
+            Button(action: { showParticipants = true }) {
+                Image(systemName: "person.2.fill")
+                    .foregroundColor(Theme.accentOrange)
+            }
+        }
+        .padding()
+        .background(Theme.cardBackground)
+    }
+    
+    // Extracted message input view
+    private var messageInputView: some View {
+        HStack {
+            TextField("Type a message", text: $messageText)
+                .textFieldStyle(ChatTextFieldStyle())
+            
+            Button(action: sendMessage) {
+                Image(systemName: "paperplane.fill")
+                    .font(.headline)
+                    .foregroundColor(messageText.isEmpty ? Theme.secondaryText : Theme.accentOrange)
+            }
+            .disabled(messageText.isEmpty)
+        }
+        .padding()
+    }
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            headerView
             
             // Messages list
             ScrollViewReader { proxy in
                 ScrollView {
                     LazyVStack(spacing: 8) {
+//                        ForEach(chatViewModel.messages) { message in
+//                            ChatBubble(
+//                                message: message,
+//                                isCurrentUser: message.senderId == authViewModel.currentUser?.id
+//                            )
+//                            .id(message.id)
+//                        }
                         ForEach(chatViewModel.messages) { message in
-                            ChatBubble(
-                                message: message,
-                                isCurrentUser: message.senderId == authViewModel.currentUser?.id
-                            )
-                            .id(message.id)
+                            chatBubble(for: message)
                         }
+
                     }
                     .padding()
                 }
                 .onChange(of: chatViewModel.messages) { _ in
-                    if let lastMessage = chatViewModel.messages.last {
-                        withAnimation {
-                            proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                        }
-                    }
+                    scrollToBottom(proxy: proxy)
                 }
                 .onAppear {
-                    if let lastMessage = chatViewModel.messages.last {
-                        proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                    }
+                    scrollToBottom(proxy: proxy)
                 }
             }
             
-            // Message input
-            HStack {
-                TextField("Type a message", text: $messageText)
-                    .textFieldStyle(ChatTextFieldStyle())
-                
-                Button(action: sendMessage) {
-                    Image(systemName: "paperplane.fill")
-                        .font(.headline)
-                        .foregroundColor(messageText.isEmpty ? Theme.secondaryText : Theme.accentOrange)
-                }
-                .disabled(messageText.isEmpty)
-            }
-            .padding()
+            messageInputView
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationBarHidden(true)
@@ -94,7 +99,15 @@ struct EventChatView: View {
             chatViewModel.setupChat(forEvent: event.id ?? "")
         }
         .sheet(isPresented: $showParticipants) {
-            ParticipantsView(participantIds: event.participants)
+           // MARK: - ParticipantView
+//            ParticipantsView(participantIds: event.participants)
+        }
+    }
+    
+    private func scrollToBottom(proxy: ScrollViewProxy) {
+        guard let lastMessage = chatViewModel.messages.last else { return }
+        withAnimation {
+            proxy.scrollTo(lastMessage.id, anchor: .bottom)
         }
     }
     
@@ -114,6 +127,26 @@ struct EventChatView: View {
         chatViewModel.sendMessage(message)
         messageText = ""
     }
+    
+//    private func chatBubble(for message: ChatMessage) -> some View {
+//        let isCurrentUser = message.senderId == authViewModel.currentUser?.id
+//        return ChatBubble(
+//            message: message,
+//            isCurrentUser: isCurrentUser
+//        )
+//        .id(message.id)
+//    }
+    
+    private func chatBubble(for message: ChatMessage) -> some View {
+        let isCurrentUser = message.senderId == authViewModel.currentUser?.id
+        return ChatBubble(
+            message: message,
+            isCurrentUser: isCurrentUser
+        )
+        .id(message.id as String)
+    }
+
+
 }
 
 struct ChatTextFieldStyle: TextFieldStyle {
@@ -126,71 +159,3 @@ struct ChatTextFieldStyle: TextFieldStyle {
     }
 }
 
-struct ParticipantsView: View {
-    @State private var participants: [User] = []
-    let participantIds: [String]
-    
-    var body: some View {
-        NavigationStack {
-            List(participants) { user in
-                HStack {
-                    Circle()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(Theme.accentOrange.opacity(0.3))
-                        .overlay(
-                            Text(user.initials)
-                                .font(.subheadline)
-                                .foregroundColor(Theme.accentOrange)
-                        )
-                    
-                    Text(user.fullname)
-                        .font(.subheadline)
-                        .foregroundColor(Theme.primaryText)
-                    
-                    Spacer()
-                    
-                    if user.id == participantIds.first { // First participant is host
-                        Text("Host")
-                            .font(.caption)
-                            .padding(4)
-                            .background(Theme.accentOrange.opacity(0.2))
-                            .foregroundColor(Theme.accentOrange)
-                            .cornerRadius(4)
-                    }
-                }
-            }
-            .listStyle(.plain)
-            .background(Theme.background)
-            .navigationTitle("Participants")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Text("\(participants.count)/\(participantIds.count)")
-                        .font(.caption)
-                        .foregroundColor(Theme.secondaryText)
-                }
-            }
-            .task {
-                await fetchParticipants()
-            }
-        }
-    }
-    
-    private func fetchParticipants() async {
-        let db = Firestore.firestore()
-        do {
-            var fetchedParticipants: [User] = []
-            
-            for id in participantIds {
-                let snapshot = try await db.collection("users").document(id).getDocument()
-                if let user = try? snapshot.data(as: User.self) {
-                    fetchedParticipants.append(user)
-                }
-            }
-            
-            participants = fetchedParticipants
-        } catch {
-            print("Error fetching participants: \(error)")
-        }
-    }
-}
