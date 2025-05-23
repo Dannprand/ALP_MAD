@@ -14,7 +14,7 @@ struct DummyUser {
     let sports: [String]
 
     static let sampleUser = DummyUser(
-        username: "Yosafat Ryan Hendriko",
+        username: "Yosafat El Nino",
         email: "yosafathendriko26@example.com",
         bio: "Hi, my name is Yosafat and I love outdoor sports. It's my biggest passion in life!",
         sports: ["Jogging", "Badminton", "Marathon", "Padel", "Swimming"]
