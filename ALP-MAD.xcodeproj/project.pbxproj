@@ -37,30 +37,9 @@
 		3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"GoogleService-Info.plist",
-			);
-			target = 3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */;
-		};
-		3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"GoogleService-Info.plist",
-			);
-			target = 3F512E472DDEBB520077CDB4 /* ALP-MADUITests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3F512E302DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */,
-				3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */,
-			);
 			path = "ALP-MAD";
 			sourceTree = "<group>";
 		};
