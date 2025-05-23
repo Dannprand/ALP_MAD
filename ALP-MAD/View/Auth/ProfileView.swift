@@ -134,16 +134,36 @@ struct ProfileView: View {
                         .padding()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Edit") {
+                    Button(action: {
                         showEditProfile = true
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(hubOrange)
                     }
-                    .foregroundColor(hubOrange)
-                    .fontWeight(.semibold)
                 }
+
             }
             .sheet(isPresented: $showEditProfile) {
-                EditProfileView(username: $username, email: $email, bio: $bio)
+                NavigationView {
+                    Form {
+                        Section(header: Text("Username")) {
+                            TextField("Username", text: $username)
+                        }
+                        Section(header: Text("Email")) {
+                            TextField("Email", text: $email)
+                        }
+                        Section(header: Text("Bio")) {
+                            TextField("Bio", text: $bio)
+                        }
+                    }
+                    .navigationTitle("Edit Profile")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+                    .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbarColorScheme(.light, for: .navigationBar)
+                }
             }
+
         }
     }
 }
