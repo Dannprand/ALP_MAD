@@ -6,50 +6,57 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
-    init() {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.black
-            appearance.shadowColor = .clear
-            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+    @EnvironmentObject var authViewModel: AuthViewModel
 
-            UINavigationBar.appearance().standardAppearance = appearance
-            UINavigationBar.appearance().scrollEdgeAppearance = appearance
-            UINavigationBar.appearance().compactAppearance = appearance
-            UINavigationBar.appearance().tintColor = .white
-        
-            let tabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.configureWithOpaqueBackground()
-            tabBarAppearance.backgroundColor = UIColor.black
-            tabBarAppearance.shadowColor = .clear
-            UITabBar.appearance().standardAppearance = tabBarAppearance
-            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
-            UITabBar.appearance().tintColor = UIColor.orange
-        }
-    
     var body: some View {
-        TabView {
-                    HomeView()
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                            Text("Home")
-                        }
-
-                    ProfileView()
-                        .tabItem {
-                            Image(systemName: "person.fill")
-                            Text("Profile")
-                        }
+        Group {
+            if authViewModel.isLoading {
+                SplashScreenView()
+            } else if authViewModel.userSession == nil {
+                LoginView()
+            } else {
+                MainTabView()
+            }
+        }
+        .overlay(
+            Group {
+                if authViewModel.isLoading {
+                    ZStack {
+                        Color.black.opacity(0.4).ignoresSafeArea()
+                        ProgressView()
+                            .scaleEffect(2)
+                            .tint(.orange)
+                    }
                 }
-                .accentColor(.orange)
-            
+            }
+        )
+        .alert("Error", isPresented: $authViewModel.showError, presenting: authViewModel.error) { error in
+            Button("OK", role: .cancel) { }
+        } message: { error in
+            Text(error.localizedDescription)
+        }
     }
 }
 
-#Preview {
-    ContentView()
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView().environmentObject({
+            let vm = AuthViewModel()
+            vm.isLoading = false
+            vm.userSession = Auth.auth().currentUser
+            vm.currentUser = User(
+                id: "previewUser123",
+                fullname: "Preview User",
+                email: "preview@example.com",
+                preferences: [.football],
+                tokens: 100,
+                joinedEvents: ["event1"],
+                hostedEvents: ["event2"]
+            )
+            return vm
+        }())
+    }
 }
