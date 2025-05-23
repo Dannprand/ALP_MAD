@@ -20,10 +20,33 @@ struct ContentView: View {
             UINavigationBar.appearance().scrollEdgeAppearance = appearance
             UINavigationBar.appearance().compactAppearance = appearance
             UINavigationBar.appearance().tintColor = .white
+        
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithOpaqueBackground()
+            tabBarAppearance.backgroundColor = UIColor.black
+            tabBarAppearance.shadowColor = .clear
+            UITabBar.appearance().standardAppearance = tabBarAppearance
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+            UITabBar.appearance().tintColor = UIColor.orange
         }
     
     var body: some View {
-        HomeView()
+        TabView {
+                    HomeView()
+                        .tabItem {
+                            Image(systemName: "house.fill")
+                            Text("Home")
+                        }
+
+                    ProfileView()
+                        .tabItem {
+                            Image(systemName: "person.fill")
+                            Text("Profile")
+                        }
+                }
+                .accentColor(.orange)
+            
     }
 }
 

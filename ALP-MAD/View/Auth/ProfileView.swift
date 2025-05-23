@@ -126,16 +126,19 @@ struct ProfileView: View {
             }
             .background(hubBlack.edgesIgnoringSafeArea(.all))
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .topBarLeading) {
                     Text("Profile")
-                        .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
                         showEditProfile = true
                     }
                     .foregroundColor(hubOrange)
+                    .fontWeight(.semibold)
                 }
             }
             .sheet(isPresented: $showEditProfile) {
