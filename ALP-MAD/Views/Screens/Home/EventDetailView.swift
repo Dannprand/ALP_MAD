@@ -30,11 +30,11 @@ struct EventDetailView: View {
         )
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
-        
-        // Check if current user is participating
-        if let userId = authViewModel.currentUser?.id {
-            self._isUserParticipating = State(initialValue: event.participants.contains(userId))
-        }
+            
+//        // Check if current user is participating
+//        if let userId = authViewModel.currentUser?.id {
+//            self._isUserParticipating = State(initialValue: event.participants.contains(userId))
+//        }
     }
     
     var body: some View {
@@ -215,6 +215,11 @@ struct EventDetailView: View {
                     .environmentObject(chatViewModel)
             }
         }
+        .onAppear {
+                    if let userId = authViewModel.currentUser?.id {
+                        isUserParticipating = event.participants.contains(userId)
+                    }
+                }
     }
     
     private func joinEvent() {
