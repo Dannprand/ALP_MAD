@@ -10,7 +10,7 @@ import FirebaseAuth
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    
+
     var body: some View {
         Group {
             if authViewModel.isLoading {
@@ -28,7 +28,7 @@ struct ContentView: View {
                         Color.black.opacity(0.4).ignoresSafeArea()
                         ProgressView()
                             .scaleEffect(2)
-                            .tint(Theme.accentOrange)
+                            .tint(.orange)
                     }
                 }
             }
