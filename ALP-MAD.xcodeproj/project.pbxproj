@@ -41,14 +41,14 @@
 		3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"GoogleService-Info.plist",
+				"Config/GoogleService-Info.plist",
 			);
 			target = 3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */;
 		};
 		3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				"GoogleService-Info.plist",
+				"Config/GoogleService-Info.plist",
 			);
 			target = 3F512E472DDEBB520077CDB4 /* ALP-MADUITests */;
 		};
