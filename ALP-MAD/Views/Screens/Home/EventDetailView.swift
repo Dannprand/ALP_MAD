@@ -12,17 +12,17 @@ struct EventDetailView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @ObservedObject var eventViewModel: EventViewModel
     @StateObject var chatViewModel = ChatViewModel()
-    
+
     let event: Event
     @State private var region: MKCoordinateRegion
     @State private var isJoining = false
     @State private var showChat = false
     @State private var isUserParticipating = false
-    
+
     init(event: Event) {
         self.event = event
         self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
-        
+
         // Set up initial map region
         let center = CLLocationCoordinate2D(
             latitude: event.location.latitude,
@@ -30,12 +30,35 @@ struct EventDetailView: View {
         )
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
-            
+    }
+
+//    @EnvironmentObject var authViewModel: AuthViewModel
+//    @ObservedObject var eventViewModel: EventViewModel
+//    @StateObject var chatViewModel = ChatViewModel()
+//    
+//    let event: Event
+//    @State private var region: MKCoordinateRegion
+//    @State private var isJoining = false
+//    @State private var showChat = false
+//    @State private var isUserParticipating = false
+//    
+//    init(event: Event) {
+//        self.event = event
+//        self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
+//        
+//        // Set up initial map region
+//        let center = CLLocationCoordinate2D(
+//            latitude: event.location.latitude,
+//            longitude: event.location.longitude
+//        )
+//        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+//        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
+//        
 //        // Check if current user is participating
 //        if let userId = authViewModel.currentUser?.id {
 //            self._isUserParticipating = State(initialValue: event.participants.contains(userId))
 //        }
-    }
+//    }
     
     var body: some View {
         ScrollView {
@@ -215,11 +238,6 @@ struct EventDetailView: View {
                     .environmentObject(chatViewModel)
             }
         }
-        .onAppear {
-                    if let userId = authViewModel.currentUser?.id {
-                        isUserParticipating = event.participants.contains(userId)
-                    }
-                }
     }
     
     private func joinEvent() {

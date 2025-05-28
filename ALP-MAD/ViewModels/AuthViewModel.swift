@@ -23,25 +23,60 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+//    func login(withEmail email: String, password: String) async {
+//        do {
+//            isLoading = true
+//            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+//            self.userSession = result.user
+//            await fetchUser()
+//            isLoading = false
+//        } catch {
+//            self.error = error
+//            showError = true
+//            isLoading = false
+//        }
+//    }
+    
     func login(withEmail email: String, password: String) async {
-        do {
+        await MainActor.run {
             isLoading = true
+        }
+
+        do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            self.userSession = result.user
+            
+            await MainActor.run {
+                self.userSession = result.user
+            }
+
             await fetchUser()
-            isLoading = false
+
+            await MainActor.run {
+                isLoading = false
+            }
         } catch {
-            self.error = error
-            showError = true
-            isLoading = false
+            await MainActor.run {
+                self.error = error
+                self.showError = true
+                self.isLoading = false
+            }
         }
     }
+
     
     func register(withEmail email: String, password: String, fullname: String) async {
+        await MainActor.run {
+            self.isLoading = true
+            print("isLoading set to true")
+        }
+        
         do {
-            isLoading = true
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            self.userSession = result.user
+            print("User created: \(result.user.uid)")
+            
+            await MainActor.run {
+                self.userSession = result.user
+            }
             
             let user = User(
                 id: result.user.uid,
@@ -54,13 +89,30 @@ class AuthViewModel: ObservableObject {
             
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
+            print("User data saved to Firestore")
             
             await fetchUser()
-            isLoading = false
+            print("fetchUser completed")
+            
+            await MainActor.run {
+                self.isLoading = false
+                print("isLoading set to false")
+            }
+            
+            
+            
+//            await MainActor.run {
+//                self.isLoading = false
+//                print("isLoading set to false")
+//            }
+            
         } catch {
-            self.error = error
-            showError = true
-            isLoading = false
+            await MainActor.run {
+                self.error = error
+                self.showError = true
+                self.isLoading = false
+                print("Error occurred: \(error.localizedDescription), isLoading set to false")
+            }
         }
     }
     
@@ -75,15 +127,41 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+//    func fetchUser() async {
+//        guard let uid = userSession?.uid else { return }
+//        
+//        do {
+//            let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+//            let user = try snapshot.data(as: User.self)
+//            
+//            await MainActor.run {
+//                self.currentUser = user
+//            }
+//        } catch {
+//            await MainActor.run {
+//                self.error = error
+//                self.showError = true
+//            }
+//        }
+//    }
+    
     func fetchUser() async {
         guard let uid = userSession?.uid else { return }
         
         do {
             let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
-            self.currentUser = try snapshot.data(as: User.self)
+            let user = try snapshot.data(as: User.self)
+            
+            await MainActor.run {
+                self.currentUser = user
+            }
         } catch {
-            self.error = error
-            showError = true
+            await MainActor.run {
+                self.error = error
+                self.showError = true
+            }
         }
     }
+
+
 }
