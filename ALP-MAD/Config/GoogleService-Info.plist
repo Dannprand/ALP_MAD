@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:226724202892:ios:8748a4c18c9ba6acf2eea9</string>
+	<key>DATABASE_URL</key>
+	<string>https://sporthub-876b7-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>
