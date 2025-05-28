@@ -62,22 +62,59 @@ class EventViewModel: ObservableObject {
         }
     }
     
+//    func joinEvent(_ event: Event, userId: String) async -> Bool {
+//        do {
+//            guard let eventId = event.id, !eventId.isEmpty else { return false }
+//
+//            try await db.collection("events").document(eventId).updateData([
+//                "participants": FieldValue.arrayUnion([userId])
+//            ])
+//
+//            try await db.collection("users").document(userId).updateData([
+//                "joinedEvents": FieldValue.arrayUnion([eventId])
+//            ])
+//            
+//            return true
+//        } catch {
+//            self.error = error
+//            showError = true
+//            return false
+//        }
+//    }
+//
     func joinEvent(_ event: Event, userId: String) async -> Bool {
         do {
-            guard let eventId = event.id, !eventId.isEmpty else { return false }
-
-            try await db.collection("events").document(eventId).updateData([
-                "participants": FieldValue.arrayUnion([userId])
-            ])
-
+            let eventRef = db.collection("events").document(event.id ?? "")
+            
+            try await db.runTransaction { transaction, errorPointer in
+                let eventDocument: DocumentSnapshot
+                do {
+                    try eventDocument = transaction.getDocument(eventRef)
+                } catch {
+                    errorPointer?.pointee = error as NSError
+                    return nil
+                }
+                
+                guard var participants = eventDocument.data()?["participants"] as? [String] else {
+                    return nil
+                }
+                
+                if !participants.contains(userId) {
+                    participants.append(userId)
+                    transaction.updateData(["participants": participants], forDocument: eventRef)
+                }
+                
+                return nil
+            }
+            
+            // Also add to user's joined events
             try await db.collection("users").document(userId).updateData([
-                "joinedEvents": FieldValue.arrayUnion([eventId])
+                "joinedEvents": FieldValue.arrayUnion([event.id ?? ""])
             ])
             
             return true
         } catch {
-            self.error = error
-            showError = true
+            print("Error joining event: \(error)")
             return false
         }
     }

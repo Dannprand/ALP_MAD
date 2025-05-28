@@ -96,8 +96,17 @@ struct EventChatView: View {
         .background(Theme.background.ignoresSafeArea())
         .navigationBarHidden(true)
         .onAppear {
+            guard let userId = authViewModel.currentUser?.id else { return }
             chatViewModel.setupChat(forEvent: event.id ?? "")
+            chatViewModel.setUserOnlineStatus(eventId: event.id ?? "", userId: userId, isOnline: true)
         }
+        .onDisappear {
+            guard let userId = authViewModel.currentUser?.id else { return }
+            chatViewModel.setUserOnlineStatus(eventId: event.id ?? "", userId: userId, isOnline: false)
+        }
+//        .onAppear {
+//            chatViewModel.setupChat(forEvent: event.id ?? "")
+//        }
         .sheet(isPresented: $showParticipants) {
            // MARK: - ParticipantView
 //            ParticipantsView(participantIds: event.participants)
