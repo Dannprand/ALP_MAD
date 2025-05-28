@@ -7,21 +7,47 @@ class ChatViewModel: ObservableObject {
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
 
+//    func setupChat(forEvent eventId: String) {
+//        listener?.remove()
+//
+//        listener = db.collection("chats")
+//            .document(eventId)
+//            .collection("messages")
+//            .order(by: "timestamp", descending: false)
+//            .addSnapshotListener { [weak self] snapshot, error in
+//                guard let self = self else { return }
+//                if let error = error {
+//                    print("Error fetching messages: \(error.localizedDescription)")
+//                    return
+//                }
+//
+//                self.messages = snapshot?.documents.compactMap { ChatMessage(document: $0) } ?? []
+//            }
+//    }
+    
     func setupChat(forEvent eventId: String) {
         listener?.remove()
-
+        
         listener = db.collection("chats")
             .document(eventId)
             .collection("messages")
+//            .order(by: "timestamp", ascending: true)
             .order(by: "timestamp", descending: false)
             .addSnapshotListener { [weak self] snapshot, error in
-                guard let self = self else { return }
-                if let error = error {
-                    print("Error fetching messages: \(error.localizedDescription)")
+                guard let snapshot = snapshot else {
+                    print("Error fetching messages: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-
-                self.messages = snapshot?.documents.compactMap { ChatMessage(document: $0) } ?? []
+                
+                snapshot.documentChanges.forEach { change in
+                    if change.type == .added {
+                        if let message = ChatMessage(document: change.document) {
+                            DispatchQueue.main.async {
+                                self?.messages.append(message)
+                            }
+                        }
+                    }
+                }
             }
     }
 
@@ -36,6 +62,13 @@ class ChatViewModel: ObservableObject {
                 print("Error sending message: \(error.localizedDescription)")
             }
         }
+    }
+    
+    // In your ChatViewModel
+    func setUserOnlineStatus(eventId: String, userId: String, isOnline: Bool) {
+        db.collection("chats").document(eventId)
+            .collection("presence").document(userId)
+            .setData(["isOnline": isOnline, "lastSeen": Timestamp()])
     }
 
     deinit {
