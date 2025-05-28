@@ -66,7 +66,7 @@ import FirebaseFirestore
 import CoreLocation
 
 struct Event: Identifiable, Codable, Hashable {
-    var id: String
+    var id: String?
     let title: String
     let description: String
     let hostId: String

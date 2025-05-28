@@ -296,22 +296,20 @@ class CreateEventViewModel: ObservableObject {
     
     func createEvent(_ event: Event, completion: @escaping () -> Void) {
         let db = Firestore.firestore()
+        let documentRef = db.collection("events").document() // <-- fix ini
         
         do {
-            // Create a new document reference first (this does NOT write data yet)
-            let documentRef = db.collection("events").document()
-            
-            // Encode the event to dictionary
-            let data = try Firestore.Encoder().encode(event)
-            
-            // Write data to the new document reference
+            var eventWithID = event
+            eventWithID.id = documentRef.documentID
+            let data = try Firestore.Encoder().encode(eventWithID)
+
             documentRef.setData(data) { error in
                 if let error = error {
                     print("Error creating event: \(error)")
                 } else {
                     self.showSuccessAlert = true
-                    
-                    // Add event to user's hosted events (after event was created)
+
+                    // Tambah ke hostedEvents user
                     let userId = event.hostId
                     db.collection("users").document(userId).updateData([
                         "hostedEvents": FieldValue.arrayUnion([documentRef.documentID])
@@ -324,6 +322,7 @@ class CreateEventViewModel: ObservableObject {
             completion()
         }
     }
+
 
 }
 

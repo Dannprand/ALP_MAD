@@ -64,14 +64,14 @@ class EventViewModel: ObservableObject {
     
     func joinEvent(_ event: Event, userId: String) async -> Bool {
         do {
-            guard !event.participants.contains(userId), !event.isFull else { return false }
-            
-            try await db.collection("events").document(event.id ?? "").updateData([
+            guard let eventId = event.id, !eventId.isEmpty else { return false }
+
+            try await db.collection("events").document(eventId).updateData([
                 "participants": FieldValue.arrayUnion([userId])
             ])
-            
+
             try await db.collection("users").document(userId).updateData([
-                "joinedEvents": FieldValue.arrayUnion([event.id ?? ""])
+                "joinedEvents": FieldValue.arrayUnion([eventId])
             ])
             
             return true
