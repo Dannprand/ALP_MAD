@@ -1,10 +1,3 @@
-//
-//  ChatViewModel.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
-
 import Foundation
 import FirebaseFirestore
 
@@ -12,34 +5,38 @@ class ChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
-    
+
+    // Setup chat listener untuk event tertentu
     func setupChat(forEvent eventId: String) {
-        // Remove previous listener if any
-        listener?.remove()
-        
+        listener?.remove() // remove previous listener (jika ada)
+
         listener = db.collection("chats")
-            .whereField("eventId", isEqualTo: eventId)
+            .document(eventId)
+            .collection("messages")
             .order(by: "timestamp", descending: false)
-            .addSnapshotListener { snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    print("Error fetching messages: \(error?.localizedDescription ?? "Unknown error")")
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let self = self, let snapshot = snapshot else {
+                    print("Error listening to messages: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-                
-                self.messages = documents.compactMap { document in
-                    try? document.data(as: ChatMessage.self)
+
+                self.messages = snapshot.documents.compactMap { ChatMessage(document: $0) }
+            }
+    }
+
+    // Kirim pesan ke Firestore
+    func sendMessage(_ message: ChatMessage) {
+        db.collection("chats")
+            .document(message.eventId)
+            .collection("messages")
+            .document(message.id)
+            .setData(message.toDictionary()) { error in
+                if let error = error {
+                    print("Error sending message: \(error.localizedDescription)")
                 }
             }
     }
-    
-    func sendMessage(_ message: ChatMessage) {
-        do {
-            let _ = try db.collection("chats").document(message.id).setData(from: message)
-        } catch {
-            print("Error sending message: \(error)")
-        }
-    }
-    
+
     deinit {
         listener?.remove()
     }
