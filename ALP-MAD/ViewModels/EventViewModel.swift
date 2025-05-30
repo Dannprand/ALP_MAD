@@ -13,54 +13,58 @@ class EventViewModel: ObservableObject {
     @Published var featuredEvents: [Event] = []
     @Published var nearbyEvents: [Event] = []
     @Published var popularEvents: [Event] = []
-    @Published var selectedCategory: SportCategory?
     @Published var isLoading = false
     @Published var showError = false
     @Published var error: Error?
+    @Published var selectedCategory: SportCategory? {
+        didSet {
+            Task {
+                await fetchEvents()
+            }
+        }
+    }
+
     
     private let locationManager = LocationManager()
     private var db = Firestore.firestore()
     
     @MainActor
     func fetchEvents() async {
-        isLoading = true
-        do {
-            let snapshot = try await db.collection("events")
-                .whereField("date", isGreaterThan: Timestamp(date: Date()))
-                .order(by: "date")
-                .limit(to: 20)
-                .getDocuments()
-            
-            let allEvents = try snapshot.documents.compactMap { try $0.data(as: Event.self) }
-            
-            // Filter by selected category if any
-            let filteredEvents = selectedCategory == nil ?
-                allEvents :
-                allEvents.filter { $0.sport == selectedCategory }
-            
-            // Simple logic for demo - in real app would use more sophisticated algorithms
-            featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date.dateValue() < $1.date.dateValue() }
+            isLoading = true
+            do {
+                let snapshot = try await db.collection("events")
+                    .whereField("date", isGreaterThan: Timestamp(date: Date()))
+                    .order(by: "date")
+                    .limit(to: 20)
+                    .getDocuments()
+                
+                let allEvents = snapshot.documents.compactMap { Event(document: $0) }
 
-            popularEvents = filteredEvents.sorted { $0.participants.count > $1.participants.count }
-            
-            // Sort by distance if location available
-            if let userLocation = locationManager.lastLocation {
-                nearbyEvents = filteredEvents.sorted {
-                    let loc1 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
-                    let loc2 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
-                    return userLocation.distance(from: loc1) < userLocation.distance(from: loc2)
+                // Filter by selected category if any
+                let filteredEvents = selectedCategory == nil ?
+                    allEvents :
+                    allEvents.filter { $0.sport == selectedCategory }
+
+                featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date.dateValue() < $1.date.dateValue() }
+                popularEvents = filteredEvents.sorted { $0.participants.count > $1.participants.count }
+                
+                if let userLocation = locationManager.lastLocation {
+                    nearbyEvents = filteredEvents.sorted {
+                        let loc1 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
+                        let loc2 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
+                        return userLocation.distance(from: loc1) < userLocation.distance(from: loc2)
+                    }
+                } else {
+                    nearbyEvents = filteredEvents
                 }
-            } else {
-                nearbyEvents = filteredEvents
+                
+                isLoading = false
+            } catch {
+                self.error = error
+                showError = true
+                isLoading = false
             }
-            
-            isLoading = false
-        } catch {
-            self.error = error
-            showError = true
-            isLoading = false
         }
-    }
     
 //    func joinEvent(_ event: Event, userId: String) async -> Bool {
 //        do {
