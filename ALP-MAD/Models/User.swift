@@ -1,45 +1,5 @@
-//
-//  User.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
-
-//import FirebaseFirestoreSwift
-//
-//struct User: Identifiable, Codable {
-//    @DocumentID var id: String?
-//    let fullname: String
-//    let email: String
-//    var preferences: [SportCategory]
-//    var tokens: Int
-//    var joinedEvents: [String] // Event IDs
-//    var hostedEvents: [String] // Event IDs
-//    var profileImageUrl: String?
-//    
-//    var initials: String {
-//        let formatter = PersonNameComponentsFormatter()
-//        if let components = formatter.personNameComponents(from: fullname) {
-//            formatter.style = .abbreviated
-//            return formatter.string(from: components)
-//        }
-//        return fullname.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first?.uppercased() ?? "")") + "\($1.first?.uppercased() ?? "")" }
-//    }
-//}
-
+import Foundation
 import FirebaseFirestore
-
-enum SportCategory: String, CaseIterable, Codable {
-    case football = "Football"
-    case basketball = "Basketball"
-    case tennis = "Tennis"
-    case volleyball = "Volleyball"
-    case running = "Running"
-    case cycling = "Cycling"
-    case swimming = "Swimming"
-    case gym = "Gym"
-    case other = "Other"
-}
 
 struct User: Identifiable, Codable {
     var id: String
@@ -50,30 +10,29 @@ struct User: Identifiable, Codable {
     var joinedEvents: [String]
     var hostedEvents: [String]
     var profileImageUrl: String?
-    
     var notificationEnabled: Bool = true
-    
+
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
         if let components = formatter.personNameComponents(from: fullname) {
             formatter.style = .abbreviated
             return formatter.string(from: components)
         }
-        return fullname.components(separatedBy: " ").reduce("") {
-            ($0 == "" ? "" : "\($0.first?.uppercased() ?? "")") + "\($1.first?.uppercased() ?? "")"
-        }
+        return fullname.components(separatedBy: " ").compactMap { $0.first?.uppercased() }.joined()
     }
-    
-    // Initialize from dictionary
-    init(id: String,
-         fullname: String,
-         email: String,
-         preferences: [SportCategory] = [],
-         tokens: Int = 0,
-         joinedEvents: [String] = [],
-         hostedEvents: [String] = [],
-         profileImageUrl: String? = nil,
-         notificationEnabled: Bool = true) {
+
+    // Manual initializer
+    init(
+        id: String,
+        fullname: String,
+        email: String,
+        preferences: [SportCategory] = [],
+        tokens: Int = 0,
+        joinedEvents: [String] = [],
+        hostedEvents: [String] = [],
+        profileImageUrl: String? = nil,
+        notificationEnabled: Bool = true
+    ) {
         self.id = id
         self.fullname = fullname
         self.email = email
@@ -84,15 +43,15 @@ struct User: Identifiable, Codable {
         self.profileImageUrl = profileImageUrl
         self.notificationEnabled = notificationEnabled
     }
-    
-    // Initialize from Firestore document
+
+    // Init from Firestore document
     init?(document: DocumentSnapshot) {
         guard let data = document.data(),
               let fullname = data["fullname"] as? String,
               let email = data["email"] as? String else {
             return nil
         }
-        
+
         self.id = document.documentID
         self.fullname = fullname
         self.email = email
@@ -103,8 +62,8 @@ struct User: Identifiable, Codable {
         self.profileImageUrl = data["profileImageUrl"] as? String
         self.notificationEnabled = data["notificationEnabled"] as? Bool ?? true
     }
-    
-    // Convert to dictionary for Firestore
+
+    // Convert to Firestore dictionary
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "fullname": fullname,
@@ -115,11 +74,11 @@ struct User: Identifiable, Codable {
             "hostedEvents": hostedEvents,
             "notificationEnabled": notificationEnabled
         ]
-        
+
         if let profileImageUrl = profileImageUrl {
             dict["profileImageUrl"] = profileImageUrl
         }
-        
+
         return dict
     }
 }
