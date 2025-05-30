@@ -125,6 +125,16 @@ struct ProfileView: View {
                         .font(.headline)
                         .foregroundColor(Theme.primaryText)
                         .padding(.horizontal)
+                    
+                    // show Skill Level
+                        if let skillLevel = authViewModel.currentUser?.skillLevel {
+                            Text(skillLevel.rawValue)
+                                .font(.subheadline)
+                                .fontWeight(.bold)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal)
+                        }
+
 
                     if let preferences = authViewModel.currentUser?.preferences,
                         !preferences.isEmpty
