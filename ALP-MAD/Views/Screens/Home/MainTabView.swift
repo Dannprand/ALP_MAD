@@ -56,7 +56,7 @@ struct MainTabView: View {
             
             // Explore Tab
              NavigationStack {
-                  ExploreVIew()
+                ExploreView()
               }
               .tabItem {
                   Image(systemName: "person.3.fill")
