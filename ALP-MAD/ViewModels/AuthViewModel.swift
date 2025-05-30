@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import UIKit
 
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
@@ -163,5 +164,38 @@ class AuthViewModel: ObservableObject {
         }
     }
 
-
+    func updateProfile(fullname: String, image: UIImage?) async throws {
+            guard let user = currentUser else { return }
+            let userRef = Firestore.firestore().collection("users").document(user.id)
+            
+            var updatedData: [String: Any] = ["fullname": fullname]
+            
+            // Convert image to Base64 and store as string
+            if let image = image, let imageData = image.jpegData(compressionQuality: 0.4) {
+                let base64String = imageData.base64EncodedString()
+                updatedData["profileImageUrl"] = base64String
+            }
+            
+            // Update Firestore
+            try await userRef.updateData(updatedData)
+            
+            // Update local user object
+            var newUser = user
+            newUser = User(
+                id: user.id,
+                fullname: fullname,
+                email: user.email,
+                preferences: user.preferences,
+                tokens: user.tokens,
+                joinedEvents: user.joinedEvents,
+                hostedEvents: user.hostedEvents,
+                profileImageUrl: updatedData["profileImageUrl"] as? String ?? user.profileImageUrl,
+                notificationEnabled: user.notificationEnabled
+            )
+            
+            DispatchQueue.main.async {
+                self.currentUser = newUser
+            }
+        }
+    
 }
