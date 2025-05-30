@@ -29,18 +29,6 @@
 
 import FirebaseFirestore
 
-enum SportCategory: String, CaseIterable, Codable {
-    case football = "Football"
-    case basketball = "Basketball"
-    case tennis = "Tennis"
-    case volleyball = "Volleyball"
-    case running = "Running"
-    case cycling = "Cycling"
-    case swimming = "Swimming"
-    case gym = "Gym"
-    case other = "Other"
-}
-
 struct User: Identifiable, Codable {
     var id: String
     let fullname: String

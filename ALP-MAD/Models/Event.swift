@@ -20,7 +20,6 @@ struct Event: Identifiable, Codable, Hashable {
     let chatId: String
     let createdAt: Timestamp
 
-    // Computed properties
     var isFull: Bool {
         participants.count >= maxParticipants
     }
@@ -31,9 +30,8 @@ struct Event: Identifiable, Codable, Hashable {
         return formatter.localizedString(for: date.dateValue(), relativeTo: Date())
     }
 
-    // Manual initializer
     init(
-        id: String,
+        id: String? = nil,
         title: String,
         description: String,
         hostId: String,
@@ -68,7 +66,6 @@ struct Event: Identifiable, Codable, Hashable {
         self.createdAt = createdAt
     }
 
-    // Init from Firestore document
     init?(document: QueryDocumentSnapshot) {
         let data = document.data()
 
@@ -108,7 +105,6 @@ struct Event: Identifiable, Codable, Hashable {
         self.createdAt = createdAt
     }
 
-    // Convert to Firestore dictionary
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "title": title,

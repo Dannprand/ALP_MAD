@@ -332,36 +332,4 @@ struct EventDetailView: View {
         }
     }
     
-    struct PrimaryButtonStyle: ButtonStyle {
-        func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Theme.accentOrange)
-                .foregroundColor(.white)
-                .font(.headline)
-                .cornerRadius(10)
-                .scaleEffect(configuration.isPressed ? 0.95 : 1)
-                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-        }
-    }
-    
-    struct SecondaryButtonStyle: ButtonStyle {
-        func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Theme.cardBackground)
-                .foregroundColor(Theme.accentOrange)
-                .font(.headline)
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Theme.accentOrange, lineWidth: 1)
-                )
-                .scaleEffect(configuration.isPressed ? 0.95 : 1)
-                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-        }
-    }
-    
 
