@@ -1,69 +1,29 @@
-//
-//  EventDetailView.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
-
 import SwiftUI
 import MapKit
+import CoreLocation
 
 struct EventDetailView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    @ObservedObject var eventViewModel: EventViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
     @StateObject var chatViewModel = ChatViewModel()
-
+    
     let event: Event
     @State private var region: MKCoordinateRegion
     @State private var isJoining = false
     @State private var showChat = false
     @State private var isUserParticipating = false
-
+    
     init(event: Event) {
         self.event = event
-        self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
-
-        // Set up initial map region
-        let center = CLLocationCoordinate2D(
-            latitude: event.location.latitude,
-            longitude: event.location.longitude
-        )
+        let center = CLLocationCoordinate2D(latitude: event.location.latitude, longitude: event.location.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
     }
-
-//    @EnvironmentObject var authViewModel: AuthViewModel
-//    @ObservedObject var eventViewModel: EventViewModel
-//    @StateObject var chatViewModel = ChatViewModel()
-//    
-//    let event: Event
-//    @State private var region: MKCoordinateRegion
-//    @State private var isJoining = false
-//    @State private var showChat = false
-//    @State private var isUserParticipating = false
-//    
-//    init(event: Event) {
-//        self.event = event
-//        self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
-//        
-//        // Set up initial map region
-//        let center = CLLocationCoordinate2D(
-//            latitude: event.location.latitude,
-//            longitude: event.location.longitude
-//        )
-//        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-//        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
-//        
-//        // Check if current user is participating
-//        if let userId = authViewModel.currentUser?.id {
-//            self._isUserParticipating = State(initialValue: event.participants.contains(userId))
-//        }
-//    }
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Event image and basic info
+                // Event image
                 VStack(alignment: .leading, spacing: 8) {
                     Image(event.sport.rawValue.lowercased())
                         .resizable()
@@ -99,7 +59,7 @@ struct EventDetailView: View {
                     .padding(.horizontal)
                 }
                 
-                // Host section
+                // Host info
                 HStack {
                     Circle()
                         .frame(width: 50, height: 50)
@@ -114,12 +74,11 @@ struct EventDetailView: View {
                         Text("Hosted by")
                             .font(.caption)
                             .foregroundColor(Theme.secondaryText)
-                        Text("Host Name") // Would fetch from user data in real app
+                        Text("Host Name") // Replace with real data if needed
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundColor(Theme.primaryText)
                     }
-                    
                     Spacer()
                 }
                 .padding(.horizontal)
@@ -128,7 +87,7 @@ struct EventDetailView: View {
                     .background(Theme.cardBackground)
                     .padding(.horizontal)
                 
-                // Event description
+                // Description
                 VStack(alignment: .leading, spacing: 8) {
                     Text("About the Event")
                         .font(.headline)
@@ -140,7 +99,7 @@ struct EventDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Location map
+                // Location
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Location")
                         .font(.headline)
@@ -168,7 +127,7 @@ struct EventDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Tournament details if applicable
+                // Tournament info
                 if event.isTournament {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Tournament Details")
@@ -184,13 +143,11 @@ struct EventDetailView: View {
                                     .foregroundColor(Theme.secondaryText)
                             }
                         }
-                        
                         if let rules = event.rules {
                             Text("Rules: \(rules)")
                                 .font(.subheadline)
                                 .foregroundColor(Theme.secondaryText)
                         }
-                        
                         if let requirements = event.requirements {
                             Text("Requirements: \(requirements)")
                                 .font(.subheadline)
@@ -200,12 +157,11 @@ struct EventDetailView: View {
                     .padding(.horizontal)
                 }
                 
-                // Join button
+                // Join Button
                 if !isUserParticipating {
                     Button(action: joinEvent) {
                         if isJoining {
-                            ProgressView()
-                                .tint(.white)
+                            ProgressView().tint(.white)
                         } else {
                             Text(event.isFull ? "Event Full" : "Join Event")
                         }
@@ -238,17 +194,21 @@ struct EventDetailView: View {
                     .environmentObject(chatViewModel)
             }
         }
+        .onAppear {
+            if let userId = authViewModel.currentUser?.id {
+                isUserParticipating = event.participants.contains(userId)
+            }
+        }
     }
     
     private func joinEvent() {
         guard let userId = authViewModel.currentUser?.id else { return }
-        
         isJoining = true
         Task {
             let success = await eventViewModel.joinEvent(event, userId: userId)
             if success {
                 isUserParticipating = true
-                showChat = true // Automatically open chat after joining
+                showChat = true
             }
             isJoining = false
         }
@@ -268,39 +228,7 @@ struct EventDetailPill: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
-        .background(Theme.cardBackground)
+        .background(Color(.systemGray5))
         .cornerRadius(20)
-    }
-}
-
-struct PrimaryButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Theme.accentOrange)
-            .foregroundColor(.white)
-            .font(.headline)
-            .cornerRadius(10)
-            .scaleEffect(configuration.isPressed ? 0.95 : 1)
-            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-    }
-}
-
-struct SecondaryButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Theme.cardBackground)
-            .foregroundColor(Theme.accentOrange)
-            .font(.headline)
-            .cornerRadius(10)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Theme.accentOrange, lineWidth: 1)
-            )
-            .scaleEffect(configuration.isPressed ? 0.95 : 1)
-            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
     }
 }
