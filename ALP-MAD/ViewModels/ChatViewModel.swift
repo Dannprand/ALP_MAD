@@ -1,46 +1,78 @@
-//
-//  ChatViewModel.swift
-//  ALP-MAD
-//
-//  Created by student on 22/05/25.
-//
-
 import Foundation
 import FirebaseFirestore
 
 class ChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
+    
     private var db = Firestore.firestore()
     private var listener: ListenerRegistration?
+
+//    func setupChat(forEvent eventId: String) {
+//        listener?.remove()
+//
+//        listener = db.collection("chats")
+//            .document(eventId)
+//            .collection("messages")
+//            .order(by: "timestamp", descending: false)
+//            .addSnapshotListener { [weak self] snapshot, error in
+//                guard let self = self else { return }
+//                if let error = error {
+//                    print("Error fetching messages: \(error.localizedDescription)")
+//                    return
+//                }
+//
+//                self.messages = snapshot?.documents.compactMap { ChatMessage(document: $0) } ?? []
+//            }
+//    }
     
     func setupChat(forEvent eventId: String) {
-        // Remove previous listener if any
         listener?.remove()
         
         listener = db.collection("chats")
-            .whereField("eventId", isEqualTo: eventId)
+            .document(eventId)
+            .collection("messages")
+//            .order(by: "timestamp", ascending: true)
             .order(by: "timestamp", descending: false)
-            .addSnapshotListener { snapshot, error in
-                guard let documents = snapshot?.documents else {
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let snapshot = snapshot else {
                     print("Error fetching messages: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
                 
-                self.messages = documents.compactMap { document in
-                    try? document.data(as: ChatMessage.self)
+                snapshot.documentChanges.forEach { change in
+                    if change.type == .added {
+                        if let message = ChatMessage(document: change.document) {
+                            DispatchQueue.main.async {
+                                self?.messages.append(message)
+                            }
+                        }
+                    }
                 }
             }
     }
-    
+
     func sendMessage(_ message: ChatMessage) {
-        do {
-            let _ = try db.collection("chats").document(message.id).setData(from: message)
-        } catch {
-            print("Error sending message: \(error)")
+        let messageRef = db.collection("chats")
+            .document(message.eventId)
+            .collection("messages")
+            .document(message.id)
+
+        messageRef.setData(message.toDictionary()) { error in
+            if let error = error {
+                print("Error sending message: \(error.localizedDescription)")
+            }
         }
     }
     
+    // In your ChatViewModel
+    func setUserOnlineStatus(eventId: String, userId: String, isOnline: Bool) {
+        db.collection("chats").document(eventId)
+            .collection("presence").document(userId)
+            .setData(["isOnline": isOnline, "lastSeen": Timestamp()])
+    }
+
     deinit {
         listener?.remove()
     }
 }
+

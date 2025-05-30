@@ -75,6 +75,7 @@ struct ChatMessage: Identifiable, Codable, Equatable {
               let text = data["text"] as? String,
               let timestamp = data["timestamp"] as? Timestamp,
               let eventId = data["eventId"] as? String else {
+            print("❌ Failed to parse chat message")
             return nil
         }
 
@@ -85,4 +86,5 @@ struct ChatMessage: Identifiable, Codable, Equatable {
         self.timestamp = timestamp
         self.eventId = eventId
     }
+
 }

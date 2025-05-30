@@ -42,7 +42,12 @@ struct PreferencesView: View {
                         .font(.caption)
                         .foregroundColor(Theme.secondaryText)
                     
-                    FlowLayout(spacing: 10) {
+                    let columns = [
+                        GridItem(.flexible(), spacing: 10),
+                        GridItem(.flexible(), spacing: 10)
+                    ]
+                    
+                    LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(SportCategory.allCases, id: \.self) { sport in
                             SportPill(
                                 sport: sport,
@@ -54,6 +59,7 @@ struct PreferencesView: View {
                                     selectedSports.append(sport)
                                 }
                             }
+                            .frame(height: 50)
                         }
                     }
                 }
@@ -164,17 +170,20 @@ struct SportPill: View {
     let sport: SportCategory
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 6) {
                 Image(systemName: iconForSport(sport))
                     .font(.subheadline)
+
                 Text(sport.rawValue)
                     .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity, minHeight: 50) // fix height, flexible width
+            .padding(.horizontal, 12)
             .background(isSelected ? Theme.accentOrange : Theme.cardBackground)
             .foregroundColor(isSelected ? .white : Theme.primaryText)
             .cornerRadius(20)
@@ -184,7 +193,7 @@ struct SportPill: View {
             )
         }
     }
-    
+
     private func iconForSport(_ sport: SportCategory) -> String {
         switch sport {
         case .football: return "soccerball"
@@ -200,7 +209,8 @@ struct SportPill: View {
     }
 }
 
-enum SkillLevel: String, CaseIterable {
+
+enum SkillLevel: String, CaseIterable, Codable {
     case beginner = "Beginner"
     case intermediate = "Intermediate"
     case advanced = "Advanced"

@@ -1,15 +1,57 @@
-import Foundation
+//
+//  User.swift
+//  ALP-MAD
+//
+//  Created by student on 22/05/25.
+//
+
+//import FirebaseFirestoreSwift
+//
+//struct User: Identifiable, Codable {
+//    @DocumentID var id: String?
+//    let fullname: String
+//    let email: String
+//    var preferences: [SportCategory]
+//    var tokens: Int
+//    var joinedEvents: [String] // Event IDs
+//    var hostedEvents: [String] // Event IDs
+//    var profileImageUrl: String?
+//
+//    var initials: String {
+//        let formatter = PersonNameComponentsFormatter()
+//        if let components = formatter.personNameComponents(from: fullname) {
+//            formatter.style = .abbreviated
+//            return formatter.string(from: components)
+//        }
+//        return fullname.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first?.uppercased() ?? "")") + "\($1.first?.uppercased() ?? "")" }
+//    }
+//}
+
 import FirebaseFirestore
+
+enum SportCategory: String, CaseIterable, Codable {
+    case football = "Football"
+    case basketball = "Basketball"
+    case tennis = "Tennis"
+    case volleyball = "Volleyball"
+    case running = "Running"
+    case cycling = "Cycling"
+    case swimming = "Swimming"
+    case gym = "Gym"
+    case other = "Other"
+}
 
 struct User: Identifiable, Codable {
     var id: String
     let fullname: String
     let email: String
     var preferences: [SportCategory]
+    var skillLevel: SkillLevel?
     var tokens: Int
     var joinedEvents: [String]
     var hostedEvents: [String]
     var profileImageUrl: String?
+
     var notificationEnabled: Bool = true
 
     var initials: String {
@@ -18,10 +60,13 @@ struct User: Identifiable, Codable {
             formatter.style = .abbreviated
             return formatter.string(from: components)
         }
-        return fullname.components(separatedBy: " ").compactMap { $0.first?.uppercased() }.joined()
+        return fullname.components(separatedBy: " ").reduce("") {
+            ($0 == "" ? "" : "\($0.first?.uppercased() ?? "")")
+                + "\($1.first?.uppercased() ?? "")"
+        }
     }
 
-    // Manual initializer
+    // Initialize from dictionary
     init(
         id: String,
         fullname: String,
@@ -44,26 +89,36 @@ struct User: Identifiable, Codable {
         self.notificationEnabled = notificationEnabled
     }
 
-    // Init from Firestore document
+    // Initialize from Firestore document
     init?(document: DocumentSnapshot) {
         guard let data = document.data(),
-              let fullname = data["fullname"] as? String,
-              let email = data["email"] as? String else {
+            let fullname = data["fullname"] as? String,
+            let email = data["email"] as? String
+        else {
             return nil
         }
 
         self.id = document.documentID
         self.fullname = fullname
         self.email = email
-        self.preferences = (data["preferences"] as? [String])?.compactMap { SportCategory(rawValue: $0) } ?? []
+        self.preferences =
+            (data["preferences"] as? [String])?.compactMap {
+                SportCategory(rawValue: $0)
+            } ?? []
         self.tokens = data["tokens"] as? Int ?? 0
         self.joinedEvents = data["joinedEvents"] as? [String] ?? []
         self.hostedEvents = data["hostedEvents"] as? [String] ?? []
         self.profileImageUrl = data["profileImageUrl"] as? String
         self.notificationEnabled = data["notificationEnabled"] as? Bool ?? true
+        self.skillLevel = {
+            if let skillString = data["skillLevel"] as? String {
+                return SkillLevel(rawValue: skillString)
+            }
+            return nil
+        }()
     }
 
-    // Convert to Firestore dictionary
+    // Convert to dictionary for Firestore
     func toDictionary() -> [String: Any] {
         var dict: [String: Any] = [
             "fullname": fullname,
@@ -72,7 +127,7 @@ struct User: Identifiable, Codable {
             "tokens": tokens,
             "joinedEvents": joinedEvents,
             "hostedEvents": hostedEvents,
-            "notificationEnabled": notificationEnabled
+            "notificationEnabled": notificationEnabled,
         ]
 
         if let profileImageUrl = profileImageUrl {
