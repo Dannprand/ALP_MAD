@@ -23,15 +23,25 @@ struct MainTabView: View {
             }
             .tag(0)
             
-            // Map Tab
+//            // Map Tab
+//            NavigationStack {
+//                MapView()
+//            }
+//            .tabItem {
+//                Image(systemName: "map.fill")
+//                Text("Map")
+//            }
+//            .tag(1)
+            
+            // Shop Tab
             NavigationStack {
-                MapView()
+                ShopView()
             }
             .tabItem {
-                Image(systemName: "map.fill")
-                Text("Map")
+                Image(systemName: "bag.fill")
+                Text("Shop")
             }
-            .tag(1)
+            .tag(3)	
             
             // Create Event Tab
             NavigationStack {
@@ -43,15 +53,16 @@ struct MainTabView: View {
             }
             .tag(2)
             
-            // Shop Tab
-            NavigationStack {
-                ShopView()
-            }
-            .tabItem {
-                Image(systemName: "bag.fill")
-                Text("Shop")
-            }
-            .tag(3)
+            
+            // Explore Tab
+             NavigationStack {
+                  ExploreVIew()
+              }
+              .tabItem {
+                  Image(systemName: "person.3.fill")
+                  Text("Explore")
+              }
+              .tag(1)
             
             // Profile Tab
             NavigationStack {
