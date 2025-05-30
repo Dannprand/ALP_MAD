@@ -33,7 +33,11 @@ struct HomeView: View {
                         ForEach(SportCategory.allCases, id: \.self) { category in
                             CategoryPill(category: category, isSelected: eventViewModel.selectedCategory == category)
                                 .onTapGesture {
-                                    eventViewModel.selectedCategory = category
+                                    if eventViewModel.selectedCategory == category {
+                                        eventViewModel.selectedCategory = nil
+                                    } else {
+                                        eventViewModel.selectedCategory = category
+                                    }
                                 }
                         }
                     }
