@@ -51,7 +51,8 @@ struct User: Identifiable, Codable {
     var joinedEvents: [String]
     var hostedEvents: [String]
     var profileImageUrl: String?
-
+    var following: [String]?
+    var followers: [String]?
     var notificationEnabled: Bool = true
 
     var initials: String {
@@ -110,6 +111,8 @@ struct User: Identifiable, Codable {
         self.hostedEvents = data["hostedEvents"] as? [String] ?? []
         self.profileImageUrl = data["profileImageUrl"] as? String
         self.notificationEnabled = data["notificationEnabled"] as? Bool ?? true
+        self.following = data["following"] as? [String]
+        self.followers = data["followers"] as? [String]
         self.skillLevel = {
             if let skillString = data["skillLevel"] as? String {
                 return SkillLevel(rawValue: skillString)
@@ -128,6 +131,8 @@ struct User: Identifiable, Codable {
             "joinedEvents": joinedEvents,
             "hostedEvents": hostedEvents,
             "notificationEnabled": notificationEnabled,
+            "following": following,
+            "followers": followers,
         ]
 
         if let profileImageUrl = profileImageUrl {
