@@ -9,6 +9,7 @@ struct Event: Identifiable, Codable, Hashable {
     let hostId: String
     let sport: SportCategory
     let date: Timestamp
+    let expiryDate: Timestamp
     let location: EventLocation
     let maxParticipants: Int
     var participants: [String]
@@ -24,10 +25,24 @@ struct Event: Identifiable, Codable, Hashable {
         participants.count >= maxParticipants
     }
 
+    var isExpired: Bool {
+        expiryDate.dateValue() < Date()
+    }
+
     var timeRemaining: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .short
         return formatter.localizedString(for: date.dateValue(), relativeTo: Date())
+    }
+
+    var expiryStatus: String {
+        if isExpired {
+            return "Expired"
+        } else {
+            let formatter = RelativeDateTimeFormatter()
+            formatter.unitsStyle = .short
+            return "Expires \(formatter.localizedString(for: expiryDate.dateValue(), relativeTo: Date()))"
+        }
     }
 
     init(
@@ -37,6 +52,7 @@ struct Event: Identifiable, Codable, Hashable {
         hostId: String,
         sport: SportCategory,
         date: Timestamp,
+        expiryDate: Timestamp,
         location: EventLocation,
         maxParticipants: Int,
         participants: [String],
@@ -54,6 +70,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.hostId = hostId
         self.sport = sport
         self.date = date
+        self.expiryDate = expiryDate
         self.location = location
         self.maxParticipants = maxParticipants
         self.participants = participants
@@ -76,6 +93,7 @@ struct Event: Identifiable, Codable, Hashable {
             let sportRaw = data["sport"] as? String,
             let sport = SportCategory(rawValue: sportRaw),
             let date = data["date"] as? Timestamp,
+            let expiryDate = data["expiryDate"] as? Timestamp,
             let locationData = data["location"] as? [String: Any],
             let maxParticipants = data["maxParticipants"] as? Int,
             let participants = data["participants"] as? [String],
@@ -93,6 +111,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.hostId = hostId
         self.sport = sport
         self.date = date
+        self.expiryDate = expiryDate
         self.location = EventLocation(dictionary: locationData)
         self.maxParticipants = maxParticipants
         self.participants = participants
@@ -112,6 +131,7 @@ struct Event: Identifiable, Codable, Hashable {
             "hostId": hostId,
             "sport": sport.rawValue,
             "date": date,
+            "expiryDate": expiryDate,
             "location": location.toDictionary(),
             "maxParticipants": maxParticipants,
             "participants": participants,
