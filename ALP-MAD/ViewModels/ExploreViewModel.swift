@@ -6,6 +6,12 @@ class ExploreViewModel: ObservableObject {
     @Published var allUsers: [User] = []
     @Published var filteredUsers: [User] = []
     @Published var followingIds: Set<String> = []
+    @Published var isFollowing: Bool = false
+    @Published var hostedEvents: [Event] = []
+    
+    private var currentUserId: String? {
+            AuthViewModel.shared.currentUser?.id
+        }
     
     private var db = Firestore.firestore()
     private var cancellables = Set<AnyCancellable>()
@@ -45,6 +51,18 @@ class ExploreViewModel: ObservableObject {
         }
     }
     
+    // Check if there is followed
+    func checkIfFollowing(userId: String) {
+         guard let currentUserId = currentUserId else { return }
+         let currentUserRef = db.collection("users").document(currentUserId)
+         currentUserRef.getDocument { snapshot, error in
+             if let data = snapshot?.data(),
+                let following = data["following"] as? [String] {
+                 self.isFollowing = following.contains(userId)
+             }
+         }
+     }
+    
     // Toggle follow / unfollow
     func toggleFollow(userId: String, currentUserId: String) {
         if followingIds.contains(userId) {
@@ -71,4 +89,15 @@ class ExploreViewModel: ObservableObject {
             }
         }
     }
+    
+//    hosted event by user
+    func fetchHostedEvents(userId: String) {
+            db.collection("events")
+                .whereField("hostId", isEqualTo: userId)
+                .getDocuments { snapshot, error in
+                    if let documents = snapshot?.documents {
+                        self.hostedEvents = documents.compactMap { Event(document: $0) }
+                    }
+                }
+        }
 }
