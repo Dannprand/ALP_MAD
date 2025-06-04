@@ -83,42 +83,42 @@ struct PreferencesView: View {
                 .padding(.horizontal)
                 
                 // Notification preferences
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Notifications")
-                        .font(.headline)
-                        .foregroundColor(Theme.primaryText)
-                    
-                    Toggle("Enable notifications for nearby events", isOn: $notificationEnabled)
-                        .tint(Theme.accentOrange)
-                }
-                .padding(.horizontal)
-                
-                // Search radius
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Search Radius")
-                        .font(.headline)
-                        .foregroundColor(Theme.primaryText)
-                    
-                    HStack {
-                        Text("\(Int(radius)) km")
-                            .frame(width: 60, alignment: .leading)
-                            .foregroundColor(Theme.accentOrange)
-                        
-                        Slider(value: $radius, in: 5...100, step: 5) {
-                            Text("Search radius")
-                        } minimumValueLabel: {
-                            Text("5")
-                                .font(.caption)
-                                .foregroundColor(Theme.secondaryText)
-                        } maximumValueLabel: {
-                            Text("100")
-                                .font(.caption)
-                                .foregroundColor(Theme.secondaryText)
-                        }
-                        .tint(Theme.accentOrange)
-                    }
-                }
-                .padding(.horizontal)
+//                VStack(alignment: .leading, spacing: 12) {
+//                    Text("Notifications")
+//                        .font(.headline)
+//                        .foregroundColor(Theme.primaryText)
+//                    
+//                    Toggle("Enable notifications for nearby events", isOn: $notificationEnabled)
+//                        .tint(Theme.accentOrange)
+//                }
+//                .padding(.horizontal)
+//                
+//                // Search radius
+//                VStack(alignment: .leading, spacing: 12) {
+//                    Text("Search Radius")
+//                        .font(.headline)
+//                        .foregroundColor(Theme.primaryText)
+//                    
+//                    HStack {
+//                        Text("\(Int(radius)) km")
+//                            .frame(width: 60, alignment: .leading)
+//                            .foregroundColor(Theme.accentOrange)
+//                        
+//                        Slider(value: $radius, in: 5...100, step: 5) {
+//                            Text("Search radius")
+//                        } minimumValueLabel: {
+//                            Text("5")
+//                                .font(.caption)
+//                                .foregroundColor(Theme.secondaryText)
+//                        } maximumValueLabel: {
+//                            Text("100")
+//                                .font(.caption)
+//                                .foregroundColor(Theme.secondaryText)
+//                        }
+//                        .tint(Theme.accentOrange)
+//                    }
+//                }
+//                .padding(.horizontal)
                 
                 // Save button
                 Button(action: savePreferences) {
