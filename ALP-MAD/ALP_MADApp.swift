@@ -13,6 +13,7 @@ struct ALP_MADApp: App {
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var router = AppRouter()
     
+    // Initiate Firebase
     init() {
         FirebaseApp.configure()
         setupAppearance()
