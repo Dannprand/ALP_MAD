@@ -11,9 +11,30 @@ class ExploreViewModel: ObservableObject {
     @Published var followersCount: Int = 0
     @Published var followingCount: Int = 0
     @Published var isLoading: Bool = false
-
+    @Published var isFollowing: Bool = false
+    @Published var selectedUser: User?
     private var db = Firestore.firestore()
-    private var cancellables = Set<AnyCancellable>()
+ 
+    private var userStatsListener: ListenerRegistration?
+
+    func observeUserStats(userId: String) {
+        userStatsListener?.remove() // Hapus listener lama jika ada
+
+        userStatsListener = db.collection("users").document(userId)
+            .addSnapshotListener { [weak self] snapshot, error in
+                if let error = error {
+                    print("Error observing user stats: \(error.localizedDescription)")
+                    return
+                }
+
+                guard let data = snapshot?.data() else { return }
+
+                DispatchQueue.main.async {
+                    self?.followersCount = (data["followers"] as? [String])?.count ?? 0
+                    self?.followingCount = (data["following"] as? [String])?.count ?? 0
+                }
+            }
+    }
 
     // MARK: - Fetch all users
     func fetchUsers() {
@@ -83,71 +104,53 @@ class ExploreViewModel: ObservableObject {
         }
     }
 
-    // MARK: - Check if following specific user (sync check)
-    func isFollowingUser(_ userId: String) -> Bool {
-        return followingIds.contains(userId)
+//    // MARK: - Check if following specific user (sync check)
+    func checkFollowingStatus(currentUser: User, targetUser: User) {
+        isFollowing = currentUser.following?.contains(targetUser.id) ?? false
     }
 
     // MARK: - Toggle follow/unfollow user
-    func toggleFollow(userId: String, currentUserId: String) {
-        if followingIds.contains(userId) {
-            // Unfollow
-            db.collection("users").document(currentUserId).updateData([
-                "following": FieldValue.arrayRemove([userId])
-            ]) { error in
-                if let error = error {
-                    print("Error unfollowing user: \(error.localizedDescription)")
-                }
-            }
-            db.collection("users").document(userId).updateData([
-                "followers": FieldValue.arrayRemove([currentUserId])
-            ]) { error in
-                if let error = error {
-                    print("Error removing follower: \(error.localizedDescription)")
-                }
-            }
-            DispatchQueue.main.async {
-                self.followingIds.remove(userId)
-            }
-        } else {
-            // Follow
-            db.collection("users").document(currentUserId).updateData([
-                "following": FieldValue.arrayUnion([userId])
-            ]) { error in
-                if let error = error {
-                    print("Error following user: \(error.localizedDescription)")
-                }
-            }
-            db.collection("users").document(userId).updateData([
-                "followers": FieldValue.arrayUnion([currentUserId])
-            ]) { error in
-                if let error = error {
-                    print("Error adding follower: \(error.localizedDescription)")
-                }
-            }
-            DispatchQueue.main.async {
-                self.followingIds.insert(userId)
+    func toggleFollow(currentUser: User, targetUser: User) {
+            let currentUserRef = db.collection("users").document(currentUser.id)
+            let targetUserRef = db.collection("users").document(targetUser.id)
+            
+            if isFollowing {
+                currentUserRef.updateData([
+                    "following": FieldValue.arrayRemove([targetUser.id])
+                ])
+                targetUserRef.updateData([
+                    "followers": FieldValue.arrayRemove([currentUser.id])
+                ])
+                isFollowing = false
+            } else {
+                currentUserRef.updateData([
+                    "following": FieldValue.arrayUnion([targetUser.id])
+                ])
+                targetUserRef.updateData([
+                    "followers": FieldValue.arrayUnion([currentUser.id])
+                ])
+                isFollowing = true
             }
         }
-    }
 
     // MARK: - Fetch events hosted by user
-    func fetchHostedEvents(userId: String) {
-        db.collection("events")
-            .whereField("hostId", isEqualTo: userId)
-            .getDocuments { [weak self] snapshot, error in
-                if let error = error {
-                    print("Error fetching hosted events: \(error.localizedDescription)")
-                    return
-                }
-                guard let documents = snapshot?.documents else {
-                    print("No hosted events found")
-                    return
-                }
-                let events = documents.compactMap { Event(document: $0) }
-                DispatchQueue.main.async {
-                    self?.hostedEvents = events
-                }
+    func fetchHostedEvents(for user: User) {
+            guard !user.hostedEvents.isEmpty else {
+                self.hostedEvents = []
+                return
             }
-    }
+            
+            db.collection("events")
+                .whereField(FieldPath.documentID(), in: user.hostedEvents)
+                .getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Error fetching hosted events: \(error.localizedDescription)")
+                        return
+                    }
+                    guard let documents = snapshot?.documents else { return }
+                    self.hostedEvents = documents.compactMap {
+                        try? $0.data(as: Event.self)
+                    }
+                }
+        }
 }

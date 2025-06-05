@@ -200,79 +200,79 @@ class AuthViewModel: ObservableObject {
             }
         }
     
-    // Fungsi untuk follow user
-        func follow(userToFollowId: String) async throws {
-            guard let currentUserId = currentUser?.id, currentUserId != userToFollowId else { return }
-
-            let currentUserRef = db.collection("users").document(currentUserId)
-            let userToFollowRef = db.collection("users").document(userToFollowId)
-
-            try await db.runTransaction { transaction, errorPointer in
-                let currentUserDoc: DocumentSnapshot
-                let userToFollowDoc: DocumentSnapshot
-
-                do {
-                    currentUserDoc = try transaction.getDocument(currentUserRef)
-                    userToFollowDoc = try transaction.getDocument(userToFollowRef)
-                } catch {
-                    errorPointer?.pointee = error as NSError
-                    return nil
-                }
-
-                var currentFollowing = currentUserDoc.data()?["following"] as? [String] ?? []
-                var userToFollowFollowers = userToFollowDoc.data()?["followers"] as? [String] ?? []
-
-                if !currentFollowing.contains(userToFollowId) {
-                    currentFollowing.append(userToFollowId)
-                }
-                if !userToFollowFollowers.contains(currentUserId) {
-                    userToFollowFollowers.append(currentUserId)
-                }
-
-                transaction.updateData(["following": currentFollowing], forDocument: currentUserRef)
-                transaction.updateData(["followers": userToFollowFollowers], forDocument: userToFollowRef)
-
-                return nil
-            }
-
-            // Update local currentUser state supaya UI bisa refresh
-            await fetchUser()
-        }
-
-        // Fungsi untuk unfollow user
-        func unfollow(userToUnfollowId: String) async throws {
-            guard let currentUserId = currentUser?.id, currentUserId != userToUnfollowId else { return }
-
-            let currentUserRef = db.collection("users").document(currentUserId)
-            let userToUnfollowRef = db.collection("users").document(userToUnfollowId)
-
-            try await db.runTransaction { transaction, errorPointer in
-                let currentUserDoc: DocumentSnapshot
-                let userToUnfollowDoc: DocumentSnapshot
-
-                do {
-                    currentUserDoc = try transaction.getDocument(currentUserRef)
-                    userToUnfollowDoc = try transaction.getDocument(userToUnfollowRef)
-                } catch {
-                    errorPointer?.pointee = error as NSError
-                    return nil
-                }
-
-                var currentFollowing = currentUserDoc.data()?["following"] as? [String] ?? []
-                var userToUnfollowFollowers = userToUnfollowDoc.data()?["followers"] as? [String] ?? []
-
-                currentFollowing.removeAll(where: { $0 == userToUnfollowId })
-                userToUnfollowFollowers.removeAll(where: { $0 == currentUserId })
-
-                transaction.updateData(["following": currentFollowing], forDocument: currentUserRef)
-                transaction.updateData(["followers": userToUnfollowFollowers], forDocument: userToUnfollowRef)
-
-                return nil
-            }
-
-            // Update local currentUser state supaya UI bisa refresh
-            await fetchUser()
-        }
+//    // Fungsi untuk follow user
+//        func follow(userToFollowId: String) async throws {
+//            guard let currentUserId = currentUser?.id, currentUserId != userToFollowId else { return }
+//
+//            let currentUserRef = db.collection("users").document(currentUserId)
+//            let userToFollowRef = db.collection("users").document(userToFollowId)
+//
+//            try await db.runTransaction { transaction, errorPointer in
+//                let currentUserDoc: DocumentSnapshot
+//                let userToFollowDoc: DocumentSnapshot
+//
+//                do {
+//                    currentUserDoc = try transaction.getDocument(currentUserRef)
+//                    userToFollowDoc = try transaction.getDocument(userToFollowRef)
+//                } catch {
+//                    errorPointer?.pointee = error as NSError
+//                    return nil
+//                }
+//
+//                var currentFollowing = currentUserDoc.data()?["following"] as? [String] ?? []
+//                var userToFollowFollowers = userToFollowDoc.data()?["followers"] as? [String] ?? []
+//
+//                if !currentFollowing.contains(userToFollowId) {
+//                    currentFollowing.append(userToFollowId)
+//                }
+//                if !userToFollowFollowers.contains(currentUserId) {
+//                    userToFollowFollowers.append(currentUserId)
+//                }
+//
+//                transaction.updateData(["following": currentFollowing], forDocument: currentUserRef)
+//                transaction.updateData(["followers": userToFollowFollowers], forDocument: userToFollowRef)
+//
+//                return nil
+//            }
+//
+//            // Update local currentUser state supaya UI bisa refresh
+//            await fetchUser()
+//        }
+//
+//        // Fungsi untuk unfollow user
+//        func unfollow(userToUnfollowId: String) async throws {
+//            guard let currentUserId = currentUser?.id, currentUserId != userToUnfollowId else { return }
+//
+//            let currentUserRef = db.collection("users").document(currentUserId)
+//            let userToUnfollowRef = db.collection("users").document(userToUnfollowId)
+//
+//            try await db.runTransaction { transaction, errorPointer in
+//                let currentUserDoc: DocumentSnapshot
+//                let userToUnfollowDoc: DocumentSnapshot
+//
+//                do {
+//                    currentUserDoc = try transaction.getDocument(currentUserRef)
+//                    userToUnfollowDoc = try transaction.getDocument(userToUnfollowRef)
+//                } catch {
+//                    errorPointer?.pointee = error as NSError
+//                    return nil
+//                }
+//
+//                var currentFollowing = currentUserDoc.data()?["following"] as? [String] ?? []
+//                var userToUnfollowFollowers = userToUnfollowDoc.data()?["followers"] as? [String] ?? []
+//
+//                currentFollowing.removeAll(where: { $0 == userToUnfollowId })
+//                userToUnfollowFollowers.removeAll(where: { $0 == currentUserId })
+//
+//                transaction.updateData(["following": currentFollowing], forDocument: currentUserRef)
+//                transaction.updateData(["followers": userToUnfollowFollowers], forDocument: userToUnfollowRef)
+//
+//                return nil
+//            }
+//
+//            // Update local currentUser state supaya UI bisa refresh
+//            await fetchUser()
+//        }
 //
 //        // Fungsi fetchUser untuk update data currentUser, pastikan ini ada
 //        @MainActor
