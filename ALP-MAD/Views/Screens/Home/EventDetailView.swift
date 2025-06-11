@@ -1,189 +1,732 @@
+//
+
+//  EventDetailView.swift
+
+//  ALP-MAD
+
+//
+
+//  Created by student on 22/05/25.
+
+//
+
+
+
 import SwiftUI
+
 import MapKit
 
+import FirebaseFirestore
+
+
+
 struct EventDetailView: View {
-    @ObservedObject var viewModel: EventViewModel
-    @State private var region: MKCoordinateRegion
-    @State private var showDeleteConfirmation = false
+
+    @EnvironmentObject var authViewModel: AuthViewModel
+
+    @ObservedObject var eventViewModel: EventViewModel
+
+    @StateObject var chatViewModel = ChatViewModel()
+
+    
+
     let event: Event
+
+    @State private var region: MKCoordinateRegion
+
+    @State private var isJoining = false
+
+    @State private var showChat = false
+
+    @State private var isUserParticipating = false
+
+    @State private var localEvent: Event
+
     
-    init(viewModel: EventViewModel, event: Event) {
-        self.viewModel = viewModel
+
+    private let db = Firestore.firestore()
+
+    
+
+    init(event: Event) {
+
         self.event = event
-        self._region = State(initialValue: MKCoordinateRegion(
-            center: event.location.coordinate,
-            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        ))
+
+        self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
+
+        self._localEvent = State(initialValue: event)
+
+        self._isUserParticipating = State(initialValue: false)
+
+
+
+        let center = CLLocationCoordinate2D(
+
+            latitude: event.location.latitude,
+
+            longitude: event.location.longitude
+
+        )
+
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+
+        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
+
     }
+
+
+
     
+
+    
+
+    
+
+    //    @EnvironmentObject var authViewModel: AuthViewModel
+
+    //    @ObservedObject var eventViewModel: EventViewModel
+
+    //    @StateObject var chatViewModel = ChatViewModel()
+
+    //
+
+    //    let event: Event
+
+    //    @State private var region: MKCoordinateRegion
+
+    //    @State private var isJoining = false
+
+    //    @State private var showChat = false
+
+    //    @State private var isUserParticipating = false
+
+    //
+
+    //    init(event: Event) {
+
+    //        self.event = event
+
+    //        self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
+
+    //
+
+    //        // Set up initial map region
+
+    //        let center = CLLocationCoordinate2D(
+
+    //            latitude: event.location.latitude,
+
+    //            longitude: event.location.longitude
+
+    //        )
+
+    //        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+
+    //        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
+
+    //
+
+    //        // Check if current user is participating
+
+    //        if let userId = authViewModel.currentUser?.id {
+
+    //            self._isUserParticipating = State(initialValue: event.participants.contains(userId))
+
+    //        }
+
+    //    }
+
+    
+
     var body: some View {
+
         ScrollView {
+
             VStack(alignment: .leading, spacing: 20) {
-                // Event Image
-                ZStack(alignment: .topTrailing) {
+
+                // Event image and basic info
+
+                VStack(alignment: .leading, spacing: 8) {
+
                     Image(event.sport.rawValue.lowercased())
+
                         .resizable()
+
                         .scaledToFill()
+
                         .frame(height: 200)
+
                         .clipped()
-                    
-                    if event.isExpired {
-                        Color.black.opacity(0.5)
-                        Text("Expired")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.red)
-                            .cornerRadius(10)
-                    } else if event.isFeatured {
-                        Text("Featured")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Theme.accentOrange)
-                            .cornerRadius(10)
-                            .padding()
-                    }
-                }
-                
-                // Event Info
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Text(event.title)
-                            .font(.title)
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                        
-                        if event.hostId == viewModel.authService.currentUser?.uid {
-                            Button(action: {
-                                showDeleteConfirmation = true
-                            }) {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
-                            }
-                            .confirmationDialog("Delete Event", isPresented: $showDeleteConfirmation) {
-                                Button("Delete", role: .destructive) {
-                                    Task {
-                                        await viewModel.deleteEvent(event)
-                                    }
+
+                        .overlay(
+
+                            LinearGradient(
+
+                                gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+
+                                startPoint: .top,
+
+                                endPoint: .bottom
+
+                            )
+
+                        )
+
+                        .overlay(
+
+                            VStack {
+
+                                Spacer()
+
+                                HStack {
+
+                                    Text(event.title)
+
+                                        .font(.title)
+
+                                        .fontWeight(.bold)
+
+                                        .foregroundColor(.white)
+
+                                    Spacer()
+
                                 }
+
+                                .padding()
+
                             }
-                        }
-                    }
+
+                        )
+
                     
+
+                    HStack(spacing: 16) {
+
+                        EventDetailPill(icon: "calendar", text: event.date.dateValue().formatted(date: .abbreviated, time: .omitted))
+
+                        EventDetailPill(icon: "clock", text: event.date.dateValue().formatted(date: .omitted, time: .shortened))
+
+                        EventDetailPill(icon: "person.2.fill", text: "\(event.participants.count)/\(event.maxParticipants)")
+
+                    }
+
+                    .padding(.horizontal)
+
+                }
+
+                
+
+                // Host section
+
+                HStack {
+
+                    Circle()
+
+                        .frame(width: 50, height: 50)
+
+                        .foregroundColor(Theme.accentOrange.opacity(0.3))
+
+                        .overlay(
+
+                            Text(authViewModel.currentUser?.initials ?? "H")
+
+                                .font(.headline)
+
+                                .foregroundColor(Theme.accentOrange)
+
+                        )
+
+                    
+
+                    VStack(alignment: .leading) {
+
+                        Text("Hosted by")
+
+                            .font(.caption)
+
+                            .foregroundColor(Theme.secondaryText)
+
+                        Text("Host Name") // Would fetch from user data in real app
+
+                            .font(.subheadline)
+
+                            .fontWeight(.medium)
+
+                            .foregroundColor(Theme.primaryText)
+
+                    }
+
+                    
+
+                    Spacer()
+
+                }
+
+                .padding(.horizontal)
+
+                
+
+                Divider()
+
+                    .background(Theme.cardBackground)
+
+                    .padding(.horizontal)
+
+                
+
+                // Event description
+
+                VStack(alignment: .leading, spacing: 8) {
+
+                    Text("About the Event")
+
+                        .font(.headline)
+
+                        .foregroundColor(Theme.primaryText)
+
+                    
+
                     Text(event.description)
+
                         .font(.body)
-                    
-                    Divider()
-                    
-                    // Date and Time
-                    VStack(alignment: .leading, spacing: 5) {
-                        Label("Event Date", systemImage: "calendar")
-                            .font(.headline)
-                        
-                        Text(event.date.dateValue().formatted(date: .complete, time: .shortened))
-                        
-                        if !event.isExpired {
-                            Label("Expires \(event.expiryStatus)", systemImage: "clock.badge.exclamationmark")
-                                .foregroundColor(.orange)
-                        }
-                    }
-                    
-                    Divider()
-                    
-                    // Location
-                    VStack(alignment: .leading, spacing: 5) {
-                        Label("Location", systemImage: "mappin.and.ellipse")
-                            .font(.headline)
-                        
-                        Text(event.location.name)
-                        Text(event.location.address)
-                        
-                        Map(coordinateRegion: $region, annotationItems: [event.location]) { location in
-                            MapMarker(coordinate: location.coordinate)
-                        }
-                        .frame(height: 200)
-                        .cornerRadius(10)
-                    }
-                    
-                    Divider()
-                    
-                    // Participants
-                    VStack(alignment: .leading, spacing: 5) {
-                        Label("Participants (\(event.participants.count)/\(event.maxParticipants))", systemImage: "person.2.fill")
-                            .font(.headline)
-                        
-                        if event.isFull {
-                            Text("Event is full")
-                                .foregroundColor(.red)
-                        } else if event.isExpired {
-                            Text("Event has expired")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    
-                    if event.isTournament, let prizePool = event.prizePool {
-                        Divider()
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Label("Prize Pool", systemImage: "trophy.fill")
-                                .font(.headline)
-                            
-                            Text(prizePool)
-                        }
-                    }
-                    
-                    if let rules = event.rules {
-                        Divider()
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Label("Rules", systemImage: "list.bullet.rectangle")
-                                .font(.headline)
-                            
-                            Text(rules)
-                        }
-                    }
-                    
-                    if let requirements = event.requirements {
-                        Divider()
-                        
-                        VStack(alignment: .leading, spacing: 5) {
-                            Label("Requirements", systemImage: "checklist")
-                                .font(.headline)
-                            
-                            Text(requirements)
-                        }
-                    }
+
+                        .foregroundColor(Theme.secondaryText)
+
                 }
-                .padding()
+
+                .padding(.horizontal)
+
                 
-                // Action Buttons
-                if !event.isExpired {
-                    VStack {
-                        if event.participants.contains(viewModel.authService.currentUser?.uid ?? "") {
-                            Button("Leave Event") {
-                                Task {
-                                    await viewModel.leaveEvent(event)
-                                }
-                            }
-                            .buttonStyle(BorderedButtonStyle())
-                            .tint(.red)
-                        } else if !event.isFull {
-                            Button("Join Event") {
-                                Task {
-                                    await viewModel.joinEvent(event)
-                                }
-                            }
-                            .buttonStyle(BorderedButtonStyle())
-                            .tint(Theme.accentOrange)
+
+                // Location map
+
+                VStack(alignment: .leading, spacing: 8) {
+
+                    Text("Location")
+
+                        .font(.headline)
+
+                        .foregroundColor(Theme.primaryText)
+
+                    
+
+                    Map(coordinateRegion: $region, annotationItems: [event]) { event in
+
+                        MapAnnotation(coordinate: event.location.coordinate) {
+
+                            MapPin()
+
                         }
+
                     }
-                    .padding()
+
+                    .frame(height: 200)
+
+                    .cornerRadius(12)
+
+                    .overlay(
+
+                        RoundedRectangle(cornerRadius: 12)
+
+                            .stroke(Theme.accentOrange.opacity(0.3), lineWidth: 1)
+
+                    )
+
+                    
+
+                    Text(event.location.name)
+
+                        .font(.subheadline)
+
+                        .foregroundColor(Theme.primaryText)
+
+                    
+
+                    Text(event.location.address)
+
+                        .font(.caption)
+
+                        .foregroundColor(Theme.secondaryText)
+
                 }
+
+                .padding(.horizontal)
+
+                
+
+                // Tournament details if applicable
+
+                if event.isTournament {
+
+                    VStack(alignment: .leading, spacing: 8) {
+
+                        Text("Tournament Details")
+
+                            .font(.headline)
+
+                            .foregroundColor(Theme.primaryText)
+
+                        
+
+                        if let prize = event.prizePool {
+
+                            HStack {
+
+                                Image(systemName: "trophy.fill")
+
+                                    .foregroundColor(Theme.accentOrange)
+
+                                Text("Prize Pool: \(prize)")
+
+                                    .font(.subheadline)
+
+                                    .foregroundColor(Theme.secondaryText)
+
+                            }
+
+                        }
+
+                        
+
+                        if let rules = event.rules {
+
+                            Text("Rules: \(rules)")
+
+                                .font(.subheadline)
+
+                                .foregroundColor(Theme.secondaryText)
+
+                        }
+
+                        
+
+                        if let requirements = event.requirements {
+
+                            Text("Requirements: \(requirements)")
+
+                                .font(.subheadline)
+
+                                .foregroundColor(Theme.secondaryText)
+
+                        }
+
+                    }
+
+                    .padding(.horizontal)
+
+                }
+
+                
+
+                // Join button
+
+                if !isUserParticipating {
+
+                    Button(action: joinEvent) {
+
+                        if isJoining {
+
+                            ProgressView()
+
+                                .tint(.white)
+
+                        } else {
+
+                            Text(event.isFull ? "Event Full" : "Join Event")
+
+                        }
+
+                    }
+
+                    .buttonStyle(PrimaryButtonStyle())
+
+                    .disabled(event.isFull || isJoining)
+
+                    .padding()
+
+                } else {
+
+                    VStack(spacing: 16) {
+
+                        Text("You're participating in this event")
+
+                            .font(.subheadline)
+
+                            .foregroundColor(Theme.accentOrange)
+
+                        
+
+                        Button(action: { showChat = true }) {
+
+                            Text("Open Event Chat")
+
+                        }
+
+                        .buttonStyle(SecondaryButtonStyle())
+
+                    }
+
+                    .frame(maxWidth: .infinity)
+
+                    .padding()
+
+                }
+
             }
+
+            .padding(.vertical)
+
         }
-        .navigationTitle("Event Details")
+
+        .background(Theme.background.ignoresSafeArea())
+
         .navigationBarTitleDisplayMode(.inline)
+
+        .sheet(isPresented: $showChat) {
+
+            NavigationStack {
+
+                EventChatView(event: event)
+
+                    .environmentObject(chatViewModel)
+
+            }
+
+        }
+
+        .onAppear {
+
+            if let userId = authViewModel.currentUser?.id {
+
+                if userId == event.hostId || event.participants.contains(userId) {
+
+                    isUserParticipating = true
+
+                }
+
+            }
+
+        }
+
     }
+
+    
+
+    func checkUserParticipation() {
+
+            if let userId = authViewModel.currentUser?.id {
+
+                isUserParticipating = localEvent.participants.contains(userId) || localEvent.hostId == userId
+
+            }
+
+        }
+
+    
+
+    func joinEvent() {
+
+        guard let userId = authViewModel.currentUser?.id,
+
+              let eventId = localEvent.id else { return }
+
+        
+
+        isJoining = true
+
+        
+
+        Task {
+
+            let eventRef = db.collection("events").document(eventId)
+
+            let userRef = db.collection("users").document(userId)
+
+            
+
+            do {
+
+                try await db.runTransaction { transaction, errorPointer in
+
+                    let eventDocument: DocumentSnapshot
+
+                    do {
+
+                        eventDocument = try transaction.getDocument(eventRef)
+
+                    } catch {
+
+                        errorPointer?.pointee = error as NSError
+
+                        return nil
+
+                    }
+
+                    
+
+                    guard var participants = eventDocument.data()?["participants"] as? [String] else {
+
+                        return nil
+
+                    }
+
+                    
+
+                    if !participants.contains(userId) {
+
+                        participants.append(userId)
+
+                        transaction.updateData(["participants": participants], forDocument: eventRef)
+
+                    }
+
+                    
+
+                    return nil
+
+                }
+
+                
+
+                // Tambahkan eventId ke joinedEvents user
+
+                try await userRef.updateData([
+
+                    "joinedEvents": FieldValue.arrayUnion([eventId])
+
+                ])
+
+                
+
+                // Update lokal state
+
+                isUserParticipating = true
+
+                localEvent.participants.append(userId)
+
+                
+
+            } catch {
+
+                print("Error joining event: \(error)")
+
+            }
+
+            
+
+            isJoining = false
+
+        }
+
+        
+
+        
+
+        
+
+    }
+
 }
+
+    
+
+    struct EventDetailPill: View {
+
+        let icon: String
+
+        let text: String
+
+        
+
+        var body: some View {
+
+            HStack(spacing: 4) {
+
+                Image(systemName: icon)
+
+                    .font(.caption)
+
+                Text(text)
+
+                    .font(.caption)
+
+            }
+
+            .padding(.horizontal, 10)
+
+            .padding(.vertical, 6)
+
+            .background(Theme.cardBackground)
+
+            .cornerRadius(20)
+
+        }
+
+    }
+
+    
+
+    struct PrimaryButtonStyle: ButtonStyle {
+
+        func makeBody(configuration: Configuration) -> some View {
+
+            configuration.label
+
+                .frame(maxWidth: .infinity)
+
+                .padding()
+
+                .background(Theme.accentOrange)
+
+                .foregroundColor(.white)
+
+                .font(.headline)
+
+                .cornerRadius(10)
+
+                .scaleEffect(configuration.isPressed ? 0.95 : 1)
+
+                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+
+        }
+
+    }
+
+    
+
+    struct SecondaryButtonStyle: ButtonStyle {
+
+        func makeBody(configuration: Configuration) -> some View {
+
+            configuration.label
+
+                .frame(maxWidth: .infinity)
+
+                .padding()
+
+                .background(Theme.cardBackground)
+
+                .foregroundColor(Theme.accentOrange)
+
+                .font(.headline)
+
+                .cornerRadius(10)
+
+                .overlay(
+
+                    RoundedRectangle(cornerRadius: 10)
+
+                        .stroke(Theme.accentOrange, lineWidth: 1)
+
+                )
+
+                .scaleEffect(configuration.isPressed ? 0.95 : 1)
+
+                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+
+        }
+
+    }
+
+    
+
