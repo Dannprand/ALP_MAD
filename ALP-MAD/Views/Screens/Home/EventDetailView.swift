@@ -568,10 +568,10 @@ struct EventDetailView: View {
                         // Convert [Event] → [EventWatch]
                         let watchEvents: [EventWatch] = events.map { event in
                             return EventWatch(
-                                id: event.id,
-                                title: event.title,
-                                date: event.date
-                            )
+                                           id: event.id ?? "Untitled",
+                                           title: event.title ?? "Untitled", // safely unwrap optional String
+                                           date: event.date.dateValue()      // convert Timestamp → Date
+                                       )
                         }
 
                         WCSessionManager.shared.sendJoinedEventsToWatch(events: watchEvents)
