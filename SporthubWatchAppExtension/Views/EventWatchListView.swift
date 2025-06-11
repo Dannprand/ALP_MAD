@@ -11,18 +11,20 @@ struct EventWatchListView: View {
     @StateObject private var viewModel = EventWatchViewModel()
 
     var body: some View {
-        List(viewModel.events) { event in
+        List(viewModel.joinedEvents) { event in
             NavigationLink(destination: EventWatchDetailView(event: event)) {
                 VStack(alignment: .leading) {
                     Text(event.title)
                         .font(.headline)
-                    Text(event.date, style: .time)
+                    Text(event.date, style: .date)
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
             }
         }
-        .navigationTitle("Events")
+        .navigationTitle("My Events")
     }
 }
+
+
 

@@ -121,7 +121,9 @@ class EventService {
                 transaction.updateData(["participants": participants], forDocument: eventRef)
             }
             
+            
             return nil
+            
         }) { (_, error) in
             if let error = error {
                 completion(.failure(error))
@@ -130,6 +132,30 @@ class EventService {
             }
         }
     }
+    
+    func fetchJoinedEvents(for userId: String, completion: @escaping ([Event]) -> Void) {
+        eventsCollection
+            .whereField("participants", arrayContains: userId)
+            .whereField("expiryDate", isGreaterThan: Timestamp(date: Date()))
+            .order(by: "expiryDate")
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Failed to fetch joined events: \(error.localizedDescription)")
+                    completion([])
+                    return
+                }
+
+                guard let documents = snapshot?.documents else {
+                    completion([])
+                    return
+                }
+
+                let events = documents.compactMap { Event(document: $0) }
+                completion(events)
+            }
+    }
+
+    
     
     func leaveEvent(eventId: String, userId: String, completion: @escaping (Result<Void, Error>) -> Void) {
         let eventRef = eventsCollection.document(eventId)

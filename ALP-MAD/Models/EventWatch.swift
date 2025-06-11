@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct EventWatch: Codable {
+    var id: String
+    var title: String
+    var date: Date
+}
+

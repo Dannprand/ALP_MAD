@@ -6,18 +6,29 @@
 //
 
 import Foundation
+import Combine
+import WatchConnectivity
 
 class EventWatchViewModel: ObservableObject {
-    @Published var events: [EventWatch] = []
+    @Published var joinedEvents: [EventWatch] = []
 
     init() {
-        loadMockEvents()
-    }
+        NotificationCenter.default.addObserver(
+            forName: .didReceiveEvents,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let events = notification.object as? [EventWatch] {
+                self?.joinedEvents = events
+            }
+        }
 
-    func loadMockEvents() {
-        self.events = [
-            EventWatch(id: "1", title: "Futsal Match", date: Date()),
-            EventWatch(id: "2", title: "Badminton Game", date: Date().addingTimeInterval(3600))
-        ]
+        WCSessionManagerWatch.shared.activateSession()
     }
 }
+
+extension Notification.Name {
+    static let didReceiveEvents = Notification.Name("didReceiveEvents")
+}
+
+

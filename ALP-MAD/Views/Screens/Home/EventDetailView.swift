@@ -10,15 +10,10 @@
 
 //
 
-
-
-import SwiftUI
-
-import MapKit
-
+import FirebaseAuth
 import FirebaseFirestore
-
-
+import MapKit
+import SwiftUI
 
 struct EventDetailView: View {
 
@@ -27,8 +22,6 @@ struct EventDetailView: View {
     @ObservedObject var eventViewModel: EventViewModel
 
     @StateObject var chatViewModel = ChatViewModel()
-
-    
 
     let event: Event
 
@@ -42,11 +35,7 @@ struct EventDetailView: View {
 
     @State private var localEvent: Event
 
-    
-
     private let db = Firestore.firestore()
-
-    
 
     init(event: Event) {
 
@@ -58,8 +47,6 @@ struct EventDetailView: View {
 
         self._isUserParticipating = State(initialValue: false)
 
-
-
         let center = CLLocationCoordinate2D(
 
             latitude: event.location.latitude,
@@ -70,17 +57,11 @@ struct EventDetailView: View {
 
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
 
-        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
+        self._region = State(
+            initialValue: MKCoordinateRegion(center: center, span: span)
+        )
 
     }
-
-
-
-    
-
-    
-
-    
 
     //    @EnvironmentObject var authViewModel: AuthViewModel
 
@@ -136,8 +117,6 @@ struct EventDetailView: View {
 
     //    }
 
-    
-
     var body: some View {
 
         ScrollView {
@@ -162,7 +141,9 @@ struct EventDetailView: View {
 
                             LinearGradient(
 
-                                gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+                                gradient: Gradient(colors: [
+                                    .clear, .black.opacity(0.7),
+                                ]),
 
                                 startPoint: .top,
 
@@ -198,23 +179,35 @@ struct EventDetailView: View {
 
                         )
 
-                    
-
                     HStack(spacing: 16) {
 
-                        EventDetailPill(icon: "calendar", text: event.date.dateValue().formatted(date: .abbreviated, time: .omitted))
+                        EventDetailPill(
+                            icon: "calendar",
+                            text: event.date.dateValue().formatted(
+                                date: .abbreviated,
+                                time: .omitted
+                            )
+                        )
 
-                        EventDetailPill(icon: "clock", text: event.date.dateValue().formatted(date: .omitted, time: .shortened))
+                        EventDetailPill(
+                            icon: "clock",
+                            text: event.date.dateValue().formatted(
+                                date: .omitted,
+                                time: .shortened
+                            )
+                        )
 
-                        EventDetailPill(icon: "person.2.fill", text: "\(event.participants.count)/\(event.maxParticipants)")
+                        EventDetailPill(
+                            icon: "person.2.fill",
+                            text:
+                                "\(event.participants.count)/\(event.maxParticipants)"
+                        )
 
                     }
 
                     .padding(.horizontal)
 
                 }
-
-                
 
                 // Host section
 
@@ -236,8 +229,6 @@ struct EventDetailView: View {
 
                         )
 
-                    
-
                     VStack(alignment: .leading) {
 
                         Text("Hosted by")
@@ -246,7 +237,7 @@ struct EventDetailView: View {
 
                             .foregroundColor(Theme.secondaryText)
 
-                        Text("Host Name") // Would fetch from user data in real app
+                        Text("Host Name")  // Would fetch from user data in real app
 
                             .font(.subheadline)
 
@@ -256,23 +247,17 @@ struct EventDetailView: View {
 
                     }
 
-                    
-
                     Spacer()
 
                 }
 
                 .padding(.horizontal)
 
-                
-
                 Divider()
 
                     .background(Theme.cardBackground)
 
                     .padding(.horizontal)
-
-                
 
                 // Event description
 
@@ -284,8 +269,6 @@ struct EventDetailView: View {
 
                         .foregroundColor(Theme.primaryText)
 
-                    
-
                     Text(event.description)
 
                         .font(.body)
@@ -295,8 +278,6 @@ struct EventDetailView: View {
                 }
 
                 .padding(.horizontal)
-
-                
 
                 // Location map
 
@@ -308,9 +289,8 @@ struct EventDetailView: View {
 
                         .foregroundColor(Theme.primaryText)
 
-                    
-
-                    Map(coordinateRegion: $region, annotationItems: [event]) { event in
+                    Map(coordinateRegion: $region, annotationItems: [event]) {
+                        event in
 
                         MapAnnotation(coordinate: event.location.coordinate) {
 
@@ -328,19 +308,18 @@ struct EventDetailView: View {
 
                         RoundedRectangle(cornerRadius: 12)
 
-                            .stroke(Theme.accentOrange.opacity(0.3), lineWidth: 1)
+                            .stroke(
+                                Theme.accentOrange.opacity(0.3),
+                                lineWidth: 1
+                            )
 
                     )
-
-                    
 
                     Text(event.location.name)
 
                         .font(.subheadline)
 
                         .foregroundColor(Theme.primaryText)
-
-                    
 
                     Text(event.location.address)
 
@@ -351,8 +330,6 @@ struct EventDetailView: View {
                 }
 
                 .padding(.horizontal)
-
-                
 
                 // Tournament details if applicable
 
@@ -365,8 +342,6 @@ struct EventDetailView: View {
                             .font(.headline)
 
                             .foregroundColor(Theme.primaryText)
-
-                        
 
                         if let prize = event.prizePool {
 
@@ -386,8 +361,6 @@ struct EventDetailView: View {
 
                         }
 
-                        
-
                         if let rules = event.rules {
 
                             Text("Rules: \(rules)")
@@ -397,8 +370,6 @@ struct EventDetailView: View {
                                 .foregroundColor(Theme.secondaryText)
 
                         }
-
-                        
 
                         if let requirements = event.requirements {
 
@@ -415,8 +386,6 @@ struct EventDetailView: View {
                     .padding(.horizontal)
 
                 }
-
-                
 
                 // Join button
 
@@ -453,8 +422,6 @@ struct EventDetailView: View {
                             .font(.subheadline)
 
                             .foregroundColor(Theme.accentOrange)
-
-                        
 
                         Button(action: { showChat = true }) {
 
@@ -498,7 +465,8 @@ struct EventDetailView: View {
 
             if let userId = authViewModel.currentUser?.id {
 
-                if userId == event.hostId || event.participants.contains(userId) {
+                if userId == event.hostId || event.participants.contains(userId)
+                {
 
                     isUserParticipating = true
 
@@ -510,39 +478,32 @@ struct EventDetailView: View {
 
     }
 
-    
-
     func checkUserParticipation() {
 
-            if let userId = authViewModel.currentUser?.id {
+        if let userId = authViewModel.currentUser?.id {
 
-                isUserParticipating = localEvent.participants.contains(userId) || localEvent.hostId == userId
-
-            }
+            isUserParticipating =
+                localEvent.participants.contains(userId)
+                || localEvent.hostId == userId
 
         }
 
-    
+    }
 
     func joinEvent() {
 
         guard let userId = authViewModel.currentUser?.id,
 
-              let eventId = localEvent.id else { return }
-
-        
+            let eventId = localEvent.id
+        else { return }
 
         isJoining = true
-
-        
 
         Task {
 
             let eventRef = db.collection("events").document(eventId)
 
             let userRef = db.collection("users").document(userId)
-
-            
 
             do {
 
@@ -562,31 +523,29 @@ struct EventDetailView: View {
 
                     }
 
-                    
-
-                    guard var participants = eventDocument.data()?["participants"] as? [String] else {
+                    guard
+                        var participants = eventDocument.data()?["participants"]
+                            as? [String]
+                    else {
 
                         return nil
 
                     }
 
-                    
-
                     if !participants.contains(userId) {
 
                         participants.append(userId)
 
-                        transaction.updateData(["participants": participants], forDocument: eventRef)
+                        transaction.updateData(
+                            ["participants": participants],
+                            forDocument: eventRef
+                        )
 
                     }
-
-                    
 
                     return nil
 
                 }
-
-                
 
                 // Tambahkan eventId ke joinedEvents user
 
@@ -596,15 +555,20 @@ struct EventDetailView: View {
 
                 ])
 
-                
-
                 // Update lokal state
 
                 isUserParticipating = true
 
                 localEvent.participants.append(userId)
 
-                
+                // ✅ Sync with Apple Watch
+                if let userId = Auth.auth().currentUser?.uid {
+                    EventService().fetchJoinedEvents(for: userId) { events in
+                        WCSessionManager.shared.sendJoinedEventsToWatch(
+                            events: events
+                        )
+                    }
+                }
 
             } catch {
 
@@ -612,121 +576,103 @@ struct EventDetailView: View {
 
             }
 
-            
-
             isJoining = false
 
         }
-
-        
-
-        
-
-        
 
     }
 
 }
 
-    
+struct EventDetailPill: View {
 
-    struct EventDetailPill: View {
+    let icon: String
 
-        let icon: String
+    let text: String
 
-        let text: String
+    var body: some View {
 
-        
+        HStack(spacing: 4) {
 
-        var body: some View {
+            Image(systemName: icon)
 
-            HStack(spacing: 4) {
+                .font(.caption)
 
-                Image(systemName: icon)
+            Text(text)
 
-                    .font(.caption)
+                .font(.caption)
 
-                Text(text)
+        }
 
-                    .font(.caption)
+        .padding(.horizontal, 10)
 
-            }
+        .padding(.vertical, 6)
 
-            .padding(.horizontal, 10)
+        .background(Theme.cardBackground)
 
-            .padding(.vertical, 6)
+        .cornerRadius(20)
+
+    }
+
+}
+
+struct PrimaryButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+
+        configuration.label
+
+            .frame(maxWidth: .infinity)
+
+            .padding()
+
+            .background(Theme.accentOrange)
+
+            .foregroundColor(.white)
+
+            .font(.headline)
+
+            .cornerRadius(10)
+
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+
+    }
+
+}
+
+struct SecondaryButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+
+        configuration.label
+
+            .frame(maxWidth: .infinity)
+
+            .padding()
 
             .background(Theme.cardBackground)
 
-            .cornerRadius(20)
+            .foregroundColor(Theme.accentOrange)
 
-        }
+            .font(.headline)
 
-    }
+            .cornerRadius(10)
 
-    
+            .overlay(
 
-    struct PrimaryButtonStyle: ButtonStyle {
+                RoundedRectangle(cornerRadius: 10)
 
-        func makeBody(configuration: Configuration) -> some View {
+                    .stroke(Theme.accentOrange, lineWidth: 1)
 
-            configuration.label
+            )
 
-                .frame(maxWidth: .infinity)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
 
-                .padding()
-
-                .background(Theme.accentOrange)
-
-                .foregroundColor(.white)
-
-                .font(.headline)
-
-                .cornerRadius(10)
-
-                .scaleEffect(configuration.isPressed ? 0.95 : 1)
-
-                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-
-        }
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
 
     }
 
-    
-
-    struct SecondaryButtonStyle: ButtonStyle {
-
-        func makeBody(configuration: Configuration) -> some View {
-
-            configuration.label
-
-                .frame(maxWidth: .infinity)
-
-                .padding()
-
-                .background(Theme.cardBackground)
-
-                .foregroundColor(Theme.accentOrange)
-
-                .font(.headline)
-
-                .cornerRadius(10)
-
-                .overlay(
-
-                    RoundedRectangle(cornerRadius: 10)
-
-                        .stroke(Theme.accentOrange, lineWidth: 1)
-
-                )
-
-                .scaleEffect(configuration.isPressed ? 0.95 : 1)
-
-                .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
-
-        }
-
-    }
-
-    
+}
 
