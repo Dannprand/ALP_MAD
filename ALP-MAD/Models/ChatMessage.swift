@@ -5,23 +5,6 @@
 //  Created by student on 22/05/25.
 //
 
-//import FirebaseFirestoreSwift
-//
-//struct ChatMessage: Identifiable, Codable {
-//    @DocumentID var id: String?
-//    let senderId: String
-//    let senderName: String
-//    let text: String
-//    let timestamp: Timestamp
-//    let eventId: String
-//    
-//    var timeString: String {
-//        let formatter = DateFormatter()
-//        formatter.timeStyle = .short
-//        return formatter.string(from: timestamp.dateValue())
-//    }
-//}
-
 import FirebaseFirestore
 
 struct ChatMessage: Identifiable, Codable, Equatable {
@@ -31,6 +14,10 @@ struct ChatMessage: Identifiable, Codable, Equatable {
     let text: String
     let timestamp: Timestamp
     let eventId: String
+    
+    var isEventChat: Bool {
+            eventId.starts(with: "event_")
+        }
 
     // Custom initializer for manual creation
     init(
