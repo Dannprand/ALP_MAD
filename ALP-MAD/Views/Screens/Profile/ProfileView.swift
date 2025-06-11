@@ -83,15 +83,6 @@ struct ProfileView: View {
                                     .foregroundColor(Theme.secondaryText)
                             }
 
-                            VStack {
-                                Text("\(user.tokens)")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Theme.accentOrange)
-                                Text("Tokens")
-                                    .font(.caption)
-                                    .foregroundColor(Theme.secondaryText)
-                            }
                         }
                         .padding(.top, 8)
                     }
