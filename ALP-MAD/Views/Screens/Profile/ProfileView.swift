@@ -113,13 +113,13 @@ struct ProfileView: View {
                         Text("Edit Profile")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
 
                     Button(action: { showSettings = true }) {
                         Image(systemName: "gearshape.fill")
                             .frame(width: 20, height: 20)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
                     .frame(width: 50)
                 }
                 .padding(.horizontal)
@@ -246,7 +246,7 @@ struct ProfileView: View {
                     Text("Sign Out")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(SecondaryButtonStyle())
+//                .buttonStyle(SecondaryButtonStyle())
                 .padding()
             }
             .padding(.bottom)
@@ -344,7 +344,7 @@ struct EditProfileView: View {
                                     .fontWeight(.semibold)
                             }
                         }
-                        .buttonStyle(PrimaryButtonStyle())
+//                        .buttonStyle(PrimaryButtonStyle())
                         .disabled(fullname.isEmpty || isSaving)
                         .padding(.top, 20)
                         .padding(.horizontal)

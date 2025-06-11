@@ -25,191 +25,191 @@ class EventViewModel: ObservableObject {
     @Published var showError = false
     @Published var error: Error?
     @Published var selectedCategory: SportCategory? {
-
+        
         didSet {
-
+            
             Task {
-
+                
                 await fetchEvents()
-
+                
             }
-
+            
         }
-
+        
     }
     
-
+    
     private let locationManager = LocationManager()
-
+    
     private var db = Firestore.firestore()
     init(db: Firestore = Firestore.firestore()) {
         self.db = db
     }
     
-
+    
     @MainActor
-
+    
     func fetchEvents() async {
-
-            isLoading = true
-
-            do {
-
-                let snapshot = try await db.collection("events")
-
-                    .whereField("date", isGreaterThan: Timestamp(date: Date()))
-                    .whereField("isEnded", isEqualTo: false) // Add this line
-                    .order(by: "date")
-
-                    .limit(to: 20)
-
-                    .getDocuments()
-
-                
-
-                let allEvents = snapshot.documents.compactMap { Event(document: $0) }
-
-
-
-                // Filter by selected category if any
-
-                let filteredEvents = selectedCategory == nil ?
-
-                    allEvents :
-
-                    allEvents.filter { $0.sport == selectedCategory }
-
-
-
-                featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date.dateValue() < $1.date.dateValue() }
-
-                popularEvents = filteredEvents.sorted { $0.participants.count > $1.participants.count }
-
-                
-
-                if let userLocation = locationManager.lastLocation {
-
-                    nearbyEvents = filteredEvents.sorted {
-
-                        let loc1 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
-
-                        let loc2 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
-
-                        return userLocation.distance(from: loc1) < userLocation.distance(from: loc2)
-
-                    }
-
-                } else {
-
-                    nearbyEvents = filteredEvents
-
-                }
-
-                
-
-                isLoading = false
-
-            } catch {
-
-                self.error = error
-
-                showError = true
-
-                isLoading = false
-
-            }
-
-        }
-
-    func joinEvent(_ event: Event, userId: String) async -> Bool {
-
+        
+        isLoading = true
+        
         do {
-
-            let eventRef = db.collection("events").document(event.id ?? "")
-
             
-//            try await db.collection("events").document(eventId).updateData([
-//                "participants": FieldValue.arrayUnion([userId])
-//            ])
-
-            try await db.runTransaction { transaction, errorPointer in
-
-                let eventDocument: DocumentSnapshot
-
-                do {
-
-                    try eventDocument = transaction.getDocument(eventRef)
-
-                } catch {
-
-                    errorPointer?.pointee = error as NSError
-
-                    return nil
-
-                }
-
+            let snapshot = try await db.collection("events")
+            
+                .whereField("date", isGreaterThan: Timestamp(date: Date()))
+                .whereField("isEnded", isEqualTo: false) // Add this line
+                .order(by: "date")
+            
+                .limit(to: 20)
+            
+                .getDocuments()
+            
+            
+            
+            let allEvents = snapshot.documents.compactMap { Event(document: $0) }
+            
+            
+            
+            // Filter by selected category if any
+            
+            let filteredEvents = selectedCategory == nil ?
+            
+            allEvents :
+            
+            allEvents.filter { $0.sport == selectedCategory }
+            
+            
+            
+            featuredEvents = filteredEvents.filter { $0.isFeatured }.sorted { $0.date.dateValue() < $1.date.dateValue() }
+            
+            popularEvents = filteredEvents.sorted { $0.participants.count > $1.participants.count }
+            
+            
+            
+            if let userLocation = locationManager.lastLocation {
                 
-
-                guard var participants = eventDocument.data()?["participants"] as? [String] else {
-
-                    return nil
-
+                nearbyEvents = filteredEvents.sorted {
+                    
+                    let loc1 = CLLocation(latitude: $0.location.latitude, longitude: $0.location.longitude)
+                    
+                    let loc2 = CLLocation(latitude: $1.location.latitude, longitude: $1.location.longitude)
+                    
+                    return userLocation.distance(from: loc1) < userLocation.distance(from: loc2)
+                    
                 }
-
                 
-
-                if !participants.contains(userId) {
-
-                    participants.append(userId)
-
-                    transaction.updateData(["participants": participants], forDocument: eventRef)
-
-                }
-
+            } else {
                 
-
-                return nil
-
+                nearbyEvents = filteredEvents
+                
             }
-
             
-
-            // Also add to user's joined events
-
-            try await db.collection("users").document(userId).updateData([
-
-                "joinedEvents": FieldValue.arrayUnion([event.id ?? ""])
-
-            ])
-
             
-
-            return true
-
+            
+            isLoading = false
+            
         } catch {
-
-            print("Error joining event: \(error)")
-
-            return false
-
+            
+            self.error = error
+            
+            showError = true
+            
+            isLoading = false
+            
         }
-
+        
     }
-
     
-
+    func joinEvent(_ event: Event, userId: String) async -> Bool {
+        
+        do {
+            
+            let eventRef = db.collection("events").document(event.id ?? "")
+            
+            
+            //            try await db.collection("events").document(eventId).updateData([
+            //                "participants": FieldValue.arrayUnion([userId])
+            //            ])
+            
+            try await db.runTransaction { transaction, errorPointer in
+                
+                let eventDocument: DocumentSnapshot
+                
+                do {
+                    
+                    try eventDocument = transaction.getDocument(eventRef)
+                    
+                } catch {
+                    
+                    errorPointer?.pointee = error as NSError
+                    
+                    return nil
+                    
+                }
+                
+                
+                
+                guard var participants = eventDocument.data()?["participants"] as? [String] else {
+                    
+                    return nil
+                    
+                }
+                
+                
+                
+                if !participants.contains(userId) {
+                    
+                    participants.append(userId)
+                    
+                    transaction.updateData(["participants": participants], forDocument: eventRef)
+                    
+                }
+                
+                
+                
+                return nil
+                
+            }
+            
+            
+            
+            // Also add to user's joined events
+            
+            try await db.collection("users").document(userId).updateData([
+                
+                "joinedEvents": FieldValue.arrayUnion([event.id ?? ""])
+                
+            ])
+            
+            
+            
+            return true
+            
+        } catch {
+            
+            print("Error joining event: \(error)")
+            
+            return false
+            
+        }
+        
+    }
+    
+    
+    
     func requestUserLocation() {
-
+        
         locationManager.requestLocation()
-
+        
     }
-
     
-
+    
+    
     var lastKnownLocation: CLLocation? {
-
+        
         locationManager.lastLocation
-
+        
     }
     
     func fetchUserEvents(userId: String, completion: @escaping ([Event]) -> Void) {
@@ -221,12 +221,12 @@ class EventViewModel: ObservableObject {
                     completion([])
                     return
                 }
-
+                
                 guard let documents = snapshot?.documents else {
                     completion([])
                     return
                 }
-
+                
                 let events = documents.compactMap { Event(document: $0) }
                 completion(events)
             }
@@ -255,5 +255,5 @@ class EventViewModel: ObservableObject {
             }
         }
     }
-
+    
 }

@@ -51,6 +51,16 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47F55A272DFA32A600A8F440 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -75,12 +85,20 @@
 			);
 			target = 3F512E472DDEBB520077CDB4 /* ALP-MADUITests */;
 		};
+		47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3F512E302DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */,
 				3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */,
 				3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */,
 			);
@@ -95,6 +113,11 @@
 		3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "ALP-MADUITests";
+			sourceTree = "<group>";
+		};
+		47F55A082DFA329800A8F440 /* SporthubWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SporthubWatch Watch App";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -142,6 +165,7 @@
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
 				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */,
+				47F55A082DFA329800A8F440 /* SporthubWatch Watch App */,
 				3F512E2F2DDEBB500077CDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -242,6 +266,7 @@
 				47DE003F2DF9EF2100E666AD /* Sources */,
 				47DE00402DF9EF2100E666AD /* Frameworks */,
 				47DE00412DF9EF2100E666AD /* Resources */,
+				47F55A272DFA32A600A8F440 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
