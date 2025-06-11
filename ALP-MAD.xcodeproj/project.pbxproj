@@ -12,6 +12,7 @@
 		3F21B6ED2DE03ADC008BACCB /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EC2DE03ADC008BACCB /* FirebaseDatabase */; };
 		3F21B6EF2DE03ADC008BACCB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EE2DE03ADC008BACCB /* FirebaseFirestore */; };
 		3F21B6F12DE03ADC008BACCB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6F02DE03ADC008BACCB /* FirebaseStorage */; };
+		47DE004D2DF9EF2200E666AD /* SportHubWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,12 +30,34 @@
 			remoteGlobalIDString = 3F512E2D2DDEBB500077CDB4;
 			remoteInfo = "ALP-MAD";
 		};
+		47DE004B2DF9EF2200E666AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47DE00422DF9EF2100E666AD;
+			remoteInfo = "SportHubWatch Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		47DE004E2DF9EF2200E666AD /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				47DE004D2DF9EF2200E666AD /* SportHubWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3F512E2E2DDEBB500077CDB4 /* ALP-MAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ALP-MAD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SportHubWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -74,6 +97,11 @@
 			path = "ALP-MADUITests";
 			sourceTree = "<group>";
 		};
+		47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SportHubWatch Watch App";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +131,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47DE00402DF9EF2100E666AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -112,6 +147,7 @@
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
 				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */,
+				47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */,
 				3F512E2F2DDEBB500077CDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,6 +158,7 @@
 				3F512E2E2DDEBB500077CDB4 /* ALP-MAD.app */,
 				3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */,
 				3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */,
+				47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,10 +173,12 @@
 				3F512E2A2DDEBB500077CDB4 /* Sources */,
 				3F512E2B2DDEBB500077CDB4 /* Frameworks */,
 				3F512E2C2DDEBB500077CDB4 /* Resources */,
+				47DE004E2DF9EF2200E666AD /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				47DE004C2DF9EF2200E666AD /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
@@ -202,6 +241,28 @@
 			productReference = 3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		47DE00422DF9EF2100E666AD /* SportHubWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47DE00512DF9EF2200E666AD /* Build configuration list for PBXNativeTarget "SportHubWatch Watch App" */;
+			buildPhases = (
+				47DE003F2DF9EF2100E666AD /* Sources */,
+				47DE00402DF9EF2100E666AD /* Frameworks */,
+				47DE00412DF9EF2100E666AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */,
+			);
+			name = "SportHubWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "SportHubWatch Watch App";
+			productReference = 47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -209,7 +270,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					3F512E2D2DDEBB500077CDB4 = {
@@ -222,6 +283,9 @@
 					3F512E472DDEBB520077CDB4 = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 3F512E2D2DDEBB500077CDB4;
+					};
+					47DE00422DF9EF2100E666AD = {
+						CreatedOnToolsVersion = 16.4;
 					};
 				};
 			};
@@ -245,6 +309,7 @@
 				3F512E2D2DDEBB500077CDB4 /* ALP-MAD */,
 				3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E472DDEBB520077CDB4 /* ALP-MADUITests */,
+				47DE00422DF9EF2100E666AD /* SportHubWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -265,6 +330,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3F512E462DDEBB520077CDB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47DE00412DF9EF2100E666AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -295,6 +367,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47DE003F2DF9EF2100E666AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -307,6 +386,11 @@
 			isa = PBXTargetDependency;
 			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
 			targetProxy = 3F512E492DDEBB520077CDB4 /* PBXContainerItemProxy */;
+		};
+		47DE004C2DF9EF2200E666AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 47DE00422DF9EF2100E666AD /* SportHubWatch Watch App */;
+			targetProxy = 47DE004B2DF9EF2200E666AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -556,6 +640,62 @@
 			};
 			name = Release;
 		};
+		47DE004F2DF9EF2200E666AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SportHubWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "q.ALP-MAD";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		47DE00502DF9EF2200E666AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SportHubWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "q.ALP-MAD";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -591,6 +731,15 @@
 			buildConfigurations = (
 				3F512E592DDEBB520077CDB4 /* Debug */,
 				3F512E5A2DDEBB520077CDB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47DE00512DF9EF2200E666AD /* Build configuration list for PBXNativeTarget "SportHubWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47DE004F2DF9EF2200E666AD /* Debug */,
+				47DE00502DF9EF2200E666AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
