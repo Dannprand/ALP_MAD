@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct MACApp: App {
+    @StateObject private var router = AppRouter()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppRouter.initialView()
+                .environmentObject(router)
         }
     }
 }
