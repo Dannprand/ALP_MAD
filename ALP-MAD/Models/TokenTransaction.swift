@@ -7,11 +7,4 @@
 
 import Foundation
 
-struct TokenTransaction: Identifiable, Codable {
-    var id: String
-    var userId: String
-    var rewardId: String
-    var rewardName: String
-    var tokenAmount: Int
-    var date: Date
-}
+
