@@ -72,22 +72,22 @@ struct ExploreView: View {
                                 
                                 Spacer()
                                 
-                                // Follow / Unfollow Button
-                                if let currentUserId = authViewModel.currentUser?.id,
-                                   user.id != currentUserId {
-                                    Button {
-                                        exploreVM.toggleFollow(userId: user.id, currentUserId: currentUserId)
-                                    } label: {
-                                        Text(exploreVM.followingIds.contains(user.id) ? "Unfollow" : "Follow")
-                                            .fontWeight(.semibold)
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 8)
-                                            .background(exploreVM.followingIds.contains(user.id) ? Color.gray : Theme.accentOrange)
-                                            .foregroundColor(.white)
-                                            .cornerRadius(20)
-                                    }
-                                    .buttonStyle(PlainButtonStyle())
-                                }
+//                                // Follow / Unfollow Button
+//                                if let currentUserId = authViewModel.currentUser?.id,
+//                                   user.id != currentUserId {
+//                                    Button {
+//                                        exploreVM.toggleFollow(currentUser: currentUser, targetUser: user)
+//                                    } label: {
+//                                        Text(exploreVM.followingIds.contains(user.id) ? "Unfollow" : "Follow")
+//                                            .fontWeight(.semibold)
+//                                            .padding(.horizontal, 16)
+//                                            .padding(.vertical, 8)
+//                                            .background(exploreVM.followingIds.contains(user.id) ? Color.gray : Theme.accentOrange)
+//                                            .foregroundColor(.white)
+//                                            .cornerRadius(20)
+//                                    }
+//                                    .buttonStyle(PlainButtonStyle())
+//                                }
                             }
                             .padding()
                             .background(
