@@ -13,8 +13,13 @@ class ProfileViewModel: ObservableObject {
     @Published var hostedEvents: [Event]? = []
     @Published var joinedEvents: [Event]? = []
     
+    private var db = Firestore.firestore()
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
+    
     func fetchUserEvents(userId: String) async {
-        let db = Firestore.firestore()
+//        let db = Firestore.firestore()
 
         do {
             // Fetch hosted events

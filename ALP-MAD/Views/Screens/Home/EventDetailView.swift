@@ -13,6 +13,7 @@ struct EventDetailView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @ObservedObject var eventViewModel: EventViewModel
     @StateObject var chatViewModel = ChatViewModel()
+    @Environment(\.dismiss) var dismiss
     
     let event: Event
     @State private var region: MKCoordinateRegion
@@ -22,6 +23,7 @@ struct EventDetailView: View {
     @State private var localEvent: Event
     
     @State private var isCurrentUserHost: Bool = false
+    @State private var showEndEventConfirmation = false
 
 //    @State private var hostName: String = "Loading..."
     
@@ -212,21 +214,60 @@ struct EventDetailView: View {
             .padding(.vertical)
             
             // MARK: Host-only End Event button
-            if isCurrentUserHost {
-                Button("End Event") {
-                    eventViewModel.endEvent(event: event) { result in
-                        switch result {
-                        case .success():
-                            print("Event successfully ended")
-                            // Optionally update UI or navigate away
-                        case .failure(let error):
-                            print("Error ending event: \(error)")
+            // In EventDetailView.swift
+            // In EventDetailView.swift - replace the current "End Event" button section with this:
+            if isCurrentUserHost && !localEvent.isEnded {
+                Button(action: {
+                    showEndEventConfirmation = true
+                }) {
+                    Text("End Event")
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(12)
+                        .padding()
+                }
+                .confirmationDialog(
+                    "End Event",
+                    isPresented: $showEndEventConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("End Event", role: .destructive) {
+                        eventViewModel.endEvent(event: localEvent) { result in
+                            switch result {
+                            case .success():
+                                print("Event successfully ended")
+                                // Update local state to reflect the event has ended
+                                localEvent.isEnded = true
+                            case .failure(let error):
+                                print("Error ending event: \(error)")
+                                // You might want to show an error alert here
+                            }
                         }
                     }
-//                    migrateOldEventsToAddIsEnded()
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("Are you sure you want to end this event? This cannot be undone.")
                 }
-
-//                Button(action: endEvent) {
+                .transition(.move(edge: .bottom))
+                .animation(.easeInOut, value: isCurrentUserHost)
+            }
+//            if isCurrentUserHost && !localEvent.isEnded {
+//                Button(action: {
+//                    eventViewModel.endEvent(event: localEvent) { result in
+//                        switch result {
+//                        case .success():
+//                            print("Event successfully ended")
+//                            // You might want to dismiss the view or show a confirmation
+//                        case .failure(let error):
+//                            print("Error ending event: \(error)")
+//                            // Show error to user
+//                        }
+//                    }
+//                }) {
+////                    showEndEventConfirmation = true
 //                    Text("End Event")
 //                        .fontWeight(.bold)
 //                        .foregroundColor(.white)
@@ -236,9 +277,19 @@ struct EventDetailView: View {
 //                        .cornerRadius(12)
 //                        .padding()
 //                }
-                .transition(.move(edge: .bottom))
-                .animation(.easeInOut, value: isCurrentUserHost)
-            }
+////                .confirmationDialog("End Event", isPresented: $showEndEventConfirmation) {
+////                        Button("End Event", role: .destructive) {
+////                            eventViewModel.endEvent(event: localEvent) { result in
+////                                // handle result
+////                            }
+////                        }
+////                        Button("Cancel", role: .cancel) {}
+////                    } message: {
+////                        Text("Are you sure you want to end this event? This cannot be undone.")
+////                    }
+//                .transition(.move(edge: .bottom))
+//                .animation(.easeInOut, value: isCurrentUserHost)
+//            }
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
@@ -253,6 +304,7 @@ struct EventDetailView: View {
                     isUserParticipating = event.participants.contains(userId) || userId == event.hostId
                     isCurrentUserHost = userId == event.hostId
                 }
+            localEvent = event
 //            if let userId = authViewModel.currentUser?.id {
 //                if userId == event.hostId || event.participants.contains(userId) {
 //                    isUserParticipating = true

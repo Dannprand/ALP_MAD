@@ -23,10 +23,12 @@ class EventViewModel: ObservableObject {
             }
         }
     }
-
     
     private let locationManager = LocationManager()
     private var db = Firestore.firestore()
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
     
     @MainActor
     func fetchEvents() async {
@@ -136,6 +138,7 @@ class EventViewModel: ObservableObject {
             }
     }
     
+    // In EventViewModel.swift
     func endEvent(event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let eventId = event.id else {
             completion(.failure(NSError(domain: "InvalidEventID", code: 0)))
@@ -148,23 +151,15 @@ class EventViewModel: ObservableObject {
             if let error = error {
                 completion(.failure(error))
             } else {
+                // Remove from local arrays to update UI immediately
+                DispatchQueue.main.async {
+                    self.featuredEvents.removeAll { $0.id == eventId }
+                    self.nearbyEvents.removeAll { $0.id == eventId }
+                    self.popularEvents.removeAll { $0.id == eventId }
+                }
                 completion(.success(()))
             }
         }
     }
-
-//    func endEvent() {
-//        guard let eventId = event.id else { return }
-//        
-//        db.collection("events").document(eventId).delete { error in
-//            if let error = error {
-//                print("Failed to end event: \(error)")
-//            } else {
-//                print("Event ended successfully")
-//                // Optionally navigate back
-//            }
-//        }
-//    }
-
 
 }

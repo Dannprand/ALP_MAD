@@ -26,7 +26,7 @@ struct Event: Identifiable, Codable, Hashable {
     let requirements: String?
     let chatId: String
     let createdAt: Timestamp
-    let isEnded: Bool
+    var isEnded: Bool
         
     // Keep the computed property as a convenience
     var shouldBeEnded: Bool {
