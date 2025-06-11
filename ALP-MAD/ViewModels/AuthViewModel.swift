@@ -109,13 +109,6 @@ class AuthViewModel: ObservableObject {
                 print("isLoading set to false")
             }
             
-            
-            
-            //            await MainActor.run {
-            //                self.isLoading = false
-            //                print("isLoading set to false")
-            //            }
-            
         } catch {
             await MainActor.run {
                 self.error = error

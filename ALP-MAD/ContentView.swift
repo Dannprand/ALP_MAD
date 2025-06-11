@@ -11,17 +11,28 @@ import FirebaseAuth
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
 
+    init() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.black
+        appearance.shadowColor = .clear
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = .white
+    }
+
     var body: some View {
         Group {
             if authViewModel.isLoading {
                 SplashScreenView()
             } else if authViewModel.userSession == nil {
                 LoginView()
-            } else if let _ = authViewModel.userSession,
-                      let _ = authViewModel.currentUser {
-                MainTabView()
             } else {
-                SplashScreenView() // fallback until user is fetched
+                MainTabView()
             }
         }
         .overlay(
@@ -31,7 +42,7 @@ struct ContentView: View {
                         Color.black.opacity(0.4).ignoresSafeArea()
                         ProgressView()
                             .scaleEffect(2)
-                            .tint(.orange)
+                            .tint(Theme.accentOrange)
                     }
                 }
             }
@@ -43,7 +54,6 @@ struct ContentView: View {
         }
     }
 }
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

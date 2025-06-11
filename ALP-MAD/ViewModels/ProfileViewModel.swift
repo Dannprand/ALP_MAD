@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-//import FirebaseFirestoreSwift
 
 class ProfileViewModel: ObservableObject {
     @Published var hostedEvents: [Event]? = []

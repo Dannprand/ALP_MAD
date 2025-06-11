@@ -1,25 +1,39 @@
 //
+
 //  EventDetailView.swift
+
 //  ALP-MAD
-//
-//  Created by student on 22/05/25.
+
 //
 
-import SwiftUI
-import MapKit
+//  Created by student on 22/05/25.
+
+//
+
+import FirebaseAuth
 import FirebaseFirestore
+import MapKit
+import SwiftUI
 
 struct EventDetailView: View {
+
     @EnvironmentObject var authViewModel: AuthViewModel
+
     @ObservedObject var eventViewModel: EventViewModel
+
     @StateObject var chatViewModel = ChatViewModel()
     @Environment(\.dismiss) var dismiss
     
     let event: Event
+
     @State private var region: MKCoordinateRegion
+
     @State private var isJoining = false
+
     @State private var showChat = false
+
     @State private var isUserParticipating = false
+
     @State private var localEvent: Event
     
     @State private var isCurrentUserHost: Bool = false
@@ -28,36 +42,102 @@ struct EventDetailView: View {
 //    @State private var hostName: String = "Loading..."
     
     private let db = Firestore.firestore()
-    
+
     init(event: Event) {
+
         self.event = event
+
         self._eventViewModel = ObservedObject(wrappedValue: EventViewModel())
+
         self._localEvent = State(initialValue: event)
+
         self._isUserParticipating = State(initialValue: false)
 
         let center = CLLocationCoordinate2D(
+
             latitude: event.location.latitude,
+
             longitude: event.location.longitude
+
         )
+
         let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        self._region = State(initialValue: MKCoordinateRegion(center: center, span: span))
+
+        self._region = State(
+            initialValue: MKCoordinateRegion(center: center, span: span)
+        )
+
     }
 
     var body: some View {
+
         ScrollView {
+
             VStack(alignment: .leading, spacing: 20) {
+
                 // Event image and basic info
+
                 VStack(alignment: .leading, spacing: 8) {
+
                     Image(event.sport.rawValue.lowercased())
+
                         .resizable()
+
                         .scaledToFill()
+
                         .frame(height: 200)
+
                         .clipped()
+
                         .overlay(
+
                             LinearGradient(
-                                gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+
+                                gradient: Gradient(colors: [
+                                    .clear, .black.opacity(0.7),
+                                ]),
+
                                 startPoint: .top,
+
                                 endPoint: .bottom
+
+                            )
+
+                        )
+
+                        .overlay(
+
+                            VStack {
+
+                                Spacer()
+
+                                HStack {
+
+                                    Text(event.title)
+
+                                        .font(.title)
+
+                                        .fontWeight(.bold)
+
+                                        .foregroundColor(.white)
+
+                                    Spacer()
+
+                                }
+
+                                .padding()
+
+                            }
+
+                        )
+
+                    HStack(spacing: 16) {
+
+                        EventDetailPill(
+                            icon: "calendar",
+                            text: event.date.dateValue().formatted(
+                                date: .abbreviated,
+                                time: .omitted
                             )
                         )
                         .overlay(
