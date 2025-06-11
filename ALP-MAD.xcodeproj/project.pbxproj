@@ -97,11 +97,6 @@
 			path = "ALP-MADUITests";
 			sourceTree = "<group>";
 		};
-		47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "SportHubWatch Watch App";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,7 +142,6 @@
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
 				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */,
-				47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */,
 				3F512E2F2DDEBB500077CDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -252,9 +246,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				47DE00442DF9EF2100E666AD /* SportHubWatch Watch App */,
 			);
 			name = "SportHubWatch Watch App";
 			packageProductDependencies = (
