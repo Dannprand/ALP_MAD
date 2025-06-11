@@ -13,16 +13,12 @@ struct ShopView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
 
     var body: some View {
-        let currentTokens = authViewModel.currentUser?.tokens ?? 0
-        let selectedCategory = viewModel.selectedCategory
-        let categories = RewardCategory.allCases
-        let rewards = viewModel.filteredRewards
-
         ScrollView {
             VStack(spacing: 20) {
-
-                // Token Balance Section
-                HStack {
+                
+                // Token balance section
+                let tokens = authViewModel.currentUser?.tokens ?? 0
+                let tokenView = HStack {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Your Balance")
                             .font(.subheadline)
@@ -31,8 +27,7 @@ struct ShopView: View {
                         HStack(spacing: 8) {
                             Image(systemName: "s.circle.fill")
                                 .foregroundColor(Theme.accentOrange)
-
-                            Text("\(currentTokens)")
+                            Text("\(tokens)")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(Theme.primaryText)
@@ -56,55 +51,59 @@ struct ShopView: View {
                 .cornerRadius(12)
                 .padding(.horizontal)
 
-                // Category Picker
+//                tokenView
+
+                // Reward categories
+                let categoryButtons = ForEach(RewardCategory.allCases, id: \.self) { category in
+                    Button(action: {
+                        viewModel.selectedCategory = category
+                    }) {
+                        Text(category.rawValue)
+                            .font(.subheadline)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .background(viewModel.selectedCategory == category ? Theme.accentOrange : Theme.cardBackground)
+                            .foregroundColor(viewModel.selectedCategory == category ? .white : Theme.primaryText)
+                            .cornerRadius(20)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Theme.accentOrange, lineWidth: 1)
+                            )
+                    }
+                }
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
-                        ForEach(categories, id: \.self) { category in
-                            let isSelected = selectedCategory == category
-
-                            Button {
-                                viewModel.selectedCategory = category
-                            } label: {
-                                Text(category.rawValue)
-                                    .font(.subheadline)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 8)
-                                    .background(isSelected ? Theme.accentOrange : Theme.cardBackground)
-                                    .foregroundColor(isSelected ? .white : Theme.primaryText)
-                                    .cornerRadius(20)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(Theme.accentOrange, lineWidth: 1)
-                                    )
-                            }
-                        }
+                        categoryButtons
                     }
                     .padding(.horizontal)
                 }
 
-                // Rewards Grid
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                    ForEach(rewards) { reward in
+                // Rewards grid
+                let rewardGrid = LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
+                    ForEach(viewModel.filteredRewards) { reward in
                         RewardCard(reward: reward) {
                             viewModel.selectedReward = reward
                         }
                     }
                 }
                 .padding()
+
+                rewardGrid
             }
             .padding(.vertical)
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("Rewards Shop")
         .sheet(item: $viewModel.selectedReward) { reward in
-            RewardDetailView(reward: reward) {
+            RewardDetailView(reward: reward, onRedeem: {
                 Task {
                     if let userId = authViewModel.currentUser?.id {
                         await viewModel.redeemReward(reward, for: userId)
                         await authViewModel.fetchUser()
                     }
                 }
-            }
+            })
         }
         .task {
             await viewModel.fetchRewards()
