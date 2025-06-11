@@ -26,6 +26,12 @@ struct Event: Identifiable, Codable, Hashable {
     let requirements: String?
     let chatId: String
     let createdAt: Timestamp
+    let isEnded: Bool
+        
+    // Keep the computed property as a convenience
+    var shouldBeEnded: Bool {
+        return date.dateValue() < Date()
+    }
     
     var isFull: Bool {
         participants.count >= maxParticipants
@@ -54,7 +60,8 @@ struct Event: Identifiable, Codable, Hashable {
         rules: String? = nil,
         requirements: String? = nil,
         chatId: String,
-        createdAt: Timestamp
+        createdAt: Timestamp,
+        isEnded: Bool = false
     ) {
         self.id = id
         self.title = title
@@ -72,6 +79,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.requirements = requirements
         self.chatId = chatId
         self.createdAt = createdAt
+        self.isEnded = isEnded
     }
     
     // Initialize from Firestore document
@@ -89,7 +97,8 @@ struct Event: Identifiable, Codable, Hashable {
               let isFeatured = data["isFeatured"] as? Bool,
               let isTournament = data["isTournament"] as? Bool,
               let chatId = data["chatId"] as? String,
-              let createdAt = data["createdAt"] as? Timestamp else {
+              let createdAt = data["createdAt"] as? Timestamp,
+              let isEnded = data["isEnded"] as? Bool else { // Add this line
             return nil
         }
         
@@ -109,6 +118,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.requirements = data["requirements"] as? String
         self.chatId = chatId
         self.createdAt = createdAt
+        self.isEnded = isEnded
     }
     
     // Convert to dictionary for Firestore
@@ -125,7 +135,8 @@ struct Event: Identifiable, Codable, Hashable {
             "isFeatured": isFeatured,
             "isTournament": isTournament,
             "chatId": chatId,
-            "createdAt": createdAt
+            "createdAt": createdAt,
+            "isEnded": isEnded // Add this line
         ]
         
         if let prizePool = prizePool {
@@ -198,7 +209,8 @@ extension Event {
             rules: nil,
             requirements: nil,
             chatId: "",
-            createdAt: Timestamp(date: Date())
+            createdAt: Timestamp(date: Date()),
+            isEnded: false
         )
     }
 }

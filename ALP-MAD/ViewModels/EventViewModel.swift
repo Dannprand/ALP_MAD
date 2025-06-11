@@ -66,27 +66,7 @@ class EventViewModel: ObservableObject {
                 isLoading = false
             }
         }
-    
-//    func joinEvent(_ event: Event, userId: String) async -> Bool {
-//        do {
-//            guard let eventId = event.id, !eventId.isEmpty else { return false }
-//
-//            try await db.collection("events").document(eventId).updateData([
-//                "participants": FieldValue.arrayUnion([userId])
-//            ])
-//
-//            try await db.collection("users").document(userId).updateData([
-//                "joinedEvents": FieldValue.arrayUnion([eventId])
-//            ])
-//            
-//            return true
-//        } catch {
-//            self.error = error
-//            showError = true
-//            return false
-//        }
-//    }
-//
+
     func joinEvent(_ event: Event, userId: String) async -> Bool {
         do {
             let eventRef = db.collection("events").document(event.id ?? "")
@@ -155,5 +135,36 @@ class EventViewModel: ObservableObject {
                 completion(events)
             }
     }
+    
+    func endEvent(event: Event, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let eventId = event.id else {
+            completion(.failure(NSError(domain: "InvalidEventID", code: 0)))
+            return
+        }
+        
+        let eventRef = Firestore.firestore().collection("events").document(eventId)
+        
+        eventRef.updateData(["isEnded": true]) { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+//    func endEvent() {
+//        guard let eventId = event.id else { return }
+//        
+//        db.collection("events").document(eventId).delete { error in
+//            if let error = error {
+//                print("Failed to end event: \(error)")
+//            } else {
+//                print("Event ended successfully")
+//                // Optionally navigate back
+//            }
+//        }
+//    }
+
 
 }

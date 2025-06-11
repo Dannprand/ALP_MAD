@@ -31,8 +31,6 @@ struct User: Identifiable, Codable {
     var following: [String]?
     var followers: [String]?
     var notificationEnabled: Bool = true
-    
-    var isEnded: Bool = false
 
     var initials: String {
         let formatter = PersonNameComponentsFormatter()

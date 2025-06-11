@@ -256,14 +256,43 @@ struct CreateEventView: View {
             rules: isTournament && !rules.isEmpty ? rules : nil,
             requirements: isTournament && !requirements.isEmpty ? requirements : nil,
             chatId: UUID().uuidString,
-            createdAt: Timestamp(date: Date())
+            createdAt: Timestamp(date: Date()),
+            isEnded: false // Explicitly set to false for new events
         )
-
         
         viewModel.createEvent(event) {
             isCreating = false
         }
     }
+//    private func createEvent() {
+//        guard let user = authViewModel.currentUser,
+//              let location = viewModel.selectedLocation else { return }
+//        
+//        isCreating = true
+//        
+//        let event = Event(
+//            id: UUID().uuidString,
+//            title: eventTitle,
+//            description: eventDescription,
+//            hostId: user.id,
+//            sport: selectedSport,
+//            date: Timestamp(date: eventDate),
+//            location: location,
+//            maxParticipants: maxParticipants,
+//            participants: [user.id],
+//            isFeatured: false,
+//            isTournament: isTournament,
+//            prizePool: isTournament && !prizePool.isEmpty ? prizePool : nil,
+//            rules: isTournament && !rules.isEmpty ? rules : nil,
+//            requirements: isTournament && !requirements.isEmpty ? requirements : nil,
+//            chatId: UUID().uuidString,
+//            createdAt: Timestamp(date: Date())        )
+//
+//        
+//        viewModel.createEvent(event) {
+//            isCreating = false
+//        }
+//    }
 }
 
 class CreateEventViewModel: ObservableObject {

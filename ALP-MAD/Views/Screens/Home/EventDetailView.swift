@@ -21,7 +21,9 @@ struct EventDetailView: View {
     @State private var isUserParticipating = false
     @State private var localEvent: Event
     
-    @State private var hostName: String = "Loading..." // Add this
+    @State private var isCurrentUserHost: Bool = false
+
+//    @State private var hostName: String = "Loading..."
     
     private let db = Firestore.firestore()
     
@@ -208,6 +210,35 @@ struct EventDetailView: View {
                 }
             }
             .padding(.vertical)
+            
+            // MARK: Host-only End Event button
+            if isCurrentUserHost {
+                Button("End Event") {
+                    eventViewModel.endEvent(event: event) { result in
+                        switch result {
+                        case .success():
+                            print("Event successfully ended")
+                            // Optionally update UI or navigate away
+                        case .failure(let error):
+                            print("Error ending event: \(error)")
+                        }
+                    }
+//                    migrateOldEventsToAddIsEnded()
+                }
+
+//                Button(action: endEvent) {
+//                    Text("End Event")
+//                        .fontWeight(.bold)
+//                        .foregroundColor(.white)
+//                        .frame(maxWidth: .infinity)
+//                        .padding()
+//                        .background(Color.red)
+//                        .cornerRadius(12)
+//                        .padding()
+//                }
+                .transition(.move(edge: .bottom))
+                .animation(.easeInOut, value: isCurrentUserHost)
+            }
         }
         .background(Theme.background.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
@@ -219,10 +250,14 @@ struct EventDetailView: View {
         }
         .onAppear {
             if let userId = authViewModel.currentUser?.id {
-                if userId == event.hostId || event.participants.contains(userId) {
-                    isUserParticipating = true
+                    isUserParticipating = event.participants.contains(userId) || userId == event.hostId
+                    isCurrentUserHost = userId == event.hostId
                 }
-            }
+//            if let userId = authViewModel.currentUser?.id {
+//                if userId == event.hostId || event.participants.contains(userId) {
+//                    isUserParticipating = true
+//                }
+//            }
         }
     }
     
@@ -334,5 +369,32 @@ struct EventDetailView: View {
                 .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
         }
     }
+
+//func migrateOldEventsToAddIsEnded() {
+//    let db = Firestore.firestore()
+//    db.collection("events").getDocuments { snapshot, error in
+//        guard let documents = snapshot?.documents, error == nil else {
+//            print("Error fetching events: \(error?.localizedDescription ?? "Unknown error")")
+//            return
+//        }
+//
+//        for doc in documents {
+//            if doc.data()["isEnded"] == nil {
+//                db.collection("events").document(doc.documentID).updateData([
+//                    "isEnded": false
+//                ]) { err in
+//                    if let err = err {
+//                        print("Failed to update event \(doc.documentID): \(err)")
+//                    } else {
+//                        print("Updated event \(doc.documentID) with isEnded = false")
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+
+    
     
 

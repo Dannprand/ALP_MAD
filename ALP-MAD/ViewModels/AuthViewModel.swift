@@ -119,8 +119,18 @@ class AuthViewModel: ObservableObject {
         guard let uid = userSession?.uid else { return }
         
         do {
+//            let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+//            let user = try snapshot.data(as: User.self)
+            
             let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+
+            guard snapshot.exists else {
+                print("❌ No user document found for uid: \(uid)")
+                return
+            }
+
             let user = try snapshot.data(as: User.self)
+
             
             await MainActor.run {
                 self.currentUser = user
