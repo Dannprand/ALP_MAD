@@ -23,26 +23,6 @@ struct MainTabView: View {
             }
             .tag(0)
             
-//            // Map Tab
-//            NavigationStack {
-//                MapView()
-//            }
-//            .tabItem {
-//                Image(systemName: "map.fill")
-//                Text("Map")
-//            }
-//            .tag(1)
-            
-            // Shop Tab
-            NavigationStack {
-                ShopView()
-            }
-            .tabItem {
-                Image(systemName: "bag.fill")
-                Text("Shop")
-            }
-            .tag(3)	
-            
             // Create Event Tab
             NavigationStack {
                 CreateEventView()

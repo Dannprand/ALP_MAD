@@ -5,28 +5,6 @@
 //  Created by student on 22/05/25.
 //
 
-//import FirebaseFirestoreSwift
-//
-//struct User: Identifiable, Codable {
-//    @DocumentID var id: String?
-//    let fullname: String
-//    let email: String
-//    var preferences: [SportCategory]
-//    var tokens: Int
-//    var joinedEvents: [String] // Event IDs
-//    var hostedEvents: [String] // Event IDs
-//    var profileImageUrl: String?
-//
-//    var initials: String {
-//        let formatter = PersonNameComponentsFormatter()
-//        if let components = formatter.personNameComponents(from: fullname) {
-//            formatter.style = .abbreviated
-//            return formatter.string(from: components)
-//        }
-//        return fullname.components(separatedBy: " ").reduce("") { ($0 == "" ? "" : "\($0.first?.uppercased() ?? "")") + "\($1.first?.uppercased() ?? "")" }
-//    }
-//}
-
 import FirebaseFirestore
 
 struct User: Identifiable, Codable {
@@ -35,7 +13,6 @@ struct User: Identifiable, Codable {
     let email: String
     var preferences: [SportCategory]
     var skillLevel: SkillLevel?
-    var tokens: Int
     var joinedEvents: [String]
     var hostedEvents: [String]
     var profileImageUrl: String?
@@ -61,7 +38,6 @@ struct User: Identifiable, Codable {
         fullname: String,
         email: String,
         preferences: [SportCategory] = [],
-        tokens: Int = 0,
         joinedEvents: [String] = [],
         hostedEvents: [String] = [],
         profileImageUrl: String? = nil,
@@ -71,7 +47,6 @@ struct User: Identifiable, Codable {
         self.fullname = fullname
         self.email = email
         self.preferences = preferences
-        self.tokens = tokens
         self.joinedEvents = joinedEvents
         self.hostedEvents = hostedEvents
         self.profileImageUrl = profileImageUrl
@@ -94,7 +69,6 @@ struct User: Identifiable, Codable {
             (data["preferences"] as? [String])?.compactMap {
                 SportCategory(rawValue: $0)
             } ?? []
-        self.tokens = data["tokens"] as? Int ?? 0
         self.joinedEvents = data["joinedEvents"] as? [String] ?? []
         self.hostedEvents = data["hostedEvents"] as? [String] ?? []
         self.profileImageUrl = data["profileImageUrl"] as? String
@@ -115,7 +89,6 @@ struct User: Identifiable, Codable {
             "fullname": fullname,
             "email": email,
             "preferences": preferences.map { $0.rawValue },
-            "tokens": tokens,
             "joinedEvents": joinedEvents,
             "hostedEvents": hostedEvents,
             "notificationEnabled": notificationEnabled,

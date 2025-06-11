@@ -66,7 +66,6 @@ struct ContentView_Previews: PreviewProvider {
                 fullname: "Preview User",
                 email: "preview@example.com",
                 preferences: [.football],
-                tokens: 100,
                 joinedEvents: ["event1"],
                 hostedEvents: ["event2"]
             )
