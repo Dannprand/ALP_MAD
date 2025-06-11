@@ -491,7 +491,8 @@ struct EventDetailView: View {
     }
 
     func joinEvent() {
-
+        
+        
         guard let userId = authViewModel.currentUser?.id,
 
             let eventId = localEvent.id
@@ -564,9 +565,16 @@ struct EventDetailView: View {
                 // ✅ Sync with Apple Watch
                 if let userId = Auth.auth().currentUser?.uid {
                     EventService().fetchJoinedEvents(for: userId) { events in
-                        WCSessionManager.shared.sendJoinedEventsToWatch(
-                            events: events
-                        )
+                        // Convert [Event] → [EventWatch]
+                        let watchEvents: [EventWatch] = events.map { event in
+                            return EventWatch(
+                                id: event.id,
+                                title: event.title,
+                                date: event.date
+                            )
+                        }
+
+                        WCSessionManager.shared.sendJoinedEventsToWatch(events: watchEvents)
                     }
                 }
 

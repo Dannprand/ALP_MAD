@@ -29,20 +29,43 @@ class WCSessionManager: NSObject, ObservableObject {
         }
     }
 
+    /// Kirim event yang sudah diikuti ke Apple Watch
+    func sendJoinedEventsToWatch(events: [EventWatch]) {
+        guard session.isPaired && session.isWatchAppInstalled else {
+            print("⌚️ Apple Watch tidak terhubung atau app belum terinstal.")
+            return
+        }
+
+        let eventDictionaries = events.map { event in
+            return [
+                "id": event.id,
+                "title": event.title,
+                "timestamp": event.date.timeIntervalSince1970
+            ] as [String: Any]
+        }
+
+        session.sendMessage(
+            ["joinedEvents": eventDictionaries],
+            replyHandler: nil,
+            errorHandler: { error in
+                print("❌ Gagal mengirim events ke Apple Watch: \(error.localizedDescription)")
+            }
+        )
+    }
 }
 
 // MARK: - WCSessionDelegate
 extension WCSessionManager: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("WCSession activated with state: \(activationState.rawValue)")
+        print("✅ WCSession diaktifkan: \(activationState.rawValue)")
         if let error = error {
-            print("Activation error: \(error.localizedDescription)")
+            print("⚠️ Error aktivasi: \(error.localizedDescription)")
         }
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            print("📩 Received message: \(message)")
+            print("📩 Menerima message: \(message)")
 
             if let joinedEventsData = message["joinedEvents"] as? [[String: Any]] {
                 let events: [EventWatch] = joinedEventsData.compactMap { dict in
@@ -60,18 +83,15 @@ extension WCSessionManager: WCSessionDelegate {
     }
 
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("WCSession did become inactive.")
+        print("ℹ️ WCSession tidak aktif sementara.")
     }
 
     func sessionDidDeactivate(_ session: WCSession) {
-        print("WCSession did deactivate.")
+        print("🔁 WCSession dinonaktifkan, aktifkan ulang.")
         session.activate()
     }
 
     func sessionDidFinish(_ session: WCSession) {
-        print("WCSession did finish.")
+        print("🏁 WCSession selesai.")
     }
 }
-
-
-

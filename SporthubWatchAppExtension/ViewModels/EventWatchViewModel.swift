@@ -23,6 +23,7 @@ class EventWatchViewModel: ObservableObject {
             }
         }
 
+        // Now this will be recognized if WCSessionManagerWatch.swift is correct
         WCSessionManagerWatch.shared.activateSession()
     }
 }

@@ -127,6 +127,7 @@
 			membershipExceptions = (
 				Models/EventWatch.swift,
 				ViewModels/EventWatchViewModel.swift,
+				ViewModels/WCSessionManagerWatch.swift,
 				Views/EventWatchDetailView.swift,
 				Views/EventWatchListView.swift,
 			);
