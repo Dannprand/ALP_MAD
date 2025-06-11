@@ -17,7 +17,7 @@ class AuthViewModel: ObservableObject {
     @Published var showError = false
     @Published var error: Error?
     
-    private var db = Firestore.firestore()
+    public var db = Firestore.firestore()
     
     init() {
         self.userSession = Auth.auth().currentUser

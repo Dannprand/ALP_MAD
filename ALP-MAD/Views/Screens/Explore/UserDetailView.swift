@@ -74,14 +74,15 @@ struct UserDetailView: View {
 
                 // Skill level & sport preferences
                 VStack(spacing: 8) {
-                    if let skill = user.skillLevel {
+                    if !user.skillLevel.isEmpty {
                         HStack {
                             Text("Skill Level:")
                                 .bold()
-                            Text(skill.rawValue.capitalized)
+                            Text(user.skillLevel.map { $0.rawValue }.joined(separator: ", "))
                                 .foregroundColor(Theme.secondaryText)
                         }
                     }
+
                     if !user.preferences.isEmpty {
                         VStack(alignment: .leading) {
                             Text("Favorite Sports:")

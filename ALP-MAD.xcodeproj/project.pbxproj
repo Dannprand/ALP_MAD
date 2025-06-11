@@ -38,10 +38,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3F72C6F32DF97EE30033DE43 /* Exceptions for "ALP-MADTests" folder in "ALP-MAD" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ALP_MADTests.swift,
+			);
+			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
+		};
 		3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Config/GoogleService-Info.plist",
+				Models/ChatMessage.swift,
+				Models/Event.swift,
+				Models/User.swift,
+				Services/LocationService.swift,
+				ViewModels/AuthViewModel.swift,
+				ViewModels/ChatViewModel.swift,
+				ViewModels/EventViewModel.swift,
+				ViewModels/ExploreViewModel.swift,
+				ViewModels/ProfileViewModel.swift,
+				Views/Screens/Profile/PreferencesView.swift,
 			);
 			target = 3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */;
 		};
@@ -66,6 +83,9 @@
 		};
 		3F512E412DDEBB520077CDB4 /* ALP-MADTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3F72C6F32DF97EE30033DE43 /* Exceptions for "ALP-MADTests" folder in "ALP-MAD" target */,
+			);
 			path = "ALP-MADTests";
 			sourceTree = "<group>";
 		};
@@ -495,7 +515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MADTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -513,7 +533,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MADTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

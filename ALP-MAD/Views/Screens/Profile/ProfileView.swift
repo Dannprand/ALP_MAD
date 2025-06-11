@@ -118,13 +118,14 @@ struct ProfileView: View {
                         .padding(.horizontal)
                     
                     // show Skill Level
-                        if let skillLevel = authViewModel.currentUser?.skillLevel {
-                            Text(skillLevel.rawValue)
-                                .font(.subheadline)
-                                .fontWeight(.bold)
-                                .foregroundColor(.gray)
-                                .padding(.horizontal)
-                        }
+                    if let skillLevels = authViewModel.currentUser?.skillLevel {
+                        Text(skillLevels.map { $0.rawValue }.joined(separator: ", "))
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .padding(.horizontal)
+                    }
+
 
 
                     if let preferences = authViewModel.currentUser?.preferences,

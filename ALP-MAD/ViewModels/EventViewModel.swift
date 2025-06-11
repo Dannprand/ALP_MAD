@@ -25,8 +25,8 @@ class EventViewModel: ObservableObject {
     }
 
     
-    private let locationManager = LocationManager()
-    private var db = Firestore.firestore()
+    public let locationManager = LocationManager()
+    public var db = Firestore.firestore()
     
     @MainActor
     func fetchEvents() async {

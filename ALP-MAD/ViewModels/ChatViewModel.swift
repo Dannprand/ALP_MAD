@@ -4,8 +4,8 @@ import FirebaseFirestore
 class ChatViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = []
     
-    private var db = Firestore.firestore()
-    private var listener: ListenerRegistration?
+    public var db = Firestore.firestore()
+    public var listener: ListenerRegistration?
 
 //    func setupChat(forEvent eventId: String) {
 //        listener?.remove()
