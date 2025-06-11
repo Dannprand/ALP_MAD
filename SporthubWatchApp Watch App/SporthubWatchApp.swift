@@ -8,12 +8,14 @@
 import SwiftUI
 
 @main
-struct SporthubWatchApp_Watch_App: App {
+struct SporthubWatchApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(eventTitle: "Futsal with Team",
-                        eventTime: "Today at 5:00 PM",
-                        eventLocation: "Jakarta Sport Hall")
+            NavigationStack {
+                EventWatchListView()
+            }
         }
     }
 }
+
+

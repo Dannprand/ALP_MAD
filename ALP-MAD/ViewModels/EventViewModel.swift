@@ -13,27 +13,17 @@
 
 
 import Foundation
-
 import FirebaseFirestore
-
 import CoreLocation
 
 
-
 class EventViewModel: ObservableObject {
-
     @Published var featuredEvents: [Event] = []
-
     @Published var nearbyEvents: [Event] = []
-
     @Published var popularEvents: [Event] = []
-
     @Published var isLoading = false
-
     @Published var showError = false
-
     @Published var error: Error?
-
     @Published var selectedCategory: SportCategory? {
 
         didSet {
@@ -131,48 +121,6 @@ class EventViewModel: ObservableObject {
             }
 
         }
-
-    
-
-//    func joinEvent(_ event: Event, userId: String) async -> Bool {
-
-//        do {
-
-//            guard let eventId = event.id, !eventId.isEmpty else { return false }
-
-//
-
-//            try await db.collection("events").document(eventId).updateData([
-
-//                "participants": FieldValue.arrayUnion([userId])
-
-//            ])
-
-//
-
-//            try await db.collection("users").document(userId).updateData([
-
-//                "joinedEvents": FieldValue.arrayUnion([eventId])
-
-//            ])
-
-//
-
-//            return true
-
-//        } catch {
-
-//            self.error = error
-
-//            showError = true
-
-//            return false
-
-//        }
-
-//    }
-
-//
 
     func joinEvent(_ event: Event, userId: String) async -> Bool {
 

@@ -15,7 +15,6 @@
 import FirebaseFirestore
 
 
-
 enum SportCategory: String, CaseIterable, Codable {
 
     case football = "Football"
