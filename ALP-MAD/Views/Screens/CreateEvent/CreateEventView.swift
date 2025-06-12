@@ -138,7 +138,7 @@ struct CreateEventView: View {
                         Text(viewModel.selectedLocation == nil ? "Select Location" : "Change Location")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
                 }
                 
                 // Tournament toggle
@@ -209,7 +209,7 @@ struct CreateEventView: View {
                         Text("Create Event")
                     }
                 }
-                .buttonStyle(PrimaryButtonStyle())
+//                .buttonStyle(PrimaryButtonStyle())
                 .disabled(!formIsValid || isCreating)
                 .padding(.vertical)
             }
