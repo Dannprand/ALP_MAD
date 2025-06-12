@@ -16,30 +16,11 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showError = false
     @Published var error: Error?
-//    
-////    private var auth: AuthProtocol
-////    private var db: FirestoreProtocol
-//    
-//    /// Change this to internal access for testing
-//    var db: Firestore
-//    
-//    // Modified initializer (only change needed in your main code)
-//    init(db: Firestore = Firestore.firestore()) {
-//        self.db = db
-//        self.userSession = Auth.auth().currentUser
-//        Task {
-//            await fetchUser()
-//        }
-//    }
     
     var db = Firestore.firestore()
     init(db: Firestore = Firestore.firestore()) {
         self.db = db
     }
-//    private var db = Firestore.firestore()
-//    init(db: Firestore = Firestore.firestore()) {
-//        self.db = db
-//    }
     
     init() {
         self.userSession = Auth.auth().currentUser

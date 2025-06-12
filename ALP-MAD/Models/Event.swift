@@ -83,7 +83,8 @@ struct Event: Identifiable, Codable, Hashable {
     }
     
     // Initialize from Firestore document
-    init?(document: QueryDocumentSnapshot) {
+//    init?(document: QueryDocumentSnapshot)
+    init?(document: QueryDocumentSnapshotProtocol) {
         let data = document.data()
         guard let title = data["title"] as? String,
               let description = data["description"] as? String,
