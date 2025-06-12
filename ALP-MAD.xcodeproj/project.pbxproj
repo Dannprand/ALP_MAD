@@ -101,21 +101,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3F29EA162DFA83ED002F126F /* Exceptions for "SporthubWatchExtension" folder in "SporthubWatchExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 3F29EA082DFA83ED002F126F /* SporthubWatchExtension */;
-		};
-		3F29EA1C2DFA8A63002F126F /* Exceptions for "SporthubWatchExtension" folder in "SporthubWatch Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Event.swift,
-				WatchSessionManager.swift,
-			);
-			target = 3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */;
-		};
 		3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -129,13 +114,6 @@
 				"Config/GoogleService-Info.plist",
 			);
 			target = 3F512E472DDEBB520077CDB4 /* ALP-MADUITests */;
-		};
-		47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -157,17 +135,12 @@
 		};
 		3F29EA0A2DFA83ED002F126F /* SporthubWatchExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3F29EA1C2DFA8A63002F126F /* Exceptions for "SporthubWatchExtension" folder in "SporthubWatch Watch App" target */,
-				3F29EA162DFA83ED002F126F /* Exceptions for "SporthubWatchExtension" folder in "SporthubWatchExtension" target */,
-			);
 			path = SporthubWatchExtension;
 			sourceTree = "<group>";
 		};
 		3F512E302DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */,
 				3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */,
 				3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */,
 			);
