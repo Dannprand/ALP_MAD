@@ -12,21 +12,33 @@
 		3F21B6ED2DE03ADC008BACCB /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EC2DE03ADC008BACCB /* FirebaseDatabase */; };
 		3F21B6EF2DE03ADC008BACCB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EE2DE03ADC008BACCB /* FirebaseFirestore */; };
 		3F21B6F12DE03ADC008BACCB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6F02DE03ADC008BACCB /* FirebaseStorage */; };
-		3F84654E2DF9689F0018F605 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3F84654D2DF9689F0018F605 /* FirebaseAuth */; };
-		3F8465502DF968A40018F605 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F84654F2DF968A40018F605 /* FirebaseFirestore */; };
-		3F8465522DF968A70018F605 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8465512DF968A70018F605 /* FirebaseCore */; };
-		3F8465542DF968AA0018F605 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8465532DF968AA0018F605 /* FirebaseDatabase */; };
-		3F8465562DF968B00018F605 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8465552DF968B00018F605 /* FirebaseStorage */; };
-		3F8465582DF968C00018F605 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8465572DF968C00018F605 /* FirebaseAuth */; };
-		3F84655A2DF968C50018F605 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F8465592DF968C50018F605 /* FirebaseCore */; };
-		3F84655C2DF968CA0018F605 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F84655B2DF968CA0018F605 /* FirebaseDatabase */; };
-		3F84655E2DF968D00018F605 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3F84655D2DF968D00018F605 /* FirebaseStorage */; };
-		3F8465602DF968D50018F605 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F84655F2DF968D50018F605 /* FirebaseFirestore */; };
-		3F8465782DF985A80018F605 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8465772DF985A80018F605 /* XCTest.framework */; platformFilter = ios; };
-		3F8465792DF985A80018F605 /* XCTest.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3F8465772DF985A80018F605 /* XCTest.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3F29E9DD2DFA7F0C002F126F /* SporthubWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 3F29E9BD2DFA7F0B002F126F /* SporthubWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3F29E9E92DFA7F2B002F126F /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F29E9E82DFA7F2B002F126F /* WatchConnectivity.framework */; };
+		3F29E9EB2DFA7F3D002F126F /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F29E9EA2DFA7F3D002F126F /* WatchConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3F29E9CA2DFA7F0C002F126F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F29E9BC2DFA7F0B002F126F;
+			remoteInfo = "SporthubWatch Watch App";
+		};
+		3F29E9D42DFA7F0C002F126F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F29E9BC2DFA7F0B002F126F;
+			remoteInfo = "SporthubWatch Watch App";
+		};
+		3F29E9DB2DFA7F0C002F126F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F29E9BC2DFA7F0B002F126F;
+			remoteInfo = "SporthubWatch Watch App";
+		};
 		3F512E3F2DDEBB520077CDB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
@@ -41,55 +53,34 @@
 			remoteGlobalIDString = 3F512E2D2DDEBB500077CDB4;
 			remoteInfo = "ALP-MAD";
 		};
-		3F8465702DF9833B0018F605 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3F512E2D2DDEBB500077CDB4;
-			remoteInfo = "ALP-MAD";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3F84657A2DF985A80018F605 /* Embed Frameworks */ = {
+		47DE004E2DF9EF2200E666AD /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
 			files = (
-				3F8465792DF985A80018F605 /* XCTest.framework in Embed Frameworks */,
+				3F29E9DD2DFA7F0C002F126F /* SporthubWatch Watch App.app in Embed Watch Content */,
 			);
-			name = "Embed Frameworks";
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F29E9BD2DFA7F0B002F126F /* SporthubWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SporthubWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F29E9C92DFA7F0C002F126F /* SporthubWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SporthubWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F29E9D32DFA7F0C002F126F /* SporthubWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SporthubWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F29E9E82DFA7F2B002F126F /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = System/Library/Frameworks/WatchConnectivity.framework; sourceTree = SDKROOT; };
+		3F29E9EA2DFA7F3D002F126F /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS11.4.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 		3F512E2E2DDEBB500077CDB4 /* ALP-MAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ALP-MAD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F84656C2DF9833A0018F605 /* ALP_MADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ALP_MADTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3F8465772DF985A80018F605 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		3F8465752DF983830018F605 /* Exceptions for "ALP_MADTests" folder in "ALP-MADTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				EventViewModelTests.swift,
-				ExploreViewModelTests.swift,
-			);
-			target = 3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */;
-		};
-		3F8465762DF983830018F605 /* Exceptions for "ALP_MADTests" folder in "ALP_MADTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ALP_MADTests.swift,
-				EventViewModelTests.swift,
-				ExploreViewModelTests.swift,
-			);
-			target = 3F84656B2DF9833A0018F605 /* ALP_MADTests */;
-		};
 		3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -104,16 +95,44 @@
 			);
 			target = 3F512E472DDEBB520077CDB4 /* ALP-MADUITests */;
 		};
+		47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3F29E9BE2DFA7F0B002F126F /* SporthubWatch Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SporthubWatch Watch App";
+			sourceTree = "<group>";
+		};
+		3F29E9CC2DFA7F0C002F126F /* SporthubWatch Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SporthubWatch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		3F29E9D62DFA7F0C002F126F /* SporthubWatch Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "SporthubWatch Watch AppUITests";
+			sourceTree = "<group>";
+		};
 		3F512E302DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				47F55ACF2DFA45A500A8F440 /* Exceptions for "ALP-MAD" folder in "ALP-MAD" target */,
 				3FF5958C2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADTests" target */,
 				3FF5958D2DDF0CB500E248FD /* Exceptions for "ALP-MAD" folder in "ALP-MADUITests" target */,
 			);
 			path = "ALP-MAD";
+			sourceTree = "<group>";
+		};
+		3F512E412DDEBB520077CDB4 /* ALP-MADTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "ALP-MADTests";
 			sourceTree = "<group>";
 		};
 		3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */ = {
@@ -121,18 +140,31 @@
 			path = "ALP-MADUITests";
 			sourceTree = "<group>";
 		};
-		3F84656D2DF9833B0018F605 /* ALP_MADTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				3F8465752DF983830018F605 /* Exceptions for "ALP_MADTests" folder in "ALP-MADTests" target */,
-				3F8465762DF983830018F605 /* Exceptions for "ALP_MADTests" folder in "ALP_MADTests" target */,
-			);
-			path = ALP_MADTests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F29E9BA2DFA7F0B002F126F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F29E9EB2DFA7F3D002F126F /* WatchConnectivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F29E9C62DFA7F0C002F126F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F29E9D02DFA7F0C002F126F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2B2DDEBB500077CDB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -142,6 +174,7 @@
 				3F21B6EB2DE03ADC008BACCB /* FirebaseCore in Frameworks */,
 				3F21B6F12DE03ADC008BACCB /* FirebaseStorage in Frameworks */,
 				3F21B6E92DE03ADC008BACCB /* FirebaseAuth in Frameworks */,
+				3F29E9E92DFA7F2B002F126F /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,11 +182,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F84654E2DF9689F0018F605 /* FirebaseAuth in Frameworks */,
-				3F8465522DF968A70018F605 /* FirebaseCore in Frameworks */,
-				3F8465542DF968AA0018F605 /* FirebaseDatabase in Frameworks */,
-				3F8465562DF968B00018F605 /* FirebaseStorage in Frameworks */,
-				3F8465502DF968A40018F605 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,32 +189,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F84655C2DF968CA0018F605 /* FirebaseDatabase in Frameworks */,
-				3F84655E2DF968D00018F605 /* FirebaseStorage in Frameworks */,
-				3F84655A2DF968C50018F605 /* FirebaseCore in Frameworks */,
-				3F8465602DF968D50018F605 /* FirebaseFirestore in Frameworks */,
-				3F8465582DF968C00018F605 /* FirebaseAuth in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3F8465692DF9833A0018F605 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3F8465782DF985A80018F605 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F29E9E72DFA7F2B002F126F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3F29E9EA2DFA7F3D002F126F /* WatchConnectivity.framework */,
+				3F29E9E82DFA7F2B002F126F /* WatchConnectivity.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3F512E252DDEBB500077CDB4 = {
 			isa = PBXGroup;
 			children = (
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
+				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */,
-				3F84656D2DF9833B0018F605 /* ALP_MADTests */,
-				3F65E8052DF9620100F621E8 /* Frameworks */,
+				3F29E9BE2DFA7F0B002F126F /* SporthubWatch Watch App */,
+				3F29E9CC2DFA7F0C002F126F /* SporthubWatch Watch AppTests */,
+				3F29E9D62DFA7F0C002F126F /* SporthubWatch Watch AppUITests */,
+				3F29E9E72DFA7F2B002F126F /* Frameworks */,
 				3F512E2F2DDEBB500077CDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -197,22 +224,84 @@
 				3F512E2E2DDEBB500077CDB4 /* ALP-MAD.app */,
 				3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */,
 				3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */,
-				3F84656C2DF9833A0018F605 /* ALP_MADTests.xctest */,
+				3F29E9BD2DFA7F0B002F126F /* SporthubWatch Watch App.app */,
+				3F29E9C92DFA7F0C002F126F /* SporthubWatch Watch AppTests.xctest */,
+				3F29E9D32DFA7F0C002F126F /* SporthubWatch Watch AppUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		3F65E8052DF9620100F621E8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3F8465772DF985A80018F605 /* XCTest.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F29E9DE2DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch App" */;
+			buildPhases = (
+				3F29E9B92DFA7F0B002F126F /* Sources */,
+				3F29E9BA2DFA7F0B002F126F /* Frameworks */,
+				3F29E9BB2DFA7F0B002F126F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3F29E9BE2DFA7F0B002F126F /* SporthubWatch Watch App */,
+			);
+			name = "SporthubWatch Watch App";
+			packageProductDependencies = (
+			);
+			productName = "SporthubWatch Watch App";
+			productReference = 3F29E9BD2DFA7F0B002F126F /* SporthubWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3F29E9C82DFA7F0C002F126F /* SporthubWatch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F29E9E12DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch AppTests" */;
+			buildPhases = (
+				3F29E9C52DFA7F0C002F126F /* Sources */,
+				3F29E9C62DFA7F0C002F126F /* Frameworks */,
+				3F29E9C72DFA7F0C002F126F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F29E9CB2DFA7F0C002F126F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3F29E9CC2DFA7F0C002F126F /* SporthubWatch Watch AppTests */,
+			);
+			name = "SporthubWatch Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "SporthubWatch Watch AppTests";
+			productReference = 3F29E9C92DFA7F0C002F126F /* SporthubWatch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3F29E9D22DFA7F0C002F126F /* SporthubWatch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F29E9E42DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch AppUITests" */;
+			buildPhases = (
+				3F29E9CF2DFA7F0C002F126F /* Sources */,
+				3F29E9D02DFA7F0C002F126F /* Frameworks */,
+				3F29E9D12DFA7F0C002F126F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F29E9D52DFA7F0C002F126F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3F29E9D62DFA7F0C002F126F /* SporthubWatch Watch AppUITests */,
+			);
+			name = "SporthubWatch Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "SporthubWatch Watch AppUITests";
+			productReference = 3F29E9D32DFA7F0C002F126F /* SporthubWatch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		3F512E2D2DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F512E522DDEBB520077CDB4 /* Build configuration list for PBXNativeTarget "ALP-MAD" */;
@@ -220,10 +309,12 @@
 				3F512E2A2DDEBB500077CDB4 /* Sources */,
 				3F512E2B2DDEBB500077CDB4 /* Frameworks */,
 				3F512E2C2DDEBB500077CDB4 /* Resources */,
+				47DE004E2DF9EF2200E666AD /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3F29E9DC2DFA7F0C002F126F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3F512E302DDEBB500077CDB4 /* ALP-MAD */,
@@ -253,13 +344,11 @@
 			dependencies = (
 				3F512E402DDEBB520077CDB4 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
+			);
 			name = "ALP-MADTests";
 			packageProductDependencies = (
-				3F84654D2DF9689F0018F605 /* FirebaseAuth */,
-				3F84654F2DF968A40018F605 /* FirebaseFirestore */,
-				3F8465512DF968A70018F605 /* FirebaseCore */,
-				3F8465532DF968AA0018F605 /* FirebaseDatabase */,
-				3F8465552DF968B00018F605 /* FirebaseStorage */,
 			);
 			productName = "ALP-MADTests";
 			productReference = 3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */;
@@ -283,39 +372,10 @@
 			);
 			name = "ALP-MADUITests";
 			packageProductDependencies = (
-				3F8465572DF968C00018F605 /* FirebaseAuth */,
-				3F8465592DF968C50018F605 /* FirebaseCore */,
-				3F84655B2DF968CA0018F605 /* FirebaseDatabase */,
-				3F84655D2DF968D00018F605 /* FirebaseStorage */,
-				3F84655F2DF968D50018F605 /* FirebaseFirestore */,
 			);
 			productName = "ALP-MADUITests";
 			productReference = 3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
-		};
-		3F84656B2DF9833A0018F605 /* ALP_MADTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3F8465722DF9833B0018F605 /* Build configuration list for PBXNativeTarget "ALP_MADTests" */;
-			buildPhases = (
-				3F8465682DF9833A0018F605 /* Sources */,
-				3F8465692DF9833A0018F605 /* Frameworks */,
-				3F84656A2DF9833A0018F605 /* Resources */,
-				3F84657A2DF985A80018F605 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3F8465712DF9833B0018F605 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				3F84656D2DF9833B0018F605 /* ALP_MADTests */,
-			);
-			name = ALP_MADTests;
-			packageProductDependencies = (
-			);
-			productName = ALP_MADTests;
-			productReference = 3F84656C2DF9833A0018F605 /* ALP_MADTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -324,9 +384,20 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					3F29E9BC2DFA7F0B002F126F = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					3F29E9C82DFA7F0C002F126F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 3F29E9BC2DFA7F0B002F126F;
+					};
+					3F29E9D22DFA7F0C002F126F = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 3F29E9BC2DFA7F0B002F126F;
+					};
 					3F512E2D2DDEBB500077CDB4 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -335,10 +406,6 @@
 						TestTargetID = 3F512E2D2DDEBB500077CDB4;
 					};
 					3F512E472DDEBB520077CDB4 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 3F512E2D2DDEBB500077CDB4;
-					};
-					3F84656B2DF9833A0018F605 = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 3F512E2D2DDEBB500077CDB4;
 					};
@@ -364,12 +431,35 @@
 				3F512E2D2DDEBB500077CDB4 /* ALP-MAD */,
 				3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E472DDEBB520077CDB4 /* ALP-MADUITests */,
-				3F84656B2DF9833A0018F605 /* ALP_MADTests */,
+				3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */,
+				3F29E9C82DFA7F0C002F126F /* SporthubWatch Watch AppTests */,
+				3F29E9D22DFA7F0C002F126F /* SporthubWatch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F29E9BB2DFA7F0B002F126F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F29E9C72DFA7F0C002F126F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F29E9D12DFA7F0C002F126F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2C2DDEBB500077CDB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,16 +481,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3F84656A2DF9833A0018F605 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3F29E9B92DFA7F0B002F126F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
+		3F29E9C52DFA7F0C002F126F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F29E9CF2DFA7F0C002F126F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2A2DDEBB500077CDB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,16 +526,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3F8465682DF9833A0018F605 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3F29E9CB2DFA7F0C002F126F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */;
+			targetProxy = 3F29E9CA2DFA7F0C002F126F /* PBXContainerItemProxy */;
+		};
+		3F29E9D52DFA7F0C002F126F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */;
+			targetProxy = 3F29E9D42DFA7F0C002F126F /* PBXContainerItemProxy */;
+		};
+		3F29E9DC2DFA7F0C002F126F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F29E9BC2DFA7F0B002F126F /* SporthubWatch Watch App */;
+			targetProxy = 3F29E9DB2DFA7F0C002F126F /* PBXContainerItemProxy */;
+		};
 		3F512E402DDEBB520077CDB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
@@ -442,14 +554,139 @@
 			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
 			targetProxy = 3F512E492DDEBB520077CDB4 /* PBXContainerItemProxy */;
 		};
-		3F8465712DF9833B0018F605 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
-			targetProxy = 3F8465702DF9833B0018F605 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3F29E9DF2DFA7F0C002F126F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SporthubWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "q.ALP-MAD";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		3F29E9E02DFA7F0C002F126F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SporthubWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "q.ALP-MAD";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		3F29E9E22DFA7F0C002F126F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SporthubWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SporthubWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SporthubWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		3F29E9E32DFA7F0C002F126F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SporthubWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SporthubWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SporthubWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
+		3F29E9E52DFA7F0C002F126F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SporthubWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "SporthubWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		3F29E9E62DFA7F0C002F126F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.SporthubWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "SporthubWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
 		3F512E502DDEBB520077CDB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -574,11 +811,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ALP-MAD/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -594,7 +829,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -606,11 +840,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ALP-MAD/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -626,7 +858,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -701,43 +932,36 @@
 			};
 			name = Release;
 		};
-		3F8465732DF9833B0018F605 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.device.ALP-MADTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALP-MAD.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ALP-MAD";
-			};
-			name = Debug;
-		};
-		3F8465742DF9833B0018F605 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.device.ALP-MADTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ALP-MAD.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ALP-MAD";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F29E9DE2DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F29E9DF2DFA7F0C002F126F /* Debug */,
+				3F29E9E02DFA7F0C002F126F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F29E9E12DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F29E9E22DFA7F0C002F126F /* Debug */,
+				3F29E9E32DFA7F0C002F126F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F29E9E42DFA7F0C002F126F /* Build configuration list for PBXNativeTarget "SporthubWatch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F29E9E52DFA7F0C002F126F /* Debug */,
+				3F29E9E62DFA7F0C002F126F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3F512E292DDEBB500077CDB4 /* Build configuration list for PBXProject "ALP-MAD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -770,15 +994,6 @@
 			buildConfigurations = (
 				3F512E592DDEBB520077CDB4 /* Debug */,
 				3F512E5A2DDEBB520077CDB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3F8465722DF9833B0018F605 /* Build configuration list for PBXNativeTarget "ALP_MADTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3F8465732DF9833B0018F605 /* Debug */,
-				3F8465742DF9833B0018F605 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -821,56 +1036,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
-		};
-		3F84654D2DF9689F0018F605 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		3F84654F2DF968A40018F605 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
-		};
-		3F8465512DF968A70018F605 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		3F8465532DF968AA0018F605 /* FirebaseDatabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
-		};
-		3F8465552DF968B00018F605 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		3F8465572DF968C00018F605 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		3F8465592DF968C50018F605 /* FirebaseCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCore;
-		};
-		3F84655B2DF968CA0018F605 /* FirebaseDatabase */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseDatabase;
-		};
-		3F84655D2DF968D00018F605 /* FirebaseStorage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseStorage;
-		};
-		3F84655F2DF968D50018F605 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3F21B6E72DE03ADC008BACCB /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

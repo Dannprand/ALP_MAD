@@ -13,7 +13,11 @@ class ExploreViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isFollowing: Bool = false
     @Published var selectedUser: User?
+    
     private var db = Firestore.firestore()
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
  
     private var userStatsListener: ListenerRegistration?
 

@@ -82,7 +82,7 @@ struct PreferencesView: View {
                         Text("Save Preferences")
                     }
                 }
-                .buttonStyle(PrimaryButtonStyle())
+//                .buttonStyle(PrimaryButtonStyle())
                 .disabled(selectedSports.isEmpty || isSaving)
                 .padding()
 

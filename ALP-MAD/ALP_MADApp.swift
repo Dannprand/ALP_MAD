@@ -18,15 +18,52 @@ struct ALP_MADApp: App {
         FirebaseApp.configure()
         setupAppearance()
     }
+//    init() {
+//        // Add this before Firebase configuration
+//        let settings = FirestoreSettings()
+//        settings.isPersistenceEnabled = false // Disable cache temporarily for debugging
+//        Firestore.firestore().settings = settings
+//        
+//        FirebaseApp.configure()
+//        
+//        // Verify configuration
+//        if FirebaseApp.app() == nil {
+//            print("🔥 Firebase configuration failed!")
+//        } else {
+//            print("✅ Firebase configured successfully")
+//        }
+//    }
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(authViewModel)
-                .environmentObject(router)
-                .preferredColorScheme(.dark)
-        }
+                    ContentView()
+                        .environmentObject(authViewModel)
+                        .environmentObject(router)
+                        .preferredColorScheme(.dark)
+                        .onAppear {
+                            // Check if user wants to stay signed in (if you implement that option)
+                            checkAuthenticationStatus()
+                        }
+                }
+//        WindowGroup {
+//            ContentView()
+//                .environmentObject(authViewModel)
+//                .environmentObject(router)
+//                .preferredColorScheme(.dark)
+//        }
     }
+    
+    private func checkAuthenticationStatus() {
+            // If you want to completely disable automatic login:
+            authViewModel.signOut()
+            
+            // OR if you want to implement "Remember me" functionality:
+            /*
+            if !UserDefaults.standard.bool(forKey: "staySignedIn") {
+                authViewModel.signOut()
+            }
+            */
+        }
     
     private func setupAppearance() {
         // Navigation bar appearance
