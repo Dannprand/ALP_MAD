@@ -1,4 +1,9 @@
-
+//
+//  Event.swift
+//  ALP-MAD
+//
+//  Created by student on 22/05/25.
+//
 
 import Foundation
 import FirebaseFirestore
@@ -21,6 +26,12 @@ struct Event: Identifiable, Codable, Hashable {
     let requirements: String?
     let chatId: String
     let createdAt: Timestamp
+    var isEnded: Bool
+        
+    // Keep the computed property as a convenience
+    var shouldBeEnded: Bool {
+        return date.dateValue() < Date()
+    }
     
     var isFull: Bool {
         participants.count >= maxParticipants
@@ -49,7 +60,8 @@ struct Event: Identifiable, Codable, Hashable {
         rules: String? = nil,
         requirements: String? = nil,
         chatId: String,
-        createdAt: Timestamp
+        createdAt: Timestamp,
+        isEnded: Bool = false
     ) {
         self.id = id
         self.title = title
@@ -67,6 +79,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.requirements = requirements
         self.chatId = chatId
         self.createdAt = createdAt
+        self.isEnded = isEnded
     }
     
     // Initialize from Firestore document
@@ -84,7 +97,8 @@ struct Event: Identifiable, Codable, Hashable {
               let isFeatured = data["isFeatured"] as? Bool,
               let isTournament = data["isTournament"] as? Bool,
               let chatId = data["chatId"] as? String,
-              let createdAt = data["createdAt"] as? Timestamp else {
+              let createdAt = data["createdAt"] as? Timestamp,
+              let isEnded = data["isEnded"] as? Bool else { // Add this line
             return nil
         }
         
@@ -104,6 +118,7 @@ struct Event: Identifiable, Codable, Hashable {
         self.requirements = data["requirements"] as? String
         self.chatId = chatId
         self.createdAt = createdAt
+        self.isEnded = isEnded
     }
     
     // Convert to dictionary for Firestore
@@ -120,7 +135,8 @@ struct Event: Identifiable, Codable, Hashable {
             "isFeatured": isFeatured,
             "isTournament": isTournament,
             "chatId": chatId,
-            "createdAt": createdAt
+            "createdAt": createdAt,
+            "isEnded": isEnded // Add this line
         ]
         
         if let prizePool = prizePool {
@@ -137,9 +153,6 @@ struct Event: Identifiable, Codable, Hashable {
         
         return dict
     }
-    
-    
-
 }
 
 struct EventLocation: Codable, Hashable, Identifiable {
@@ -174,6 +187,31 @@ struct EventLocation: Codable, Hashable, Identifiable {
             "latitude": latitude,
             "longitude": longitude
         ]
+    }
+    
+}
+
+extension Event {
+    static func placeholder(id: String = "") -> Event {
+        return Event(
+            id: id,
+            title: "Unknown",
+            description: "",
+            hostId: "",
+            sport: .other,
+            date: Timestamp(date: Date()),
+            location: EventLocation(name: "", address: "", latitude: 0.0, longitude: 0.0),
+            maxParticipants: 1,
+            participants: [],
+            isFeatured: false,
+            isTournament: false,
+            prizePool: nil,
+            rules: nil,
+            requirements: nil,
+            chatId: "",
+            createdAt: Timestamp(date: Date()),
+            isEnded: false
+        )
     }
 }
 

@@ -61,6 +61,15 @@ struct HomeView: View {
             }
             .padding(.vertical)
         }
+//        .onChange(of: eventViewModel.featuredEvents) { _ in
+//                    sendEventsToWatch()
+//                }
+//                .onChange(of: eventViewModel.nearbyEvents) { _ in
+//                    sendEventsToWatch()
+//                }
+//                .onChange(of: eventViewModel.popularEvents) { _ in
+//                    sendEventsToWatch()
+//                }
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
@@ -74,6 +83,19 @@ struct HomeView: View {
             await eventViewModel.fetchEvents()
         }
     }
+    
+//    private func sendEventsToWatch() {
+//        let allEvents = eventViewModel.featuredEvents +
+//                       eventViewModel.nearbyEvents +
+//                       eventViewModel.popularEvents
+//        WatchConnectivityManager.shared.sendEventsToWatch(allEvents)
+//    }
+//    
+//    // Call this when events are updated
+//    private func handleEventsUpdate() {
+//        sendEventsToWatch()
+//    }
+    
 }
 
 struct EventSection: View {

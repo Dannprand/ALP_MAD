@@ -44,6 +44,18 @@ struct MainTabView: View {
               }
               .tag(1)
             
+            // Groupchat View
+            NavigationStack {
+                GroupChatsView()
+                    .environmentObject(authViewModel)
+                    .environmentObject(ChatViewModel())
+            }
+            .tabItem {
+                Image(systemName: "message.fill")
+                Text("Chats")
+            }
+            .tag(3)
+            
             // Profile Tab
             NavigationStack {
                 ProfileView()

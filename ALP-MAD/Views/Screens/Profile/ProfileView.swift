@@ -30,10 +30,9 @@ struct ProfileView: View {
                                 )
 
                             if let imageUrl = user.profileImageUrl,
-                                !imageUrl.isEmpty
-                            {
-                                AsyncImage(url: URL(string: imageUrl)) {
-                                    image in
+                               let url = URL(string: imageUrl),
+                               url.scheme?.hasPrefix("http") == true {
+                                AsyncImage(url: url) { image in
                                     image.resizable()
                                 } placeholder: {
                                     ProgressView()
@@ -47,6 +46,25 @@ struct ProfileView: View {
                                     .fontWeight(.bold)
                                     .foregroundColor(Theme.accentOrange)
                             }
+
+//                            if let imageUrl = user.profileImageUrl,
+//                                !imageUrl.isEmpty
+//                            {
+//                                AsyncImage(url: URL(string: imageUrl)) {
+//                                    image in
+//                                    image.resizable()
+//                                } placeholder: {
+//                                    ProgressView()
+//                                }
+//                                .aspectRatio(contentMode: .fill)
+//                                .frame(width: 120, height: 120)
+//                                .clipShape(Circle())
+//                            } else {
+//                                Text(user.initials)
+//                                    .font(.title)
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(Theme.accentOrange)
+//                            }
                         }
 
                         // Name and email
@@ -95,13 +113,13 @@ struct ProfileView: View {
                         Text("Edit Profile")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
 
                     Button(action: { showSettings = true }) {
                         Image(systemName: "gearshape.fill")
                             .frame(width: 20, height: 20)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
                     .frame(width: 50)
                 }
                 .padding(.horizontal)
@@ -229,7 +247,7 @@ struct ProfileView: View {
                     Text("Sign Out")
                         .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(SecondaryButtonStyle())
+//                .buttonStyle(SecondaryButtonStyle())
                 .padding()
             }
             .padding(.bottom)
@@ -327,7 +345,7 @@ struct EditProfileView: View {
                                     .fontWeight(.semibold)
                             }
                         }
-                        .buttonStyle(PrimaryButtonStyle())
+//                        .buttonStyle(PrimaryButtonStyle())
                         .disabled(fullname.isEmpty || isSaving)
                         .padding(.top, 20)
                         .padding(.horizontal)

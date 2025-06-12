@@ -16,8 +16,30 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showError = false
     @Published var error: Error?
+//    
+////    private var auth: AuthProtocol
+////    private var db: FirestoreProtocol
+//    
+//    /// Change this to internal access for testing
+//    var db: Firestore
+//    
+//    // Modified initializer (only change needed in your main code)
+//    init(db: Firestore = Firestore.firestore()) {
+//        self.db = db
+//        self.userSession = Auth.auth().currentUser
+//        Task {
+//            await fetchUser()
+//        }
+//    }
     
-    public var db = Firestore.firestore()
+    var db = Firestore.firestore()
+    init(db: Firestore = Firestore.firestore()) {
+        self.db = db
+    }
+//    private var db = Firestore.firestore()
+//    init(db: Firestore = Firestore.firestore()) {
+//        self.db = db
+//    }
     
     init() {
         self.userSession = Auth.auth().currentUser
@@ -87,13 +109,6 @@ class AuthViewModel: ObservableObject {
                 print("isLoading set to false")
             }
             
-            
-            
-            //            await MainActor.run {
-            //                self.isLoading = false
-            //                print("isLoading set to false")
-            //            }
-            
         } catch {
             await MainActor.run {
                 self.error = error
@@ -119,8 +134,18 @@ class AuthViewModel: ObservableObject {
         guard let uid = userSession?.uid else { return }
         
         do {
+//            let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+//            let user = try snapshot.data(as: User.self)
+            
             let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+
+            guard snapshot.exists else {
+                print("❌ No user document found for uid: \(uid)")
+                return
+            }
+
             let user = try snapshot.data(as: User.self)
+
             
             await MainActor.run {
                 self.currentUser = user

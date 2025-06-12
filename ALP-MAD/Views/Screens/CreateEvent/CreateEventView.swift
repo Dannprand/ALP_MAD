@@ -138,7 +138,7 @@ struct CreateEventView: View {
                         Text(viewModel.selectedLocation == nil ? "Select Location" : "Change Location")
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(SecondaryButtonStyle())
+//                    .buttonStyle(SecondaryButtonStyle())
                 }
                 
                 // Tournament toggle
@@ -209,7 +209,7 @@ struct CreateEventView: View {
                         Text("Create Event")
                     }
                 }
-                .buttonStyle(PrimaryButtonStyle())
+//                .buttonStyle(PrimaryButtonStyle())
                 .disabled(!formIsValid || isCreating)
                 .padding(.vertical)
             }
@@ -256,44 +256,49 @@ struct CreateEventView: View {
             rules: isTournament && !rules.isEmpty ? rules : nil,
             requirements: isTournament && !requirements.isEmpty ? requirements : nil,
             chatId: UUID().uuidString,
-            createdAt: Timestamp(date: Date())
+            createdAt: Timestamp(date: Date()),
+            isEnded: false // Explicitly set to false for new events
         )
-
         
         viewModel.createEvent(event) {
             isCreating = false
         }
     }
+//    private func createEvent() {
+//        guard let user = authViewModel.currentUser,
+//              let location = viewModel.selectedLocation else { return }
+//        
+//        isCreating = true
+//        
+//        let event = Event(
+//            id: UUID().uuidString,
+//            title: eventTitle,
+//            description: eventDescription,
+//            hostId: user.id,
+//            sport: selectedSport,
+//            date: Timestamp(date: eventDate),
+//            location: location,
+//            maxParticipants: maxParticipants,
+//            participants: [user.id],
+//            isFeatured: false,
+//            isTournament: isTournament,
+//            prizePool: isTournament && !prizePool.isEmpty ? prizePool : nil,
+//            rules: isTournament && !rules.isEmpty ? rules : nil,
+//            requirements: isTournament && !requirements.isEmpty ? requirements : nil,
+//            chatId: UUID().uuidString,
+//            createdAt: Timestamp(date: Date())        )
+//
+//        
+//        viewModel.createEvent(event) {
+//            isCreating = false
+//        }
+//    }
 }
 
 class CreateEventViewModel: ObservableObject {
     @Published var selectedLocation: EventLocation?
     @Published var showSuccessAlert = false
-    
-//    func createEvent(_ event: Event, completion: @escaping () -> Void) {
-//        let db = Firestore.firestore()
-//        
-//        do {
-//            let documentRef = try db.collection("events").addDocument(from: event) { error in
-//                if let error = error {
-//                    print("Error creating event: \(error)")
-//                } else {
-//                    self.showSuccessAlert = true
-//
-//                    // Add event to user's hosted events (after event was created)
-//                    let userId = event.hostId
-//                    db.collection("users").document(userId).updateData([
-//                        "hostedEvents": FieldValue.arrayUnion([documentRef.documentID])
-//                    ])
-//                }
-//                completion()
-//            }
-//        } catch {
-//            print("Error creating event: \(error)")
-//            completion()
-//        }
-//    }
-    
+
     func createEvent(_ event: Event, completion: @escaping () -> Void) {
         let db = Firestore.firestore()
         let documentRef = db.collection("events").document() // <-- fix ini
@@ -326,13 +331,12 @@ class CreateEventViewModel: ObservableObject {
 
 }
 
-
 struct LocationPickerView: View {
-    @ObservedObject var viewModel: CreateEventViewModel
+    @StateObject var viewModel: CreateEventViewModel
     @State private var searchText = ""
     @State private var searchResults: [MKMapItem] = []
     @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), // Default to London
+        center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
         span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
     )
     @Environment(\.dismiss) var dismiss
@@ -384,16 +388,13 @@ struct LocationPickerView: View {
                 } else {
                     Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: viewModel.selectedLocation != nil ? [viewModel.selectedLocation!] : []) { location in
                         MapAnnotation(coordinate: location.coordinate) {
-                            MapPin()
+                            Image(systemName: "mappin")
+                                .font(.title)
+                                .foregroundColor(Theme.accentOrange)
                         }
                     }
                     .cornerRadius(10)
                     .padding()
-                    .overlay(
-                        Image(systemName: "mappin")
-                            .font(.title)
-                            .foregroundColor(Theme.accentOrange)
-                    )
                 }
                 
                 Spacer()
@@ -408,6 +409,13 @@ struct LocationPickerView: View {
                     }
                     .foregroundColor(Theme.accentOrange)
                     .disabled(viewModel.selectedLocation == nil)
+                }
+            }
+            .onAppear {
+                // Update region if we already have a selected location
+                if let location = viewModel.selectedLocation {
+                    region.center = location.coordinate
+                    region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
                 }
             }
         }
@@ -447,3 +455,125 @@ struct LocationPickerView: View {
         }
     }
 }
+
+
+//struct LocationPickerView: View {
+//    @ObservedObject var viewModel: CreateEventViewModel
+//    @State private var searchText = ""
+//    @State private var searchResults: [MKMapItem] = []
+//    @State private var region = MKCoordinateRegion(
+//        center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275), // Default to London
+//        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+//    )
+//    @Environment(\.dismiss) var dismiss
+//    
+//    var body: some View {
+//        NavigationStack {
+//            VStack {
+//                // Search bar
+//                HStack {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundColor(Theme.secondaryText)
+//                    
+//                    TextField("Search for a location", text: $searchText, onCommit: searchForLocation)
+//                        .foregroundColor(Theme.primaryText)
+//                    
+//                    if !searchText.isEmpty {
+//                        Button(action: {
+//                            searchText = ""
+//                            searchResults = []
+//                        }) {
+//                            Image(systemName: "xmark.circle.fill")
+//                                .foregroundColor(Theme.secondaryText)
+//                        }
+//                    }
+//                }
+//                .padding(10)
+//                .background(Theme.cardBackground)
+//                .cornerRadius(10)
+//                .padding()
+//                
+//                // Search results or map
+//                if !searchResults.isEmpty {
+//                    List(searchResults, id: \.self) { item in
+//                        Button(action: {
+//                            selectLocation(item)
+//                        }) {
+//                            VStack(alignment: .leading) {
+//                                Text(item.name ?? "Unknown location")
+//                                    .font(.subheadline)
+//                                    .foregroundColor(Theme.primaryText)
+//                                Text(item.placemark.title ?? "")
+//                                    .font(.caption)
+//                                    .foregroundColor(Theme.secondaryText)
+//                            }
+//                        }
+//                    }
+//                    .listStyle(.plain)
+//                    .background(Theme.background)
+//                } else {
+//                    Map(coordinateRegion: $region, showsUserLocation: true, annotationItems: viewModel.selectedLocation != nil ? [viewModel.selectedLocation!] : []) { location in
+//                        MapAnnotation(coordinate: location.coordinate) {
+//                            MapPin()
+//                        }
+//                    }
+//                    .cornerRadius(10)
+//                    .padding()
+//                    .overlay(
+//                        Image(systemName: "mappin")
+//                            .font(.title)
+//                            .foregroundColor(Theme.accentOrange)
+//                    )
+//                }
+//                
+//                Spacer()
+//            }
+//            .background(Theme.background.ignoresSafeArea())
+//            .navigationTitle("Select Location")
+//            .navigationBarTitleDisplayMode(.inline)
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button("Done") {
+//                        dismiss()
+//                    }
+//                    .foregroundColor(Theme.accentOrange)
+//                    .disabled(viewModel.selectedLocation == nil)
+//                }
+//            }
+//        }
+//    }
+//    
+//    private func searchForLocation() {
+//        let request = MKLocalSearch.Request()
+//        request.naturalLanguageQuery = searchText
+//        request.region = region
+//        
+//        let search = MKLocalSearch(request: request)
+//        search.start { response, error in
+//            guard let response = response else {
+//                print("Error searching for locations: \(error?.localizedDescription ?? "Unknown error")")
+//                return
+//            }
+//            
+//            searchResults = response.mapItems
+//        }
+//    }
+//    
+//    private func selectLocation(_ mapItem: MKMapItem) {
+//        let placemark = mapItem.placemark
+//        viewModel.selectedLocation = EventLocation(
+//            name: mapItem.name ?? "Selected Location",
+//            address: placemark.title ?? "",
+//            latitude: placemark.coordinate.latitude,
+//            longitude: placemark.coordinate.longitude
+//        )
+//        searchResults = []
+//        searchText = ""
+//        
+//        // Update map region to selected location
+//        withAnimation {
+//            region.center = placemark.coordinate
+//            region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+//        }
+//    }
+//}
