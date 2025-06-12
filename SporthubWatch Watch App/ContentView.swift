@@ -6,19 +6,24 @@
 //
 
 import SwiftUI
+//import SporthubWatchExtension
 
 struct ContentView: View {
+    @ObservedObject var sessionManager = WatchSessionManager.shared
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView {
+            List(sessionManager.joinedEvents) { event in
+                VStack(alignment: .leading) {
+                    Text(event.title)
+                        .font(.headline)
+                    Text(event.sport.rawValue.capitalized)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .navigationTitle("My Events")
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
-}

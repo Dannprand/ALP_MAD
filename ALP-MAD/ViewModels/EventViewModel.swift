@@ -128,10 +128,6 @@ class EventViewModel: ObservableObject {
             let eventRef = db.collection("events").document(event.id ?? "")
             
             
-            //            try await db.collection("events").document(eventId).updateData([
-            //                "participants": FieldValue.arrayUnion([userId])
-            //            ])
-            
             try await db.runTransaction { transaction, errorPointer in
                 
                 let eventDocument: DocumentSnapshot
@@ -184,7 +180,13 @@ class EventViewModel: ObservableObject {
             
             
             
+            // After joining, fetch updated list of joined events and send to Watch
+            fetchUserEvents(userId: userId) { events in
+                PhoneSessionManager.shared.sendJoinedEventsToWatch(events: events)
+            }
+
             return true
+
             
         } catch {
             
@@ -212,7 +214,7 @@ class EventViewModel: ObservableObject {
         
     }
     
-    func fetchUserEvents(userId: String, completion: @escaping ([Event]) -> Void) {
+    func fetchUserEvents(userId: String, sendToWatch: Bool = false, completion: @escaping ([Event]) -> Void) {
         db.collection("events")
             .whereField("participants", arrayContains: userId)
             .getDocuments { snapshot, error in
@@ -221,16 +223,23 @@ class EventViewModel: ObservableObject {
                     completion([])
                     return
                 }
-                
+
                 guard let documents = snapshot?.documents else {
                     completion([])
                     return
                 }
-                
+
                 let events = documents.compactMap { Event(document: $0) }
+
+                // ✅ Send to Watch if requested
+                if sendToWatch {
+                    PhoneSessionManager.shared.sendJoinedEventsToWatch(events: events)
+                }
+
                 completion(events)
             }
     }
+
     
     // In EventViewModel.swift
     func endEvent(event: Event, completion: @escaping (Result<Void, Error>) -> Void) {

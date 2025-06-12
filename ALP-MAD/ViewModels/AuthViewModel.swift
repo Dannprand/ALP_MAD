@@ -16,30 +16,12 @@ class AuthViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showError = false
     @Published var error: Error?
-//    
-////    private var auth: AuthProtocol
-////    private var db: FirestoreProtocol
-//    
-//    /// Change this to internal access for testing
-//    var db: Firestore
-//    
-//    // Modified initializer (only change needed in your main code)
-//    init(db: Firestore = Firestore.firestore()) {
-//        self.db = db
-//        self.userSession = Auth.auth().currentUser
-//        Task {
-//            await fetchUser()
-//        }
-//    }
+
     
     var db = Firestore.firestore()
     init(db: Firestore = Firestore.firestore()) {
         self.db = db
     }
-//    private var db = Firestore.firestore()
-//    init(db: Firestore = Firestore.firestore()) {
-//        self.db = db
-//    }
     
     init() {
         self.userSession = Auth.auth().currentUser
@@ -132,11 +114,8 @@ class AuthViewModel: ObservableObject {
     
     func fetchUser() async {
         guard let uid = userSession?.uid else { return }
-        
+
         do {
-//            let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
-//            let user = try snapshot.data(as: User.self)
-            
             let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
 
             guard snapshot.exists else {
@@ -146,10 +125,17 @@ class AuthViewModel: ObservableObject {
 
             let user = try snapshot.data(as: User.self)
 
-            
             await MainActor.run {
                 self.currentUser = user
             }
+
+            // ✅ Send joined events to Apple Watch
+            let eventVM = EventViewModel()
+            eventVM.fetchUserEvents(userId: user.id) { events in
+                // Send to watch
+                PhoneSessionManager.shared.sendJoinedEventsToWatch(events: events)
+            }
+
         } catch {
             await MainActor.run {
                 self.error = error
@@ -157,6 +143,7 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
+
     
     func updateProfile(fullname: String, image: UIImage?) async throws {
         guard let user = currentUser else { return }

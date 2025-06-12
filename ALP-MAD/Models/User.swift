@@ -10,10 +10,7 @@
 
 //
 
-
-
 import FirebaseFirestore
-
 
 enum SportCategory: String, CaseIterable, Codable {
 
@@ -36,8 +33,6 @@ enum SportCategory: String, CaseIterable, Codable {
     case other = "Other"
 
 }
-
-
 
 struct User: Identifiable, Codable {
 
@@ -63,8 +58,6 @@ struct User: Identifiable, Codable {
 
     var notificationEnabled: Bool = true
 
-
-
     var initials: String {
 
         let formatter = PersonNameComponentsFormatter()
@@ -86,8 +79,6 @@ struct User: Identifiable, Codable {
         }
 
     }
-
-
 
     // Initialize from dictionary
 
@@ -129,8 +120,6 @@ struct User: Identifiable, Codable {
 
     }
 
-
-
     // Initialize from Firestore document
 
     init?(document: DocumentSnapshot) {
@@ -146,8 +135,6 @@ struct User: Identifiable, Codable {
             return nil
 
         }
-
-
 
         self.id = document.documentID
 
@@ -189,8 +176,6 @@ struct User: Identifiable, Codable {
 
     }
 
-
-
     // Convert to dictionary for Firestore
 
     func toDictionary() -> [String: Any] {
@@ -215,15 +200,11 @@ struct User: Identifiable, Codable {
 
         ]
 
-
-
         if let profileImageUrl = profileImageUrl {
 
             dict["profileImageUrl"] = profileImageUrl
 
         }
-
-
 
         return dict
 
