@@ -24,6 +24,9 @@ struct ContentView: View {
             }
             .navigationTitle("My Events")
         }
+        .onAppear {
+            print("👀 ContentView appeared. Events count: \(sessionManager.joinedEvents.count)")
+        }
     }
 }
 

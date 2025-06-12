@@ -25,18 +25,22 @@ class PhoneSessionManager: NSObject, WCSessionDelegate {
         }
     }
 
+//    Send event to watch
     func sendJoinedEventsToWatch(events: [Event]) {
-        guard WCSession.default.isPaired && WCSession.default.isWatchAppInstalled else {
+        guard WCSession.default.isPaired, WCSession.default.isWatchAppInstalled else {
             print("⌚️ Watch not paired or app not installed.")
             return
         }
 
         do {
             let data = try JSONEncoder().encode(events)
+            print("📤 Sending \(events.count) events to watch:")
+            for e in events {
+                print("• \(e.id ?? "no id"): \(e.title)")
+            }
             WCSession.default.transferUserInfo(["joinedEvents": data])
-            print("📤 Sent \(events.count) joined events to watch.")
         } catch {
-            print("❌ Failed to encode events: \(error)")
+            print("❌ Encoding error: \(error)")
         }
     }
 

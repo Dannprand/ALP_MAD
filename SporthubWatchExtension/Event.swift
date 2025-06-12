@@ -8,7 +8,7 @@
 import Foundation
 
 struct Event: Identifiable, Codable, Hashable {
-    var id: String?
+    let id: String
     let title: String
     let description: String
     let hostId: String
@@ -26,8 +26,6 @@ struct Event: Identifiable, Codable, Hashable {
     let createdAt: Timestamp
     var isEnded: Bool
 }
-
-// MARK: - Supporting Types
 
 enum SportCategory: String, Codable, Hashable {
     case football, basketball, tennis, badminton, volleyball, running

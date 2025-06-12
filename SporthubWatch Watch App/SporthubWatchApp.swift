@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct SporthubWatch_Watch_AppApp: App {
+struct SporthubWatchApp: App {
+    @StateObject private var sessionManager = WatchSessionManager.shared
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(sessionManager)
         }
     }
 }
