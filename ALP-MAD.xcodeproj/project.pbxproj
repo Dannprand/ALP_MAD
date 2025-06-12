@@ -12,10 +12,18 @@
 		3F21B6ED2DE03ADC008BACCB /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EC2DE03ADC008BACCB /* FirebaseDatabase */; };
 		3F21B6EF2DE03ADC008BACCB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6EE2DE03ADC008BACCB /* FirebaseFirestore */; };
 		3F21B6F12DE03ADC008BACCB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 3F21B6F02DE03ADC008BACCB /* FirebaseStorage */; };
+		3F29EFA82DFA9434002F126F /* SporthubWatchExtension.appex in Embed ExtensionKit Extensions */ = {isa = PBXBuildFile; fileRef = 3F29EF9F2DFA9434002F126F /* SporthubWatchExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		47DE004D2DF9EF2200E666AD /* SportHubWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		3F29EFA62DFA9434002F126F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3F29EF9E2DFA9434002F126F;
+			remoteInfo = SporthubWatchExtension;
+		};
 		3F512E3F2DDEBB520077CDB4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3F512E262DDEBB500077CDB4 /* Project object */;
@@ -40,6 +48,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3F29EFAD2DFA9434002F126F /* Embed ExtensionKit Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(EXTENSIONS_FOLDER_PATH)";
+			dstSubfolderSpec = 16;
+			files = (
+				3F29EFA82DFA9434002F126F /* SporthubWatchExtension.appex in Embed ExtensionKit Extensions */,
+			);
+			name = "Embed ExtensionKit Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		47DE004E2DF9EF2200E666AD /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -64,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F29EF9F2DFA9434002F126F /* SporthubWatchExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.extensionkit-extension"; includeInIndex = 0; path = SporthubWatchExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E2E2DDEBB500077CDB4 /* ALP-MAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ALP-MAD.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ALP-MADUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +108,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3F29EFA02DFA9434002F126F /* SporthubWatchExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SporthubWatchExtension;
+			sourceTree = "<group>";
+		};
 		3F512E302DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -115,6 +140,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3F29EF9C2DFA9434002F126F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2B2DDEBB500077CDB4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,6 +190,7 @@
 				3F512E412DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E4B2DDEBB520077CDB4 /* ALP-MADUITests */,
 				47F55A082DFA329800A8F440 /* SporthubWatch Watch App */,
+				3F29EFA02DFA9434002F126F /* SporthubWatchExtension */,
 				3F512E2F2DDEBB500077CDB4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -169,6 +202,7 @@
 				3F512E3E2DDEBB520077CDB4 /* ALP-MADTests.xctest */,
 				3F512E482DDEBB520077CDB4 /* ALP-MADUITests.xctest */,
 				47DE00432DF9EF2100E666AD /* SportHubWatch Watch App.app */,
+				3F29EF9F2DFA9434002F126F /* SporthubWatchExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,6 +210,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3F29EF9E2DFA9434002F126F /* SporthubWatchExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F29EFA92DFA9434002F126F /* Build configuration list for PBXNativeTarget "SporthubWatchExtension" */;
+			buildPhases = (
+				3F29EF9B2DFA9434002F126F /* Sources */,
+				3F29EF9C2DFA9434002F126F /* Frameworks */,
+				3F29EF9D2DFA9434002F126F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3F29EFA02DFA9434002F126F /* SporthubWatchExtension */,
+			);
+			name = SporthubWatchExtension;
+			packageProductDependencies = (
+			);
+			productName = SporthubWatchExtension;
+			productReference = 3F29EF9F2DFA9434002F126F /* SporthubWatchExtension.appex */;
+			productType = "com.apple.product-type.extensionkit-extension";
+		};
 		3F512E2D2DDEBB500077CDB4 /* ALP-MAD */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F512E522DDEBB520077CDB4 /* Build configuration list for PBXNativeTarget "ALP-MAD" */;
@@ -259,10 +315,12 @@
 				47DE00402DF9EF2100E666AD /* Frameworks */,
 				47DE00412DF9EF2100E666AD /* Resources */,
 				47F55A272DFA32A600A8F440 /* Embed Frameworks */,
+				3F29EFAD2DFA9434002F126F /* Embed ExtensionKit Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3F29EFA72DFA9434002F126F /* PBXTargetDependency */,
 			);
 			name = "SportHubWatch Watch App";
 			packageProductDependencies = (
@@ -278,9 +336,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1640;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					3F29EF9E2DFA9434002F126F = {
+						CreatedOnToolsVersion = 16.3;
+					};
 					3F512E2D2DDEBB500077CDB4 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -318,11 +379,19 @@
 				3F512E3D2DDEBB520077CDB4 /* ALP-MADTests */,
 				3F512E472DDEBB520077CDB4 /* ALP-MADUITests */,
 				47DE00422DF9EF2100E666AD /* SportHubWatch Watch App */,
+				3F29EF9E2DFA9434002F126F /* SporthubWatchExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3F29EF9D2DFA9434002F126F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2C2DDEBB500077CDB4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,6 +423,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3F29EF9B2DFA9434002F126F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3F512E2A2DDEBB500077CDB4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -385,6 +461,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3F29EFA72DFA9434002F126F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3F29EF9E2DFA9434002F126F /* SporthubWatchExtension */;
+			targetProxy = 3F29EFA62DFA9434002F126F /* PBXContainerItemProxy */;
+		};
 		3F512E402DDEBB520077CDB4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3F512E2D2DDEBB500077CDB4 /* ALP-MAD */;
@@ -403,6 +484,60 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3F29EFAA2DFA9434002F126F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SporthubWatchExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SporthubWatchExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp.SporthubWatchExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Debug;
+		};
+		3F29EFAB2DFA9434002F126F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SporthubWatchExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SporthubWatchExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "q.ALP-MAD.watchkitapp.SporthubWatchExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.4;
+			};
+			name = Release;
+		};
 		3F512E502DDEBB520077CDB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -707,6 +842,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F29EFA92DFA9434002F126F /* Build configuration list for PBXNativeTarget "SporthubWatchExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F29EFAA2DFA9434002F126F /* Debug */,
+				3F29EFAB2DFA9434002F126F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3F512E292DDEBB500077CDB4 /* Build configuration list for PBXProject "ALP-MAD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
